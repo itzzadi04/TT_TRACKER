@@ -1,0 +1,272 @@
+[
+  {
+    "day": "Friday",
+    "starting": "10:00",
+    "ending": "11:00"
+  },
+  {
+    "day": "Friday",
+    "starting": "11:00",
+    "ending": "12:00"
+  },
+  {
+    "day": "Friday",
+    "starting": "11:00",
+    "ending": "13:00"
+  },
+  {
+    "day": "Friday",
+    "starting": "12:00",
+    "ending": "13:00"
+  },
+  {
+    "day": "Friday",
+    "starting": "14:00",
+    "ending": "15:00"
+  },
+  {
+    "day": "Friday",
+    "starting": "14:00",
+    "ending": "16:00"
+  },
+  {
+    "day": "Friday",
+    "starting": "15:00",
+    "ending": "16:00"
+  },
+  {
+    "day": "Friday",
+    "starting": "15:00",
+    "ending": "17:00"
+  },
+  {
+    "day": "Friday",
+    "starting": "16:00",
+    "ending": "17:00"
+  },
+  {
+    "day": "Friday",
+    "starting": "9:00",
+    "ending": "10:00"
+  },
+  {
+    "day": "Friday",
+    "starting": "9:00",
+    "ending": "11:00"
+  },
+  {
+    "day": "Monday",
+    "starting": "10:00",
+    "ending": "11:00"
+  },
+  {
+    "day": "Monday",
+    "starting": "11:00",
+    "ending": "12:00"
+  },
+  {
+    "day": "Monday",
+    "starting": "11:00",
+    "ending": "13:00"
+  },
+  {
+    "day": "Monday",
+    "starting": "12:00",
+    "ending": "13:00"
+  },
+  {
+    "day": "Monday",
+    "starting": "13:00",
+    "ending": "14:00"
+  },
+  {
+    "day": "Monday",
+    "starting": "14:00",
+    "ending": "15:00"
+  },
+  {
+    "day": "Monday",
+    "starting": "14:00",
+    "ending": "16:00"
+  },
+  {
+    "day": "Monday",
+    "starting": "15:00",
+    "ending": "16:00"
+  },
+  {
+    "day": "Monday",
+    "starting": "16:00",
+    "ending": "17:00"
+  },
+  {
+    "day": "Monday",
+    "starting": "9:00",
+    "ending": "10:00"
+  },
+  {
+    "day": "Monday",
+    "starting": "9:00",
+    "ending": "11:00"
+  },
+  {
+    "day": "Thursday",
+    "starting": "10:00",
+    "ending": "11:00"
+  },
+  {
+    "day": "Thursday",
+    "starting": "11:00",
+    "ending": "12:00"
+  },
+  {
+    "day": "Thursday",
+    "starting": "12:00",
+    "ending": "13:00"
+  },
+  {
+    "day": "Thursday",
+    "starting": "14:00",
+    "ending": "15:00"
+  },
+  {
+    "day": "Thursday",
+    "starting": "14:00",
+    "ending": "16:00"
+  },
+  {
+    "day": "Thursday",
+    "starting": "15:00",
+    "ending": "16:00"
+  },
+  {
+    "day": "Thursday",
+    "starting": "16:00",
+    "ending": "17:00"
+  },
+  {
+    "day": "Thursday",
+    "starting": "9:00",
+    "ending": "10:00"
+  },
+  {
+    "day": "Thursday",
+    "starting": "9:00",
+    "ending": "11:00"
+  },
+  {
+    "day": "Tuesday",
+    "starting": "10:00",
+    "ending": "11:00"
+  },
+  {
+    "day": "Tuesday",
+    "starting": "11:00",
+    "ending": "12:00"
+  },
+  {
+    "day": "Tuesday",
+    "starting": "11:00",
+    "ending": "13:00"
+  },
+  {
+    "day": "Tuesday",
+    "starting": "12:00",
+    "ending": "13:00"
+  },
+  {
+    "day": "Tuesday",
+    "starting": "13:00",
+    "ending": "14:00"
+  },
+  {
+    "day": "Tuesday",
+    "starting": "14:00",
+    "ending": "15:00"
+  },
+  {
+    "day": "Tuesday",
+    "starting": "14:00",
+    "ending": "16:00"
+  },
+  {
+    "day": "Tuesday",
+    "starting": "15:00",
+    "ending": "16:00"
+  },
+  {
+    "day": "Tuesday",
+    "starting": "15:00",
+    "ending": "17:00"
+  },
+  {
+    "day": "Tuesday",
+    "starting": "16:00",
+    "ending": "17:00"
+  },
+  {
+    "day": "Tuesday",
+    "starting": "9:00",
+    "ending": "10:00"
+  },
+  {
+    "day": "Tuesday",
+    "starting": "9:00",
+    "ending": "11:00"
+  },
+  {
+    "day": "Wednesday",
+    "starting": "10:00",
+    "ending": "11:00"
+  },
+  {
+    "day": "Wednesday",
+    "starting": "11:00",
+    "ending": "12:00"
+  },
+  {
+    "day": "Wednesday",
+    "starting": "11:00",
+    "ending": "13:00"
+  },
+  {
+    "day": "Wednesday",
+    "starting": "12:00",
+    "ending": "13:00"
+  },
+  {
+    "day": "Wednesday",
+    "starting": "13:00",
+    "ending": "14:00"
+  },
+  {
+    "day": "Wednesday",
+    "starting": "14:00",
+    "ending": "15:00"
+  },
+  {
+    "day": "Wednesday",
+    "starting": "14:00",
+    "ending": "16:00"
+  },
+  {
+    "day": "Wednesday",
+    "starting": "15:00",
+    "ending": "16:00"
+  },
+  {
+    "day": "Wednesday",
+    "starting": "16:00",
+    "ending": "17:00"
+  },
+  {
+    "day": "Wednesday",
+    "starting": "9:00",
+    "ending": "10:00"
+  },
+  {
+    "day": "Wednesday",
+    "starting": "9:00",
+    "ending": "11:00"
+  }
+]

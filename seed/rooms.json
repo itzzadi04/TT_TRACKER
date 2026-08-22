@@ -1,0 +1,77 @@
+[
+  {
+    "roomNo": "F4",
+    "labOrClass": "Class",
+    "building": "Block F"
+  },
+  {
+    "roomNo": "G5",
+    "labOrClass": "Class",
+    "building": "Block G"
+  },
+  {
+    "roomNo": "P4",
+    "labOrClass": "Lab",
+    "building": "Block P"
+  },
+  {
+    "roomNo": "B4",
+    "labOrClass": "Class",
+    "building": "Block B"
+  },
+  {
+    "roomNo": "P1",
+    "labOrClass": "Lab",
+    "building": "Block P"
+  },
+  {
+    "roomNo": "Conference Hall - Block B",
+    "labOrClass": "Class",
+    "building": "Block B"
+  },
+  {
+    "roomNo": "LAB B2",
+    "labOrClass": "Lab",
+    "building": "Block B"
+  },
+  {
+    "roomNo": "B2",
+    "labOrClass": "Lab",
+    "building": "Block B"
+  },
+  {
+    "roomNo": "CSE-III",
+    "labOrClass": "Class",
+    "building": "Unknown"
+  },
+  {
+    "roomNo": "Seminar Hall - Block A",
+    "labOrClass": "Class",
+    "building": "Block A"
+  },
+  {
+    "roomNo": "B1",
+    "labOrClass": "Lab",
+    "building": "Block B"
+  },
+  {
+    "roomNo": "P5",
+    "labOrClass": "Lab",
+    "building": "Block P"
+  },
+  {
+    "roomNo": "S2",
+    "labOrClass": "Class",
+    "building": "Unknown"
+  },
+  {
+    "roomNo": "LAB B1",
+    "labOrClass": "Lab",
+    "building": "Block B"
+  },
+  {
+    "roomNo": "F6",
+    "labOrClass": "Class",
+    "building": "Block F"
+  }
+]

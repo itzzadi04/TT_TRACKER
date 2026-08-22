@@ -1,0 +1,118 @@
+[
+  {
+    "facultyId": "AKM",
+    "name": "Dr Ajay Kumar Mallick"
+  },
+  {
+    "facultyId": "AKY",
+    "name": "Dr Arun Kumar Yadav"
+  },
+  {
+    "facultyId": "AMK",
+    "name": "Dr Aman Kumar"
+  },
+  {
+    "facultyId": "APU",
+    "name": "Ms Akanksha Puri"
+  },
+  {
+    "facultyId": "DPM",
+    "name": "Dr Dharmendra P Mahato"
+  },
+  {
+    "facultyId": "JS",
+    "name": "Dr Jyoti Srivastava"
+  },
+  {
+    "facultyId": "KD",
+    "name": "Dr Kamlesh Dutta"
+  },
+  {
+    "facultyId": "KK",
+    "name": "Mr Keshav Kaundal"
+  },
+  {
+    "facultyId": "MK",
+    "name": "Dr Mohit Kumar"
+  },
+  {
+    "facultyId": "MKP",
+    "name": "Dr Md Khalid Pandit"
+  },
+  {
+    "facultyId": "MM",
+    "name": "Dr Mukul Majhi"
+  },
+  {
+    "facultyId": "MN",
+    "name": "Ms Meenakshi Nayyer"
+  },
+  {
+    "facultyId": "NC",
+    "name": "Dr Naveen Chauhan"
+  },
+  {
+    "facultyId": "NG",
+    "name": "Dr Nitin Gupta"
+  },
+  {
+    "facultyId": "PK",
+    "name": "Dr Pushpender Kumar"
+  },
+  {
+    "facultyId": "PR",
+    "name": "Dr Priyanka"
+  },
+  {
+    "facultyId": "PRA",
+    "name": "Ms Pratibha"
+  },
+  {
+    "facultyId": "PS",
+    "name": "Dr Pardeep Singh"
+  },
+  {
+    "facultyId": "PSH",
+    "name": "Dr Pooja Sharma"
+  },
+  {
+    "facultyId": "PVE",
+    "name": "Ms Priyanka Verma"
+  },
+  {
+    "facultyId": "RK",
+    "name": "Dr Rajeev Kumar"
+  },
+  {
+    "facultyId": "RPS",
+    "name": "Dr Ram Prakash Sharma"
+  },
+  {
+    "facultyId": "RSB",
+    "name": "Dr Robin Singh Bhadoria"
+  },
+  {
+    "facultyId": "SB",
+    "name": "Ms Shobhna"
+  },
+  {
+    "facultyId": "SC",
+    "name": "Dr Siddhartha Chauhan"
+  },
+  {
+    "facultyId": "SS",
+    "name": "Dr Sangeeta Sharma"
+  },
+  {
+    "facultyId": "TPS",
+    "name": "Dr T P Sharma"
+  },
+  {
+    "facultyId": "TW",
+    "name": "Dr Tanuj"
+  },
+  {
+    "facultyId": "VID",
+    "name": "Ms Vidyotma"
+  }
+]

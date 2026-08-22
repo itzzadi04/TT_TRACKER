@@ -1,0 +1,47 @@
+[
+  {
+    "year": 1,
+    "section": "MTECH-AI",
+    "semester": 1
+  },
+  {
+    "year": 1,
+    "section": "MTECH-CSE",
+    "semester": 1
+  },
+  {
+    "year": 2,
+    "section": "CD",
+    "semester": 3
+  },
+  {
+    "year": 2,
+    "section": "CS",
+    "semester": 3
+  },
+  {
+    "year": 3,
+    "section": "CD",
+    "semester": 5
+  },
+  {
+    "year": 3,
+    "section": "CS",
+    "semester": 5
+  },
+  {
+    "year": 4,
+    "section": "CD",
+    "semester": 7
+  },
+  {
+    "year": 4,
+    "section": "CS",
+    "semester": 7
+  },
+  {
+    "year": 5,
+    "section": "CD",
+    "semester": 9
+  }
+]
