@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faculty Timetable Studio</title>
+    <style>
+        :root {
+            --bg-body: #090d16;
+            --bg-card: #111827;
+            --bg-header: #1f2937;
+            --border: #374151;
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --accent: #3b82f6;
+            --danger: #ef4444;
+            --success: #10b981;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; }
+        body { background: var(--bg-body); color: var(--text-main); padding: 24px; display: flex; flex-direction: column; gap: 16px; }
+
+        header {
+            display: flex; justify-content: space-between; align-items: center;
+            background: var(--bg-card); padding: 16px 24px; border-radius: 8px; border: 1px solid var(--border);
+        }
+
+        .controls { display: flex; gap: 16px; align-items: center; }
+        select, button {
+            background: var(--bg-header); color: var(--text-main); border: 1px solid var(--border);
+            padding: 8px 14px; border-radius: 6px; font-size: 13px; outline: none; cursor: pointer;
+        }
+        button.primary { background: var(--accent); border-color: var(--accent); font-weight: 600; }
+        button.danger { background: var(--danger); border-color: var(--danger); font-weight: 600; }
+
+        .banner-bar {
+            display: none; background: #1e3a8a; border: 1px solid var(--accent);
+            color: #dbeafe; padding: 12px 20px; border-radius: 6px; font-size: 13px;
+            justify-content: space-between; align-items: center;
+        }
+
+        .alert-toast {
+            display: none; background: #450a0a; border: 1px solid var(--danger);
+            color: #fca5a5; padding: 12px 18px; border-radius: 6px; font-size: 13px; line-height: 1.5;
+        }
+
+        .grid-container {
+            overflow-x: auto; background: var(--bg-card); border-radius: 8px;
+            border: 1px solid var(--border); padding: 16px;
+        }
+
+        table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+        th, td { border: 1px solid var(--border); padding: 6px; text-align: center; font-size: 12px; }
+        th { background: var(--bg-header); padding: 10px; font-weight: 600; }
+        .day-col { width: 100px; font-weight: 700; background: #1a2234; }
+
+        .cell-slot { min-height: 85px; height: 85px; background: #0b1120; transition: background 0.15s; }
+        .cell-slot.target-active { border: 1px dashed var(--accent) !important; cursor: pointer; }
+        .cell-slot.drag-over { background: rgba(59, 130, 246, 0.25) !important; border: 2px dashed var(--accent) !important; }
+        .cell-lunch { background: #18181b; color: #71717a; font-weight: 700; letter-spacing: 2px; }
+
+        .card-class {
+            background: #1e3a8a; border: 1px solid var(--accent); border-radius: 6px;
+            padding: 6px 8px; font-size: 11px; text-align: left; user-select: none;
+            cursor: pointer; display: flex; flex-direction: column; gap: 2px;
+        }
+
+        .card-class.is-lab {
+            background: #064e3b; border-color: var(--success);
+        }
+
+        .card-class.unlocked-drag {
+            cursor: grab !important; border: 2px dashed #93c5fd !important;
+            animation: pulse 1.5s infinite;
+        }
+        .card-class.unlocked-drag:active { cursor: grabbing !important; }
+
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(0.98); } }
+
+        .tag-lab { background: #065f46; color: #6ee7b7; padding: 2px 4px; border-radius: 3px; font-size: 9px; font-weight: 700; }
+
+        /* Modal */
+        .modal-overlay {
+            display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.75);
+            align-items: center; justify-content: center; z-index: 1000;
+        }
+        .modal {
+            background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px;
+            padding: 24px; width: 440px; max-width: 90%; display: flex; flex-direction: column; gap: 16px;
+        }
+        .btn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .btn-grid button { padding: 12px; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h2>Faculty Timetable Studio</h2>
+    <div class="controls">
+        <label>View:
+            <select id="viewType">
+                <option value="FACULTY">Faculty</option>
+                <option value="SECTION">Class Section</option>
+                <option value="ROOM">Room</option>
+            </select>
+        </label>
+        <label>Select Entity:
+            <select id="entitySelect"></select>
+        </label>
+    </div>
+</header>
+
+<div id="alertToast" class="alert-toast"></div>
+
+<div id="bannerBar" class="banner-bar">
+    <span id="bannerText"></span>
+    <button id="cancelActionBtn" class="danger">Cancel Move Mode</button>
+</div>
+
+<div class="grid-container">
+    <table>
+        <thead><tr id="tableHeader"></tr></thead>
+        <tbody id="tableBody"></tbody>
+    </table>
+</div>
+
+<!-- Interactive Options Modal -->
+<div id="modalOverlay" class="modal-overlay">
+    <div class="modal">
+        <h3 id="modalTitle">Manage Slot</h3>
+        <div id="modalBody" style="font-size: 13px; color: var(--text-muted); line-height: 1.6;"></div>
+
+        <!-- Standard Lecture Actions -->
+        <div id="lectureActions" class="btn-grid">
+            <button id="btnChooseChange" class="primary">✏️ Change / Move</button>
+            <button id="btnLectureCancel" class="danger">🗑️ Cancel Class</button>
+        </div>
+
+        <!-- Lab-Only Action (Labs cannot be rescheduled) -->
+        <div id="labActions" style="display: none;">
+            <p style="font-size: 12px; color: #fca5a5; margin-bottom: 12px;">⚠️ Labs are fixed practical blocks and cannot be rescheduled.</p>
+            <button id="btnLabCancel" class="danger" style="width: 100%; padding: 12px;">🗑️ Cancel Entire Lab Session</button>
+        </div>
+
+        <!-- Reschedule / Extra Sub-actions for Lectures -->
+        <div id="step2Actions" class="btn-grid" style="display: none;">
+            <button id="btnActionReschedule" class="primary">🔄 Reschedule (Drag/Move)</button>
+            <button id="btnActionDuplicate" class="primary" style="background:#0891b2; border-color:#0891b2;">➕ Add Extra Copy</button>
+            <button id="btnBackToStep1" style="grid-column: span 2;">Back</button>
+        </div>
+
+        <button id="btnCloseModal">Dismiss</button>
+    </div>
+</div>
+
+<script>
+    let selectedSlot = null;
+    let activeMode = null; // null | 'RESCHEDULE' | 'DUPLICATE'
+
+    const API = {
+        getEntities: () => fetch('/api/timetable/entities').then(r => r.json()),
+        getGrid: (type, id) => fetch(`/api/timetable/grid?type=${type}&id=${encodeURIComponent(id)}`).then(r => r.json()),
+        cancelSlot: (slot) => fetch('/api/timetable/cancel', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ slot })
+        }).then(r => r.json()),
+        moveOrAdd: (actionType, originalSlot, targetSlot) => fetch('/api/timetable/move-or-add', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ actionType, originalSlot, targetSlot })
+        }).then(r => r.json())
+    };
+
+    function showAlert(errors) {
+        const box = document.getElementById('alertToast');
+        box.innerHTML = `<strong>⚠️ Action Blocked:</strong><br>` + errors.map(e => `• ${e}`).join('<br>');
+        box.style.display = 'block';
+        setTimeout(() => { box.style.display = 'none'; }, 7000);
+    }
+
+    function openModal(slot) {
+        if (activeMode) return;
+        selectedSlot = slot;
+
+        const modalTitle = document.getElementById('modalTitle');
+        const modalBody = document.getElementById('modalBody');
+        const lectureActions = document.getElementById('lectureActions');
+        const labActions = document.getElementById('labActions');
+        const step2Actions = document.getElementById('step2Actions');
+
+        step2Actions.style.display = 'none';
+
+        if (slot.isLab) {
+            modalTitle.innerText = `${slot.subjectCode} - Laboratory Session`;
+            modalBody.innerHTML = `
+            <strong>Faculty:</strong> ${slot.facultyId}<br>
+            <strong>Section:</strong> ${slot.sectionId}<br>
+            <strong>Room:</strong> ${slot.roomNo}<br>
+            <strong>Full Duration:</strong> ${slot.day} ${slot.parentStart} - ${slot.parentEnd} (${slot.totalLabBlocks} Hours)
+        `;
+            lectureActions.style.display = 'none';
+            labActions.style.display = 'block';
+        } else {
+            modalTitle.innerText = `${slot.subjectCode} - Lecture`;
+            modalBody.innerHTML = `
+            <strong>Faculty:</strong> ${slot.facultyId}<br>
+            <strong>Section:</strong> ${slot.sectionId}<br>
+            <strong>Room:</strong> ${slot.roomNo}<br>
+            <strong>Time:</strong> ${slot.day} ${slot.starting} - ${slot.ending}
+        `;
+            lectureActions.style.display = 'grid';
+            labActions.style.display = 'none';
+        }
+
+        document.getElementById('modalOverlay').style.display = 'flex';
+    }
+
+    function closeModal() {
+        document.getElementById('modalOverlay').style.display = 'none';
+        if (!activeMode) selectedSlot = null;
+    }
+
+    function activateMoveMode(mode) {
+        activeMode = mode;
+        closeModal();
+        document.getElementById('bannerText').innerText = mode === 'RESCHEDULE'
+            ? `Drag or click any empty slot to RESCHEDULE ${selectedSlot.subjectCode}`
+            : `Drag or click any empty slot to place an EXTRA COPY of ${selectedSlot.subjectCode}`;
+        document.getElementById('bannerBar').style.display = 'flex';
+        fetchGrid();
+    }
+
+    function cancelActiveMode() {
+        activeMode = null;
+        selectedSlot = null;
+        document.getElementById('bannerBar').style.display = 'none';
+        fetchGrid();
+    }
+
+    async function handlePlacement(targetDay, targetStart, targetEnd) {
+        if (!activeMode || !selectedSlot) return;
+
+        const targetSlot = {
+            ...selectedSlot,
+            day: targetDay,
+            starting: targetStart,
+            ending: targetEnd
+        };
+
+        const res = await API.moveOrAdd(activeMode, selectedSlot, targetSlot);
+        if (!res.success) {
+            showAlert(res.errors || [res.error]);
+        } else {
+            activeMode = null;
+            selectedSlot = null;
+            document.getElementById('bannerBar').style.display = 'none';
+        }
+        fetchGrid();
+    }
+
+    async function executeCancel() {
+        if (!selectedSlot) return;
+        const label = selectedSlot.isLab ? `entire ${selectedSlot.totalLabBlocks}-hour Lab` : `class ${selectedSlot.subjectCode}`;
+        if (confirm(`Cancel ${label} on ${selectedSlot.day}? This will delete the record from the database.`)) {
+            const res = await API.cancelSlot(selectedSlot);
+            if (!res.success) {
+                showAlert([res.error]);
+            }
+            closeModal();
+            fetchGrid();
+        }
+    }
+
+    async function fetchGrid() {
+        const type = document.getElementById('viewType').value;
+        const id = document.getElementById('entitySelect').value;
+        if (!id) return;
+
+        const res = await API.getGrid(type, id);
+        if (!res.success) return;
+
+        const firstRow = res.grid[0];
+        const headerRow = document.getElementById('tableHeader');
+        headerRow.innerHTML = `<th class="day-col">Day</th>` +
+            firstRow.slots.map(s => `<th>${s.start} - ${s.end}</th>`).join('');
+
+        const tbody = document.getElementById('tableBody');
+        tbody.innerHTML = '';
+
+        res.grid.forEach(row => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `<td class="day-col">${row.day}</td>`;
+
+            row.slots.forEach(slot => {
+                const td = document.createElement('td');
+
+                if (slot.start === '13:00') {
+                    td.className = 'cell-lunch';
+                    td.innerText = 'LUNCH';
+                } else {
+                    td.className = `cell-slot ${activeMode ? 'target-active' : ''}`;
+
+                    td.addEventListener('dragover', (e) => { if (activeMode) { e.preventDefault(); td.classList.add('drag-over'); } });
+                    td.addEventListener('dragleave', () => td.classList.remove('drag-over'));
+                    td.addEventListener('drop', (e) => {
+                        if (activeMode) {
+                            e.preventDefault();
+                            td.classList.remove('drag-over');
+                            handlePlacement(row.day, slot.start, slot.end);
+                        }
+                    });
+                    td.addEventListener('click', () => {
+                        if (activeMode) handlePlacement(row.day, slot.start, slot.end);
+                    });
+
+                    if (slot.occupied && slot.data) {
+                        const d = slot.data;
+                        const isCardActive = activeMode && selectedSlot && selectedSlot.slotId === d.slotId;
+
+                        const card = document.createElement('div');
+                        card.className = `card-class ${d.isLab ? 'is-lab' : ''} ${isCardActive ? 'unlocked-drag' : ''}`;
+                        card.draggable = Boolean(isCardActive);
+
+                        const title = type === 'FACULTY' ? d.sectionId : d.facultyId;
+                        const sub = type === 'ROOM' ? `${d.facultyId} • ${d.sectionId}` : `Room: ${d.roomNo}`;
+                        const labBadge = d.isLab ? `<span class="tag-lab">LAB (${d.labBlockIndex}/${d.totalLabBlocks})</span>` : '';
+
+                        card.innerHTML = `
+                        <div style="display:flex; justify-content:space-between; align-items:center;">
+                            <strong>${d.subjectCode}</strong>
+                            <div>${labBadge}</div>
+                        </div>
+                        <div style="color:var(--text-muted); font-size:10px;">${title} • ${sub}</div>
+                    `;
+
+                        card.addEventListener('dragstart', (e) => {
+                            if (!isCardActive) e.preventDefault();
+                        });
+
+                        card.addEventListener('click', (e) => {
+                            e.stopPropagation();
+                            if (!activeMode) openModal(d);
+                        });
+
+                        td.appendChild(card);
+                    }
+                }
+                tr.appendChild(td);
+            });
+            tbody.appendChild(tr);
+        });
+    }
+
+    async function initEntities() {
+        const res = await API.getEntities();
+        const type = document.getElementById('viewType').value;
+        const select = document.getElementById('entitySelect');
+        const list = type === 'FACULTY' ? res.faculties : type === 'ROOM' ? res.rooms : res.sections;
+
+        select.innerHTML = list.map(item => `<option value="${item}">${item}</option>`).join('');
+        fetchGrid();
+    }
+
+    document.getElementById('viewType').addEventListener('change', initEntities);
+    document.getElementById('entitySelect').addEventListener('change', fetchGrid);
+
+    document.getElementById('btnChooseChange').addEventListener('click', () => {
+        document.getElementById('lectureActions').style.display = 'none';
+        document.getElementById('step2Actions').style.display = 'grid';
+    });
+
+    document.getElementById('btnLectureCancel').addEventListener('click', executeCancel);
+    document.getElementById('btnLabCancel').addEventListener('click', executeCancel);
+
+    document.getElementById('btnActionReschedule').addEventListener('click', () => activateMoveMode('RESCHEDULE'));
+    document.getElementById('btnActionDuplicate').addEventListener('click', () => activateMoveMode('DUPLICATE'));
+    document.getElementById('btnBackToStep1').addEventListener('click', () => {
+        document.getElementById('step2Actions').style.display = 'none';
+        document.getElementById('lectureActions').style.display = 'grid';
+    });
+
+    document.getElementById('btnCloseModal').addEventListener('click', closeModal);
+    document.getElementById('cancelActionBtn').addEventListener('click', cancelActiveMode);
+
+    initEntities();
+</script>
+</body>
+</html>
