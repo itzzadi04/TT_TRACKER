@@ -1,15 +1,16 @@
 class ScheduleTracker {
     constructor(ownerId, ownerType) {
-        this.ownerId = ownerId;     // Faculty ID, Room No, or Section ID
-        this.ownerType = ownerType; // 'FACULTY' | 'ROOM' | 'SECTION'
-        this.currentWeek = new Map();
-        this.nextWeek = new Map();
+        this.ownerId = ownerId;     //fac id or section id like cs2 etc and boom buidling +name
+        this.ownerType = ownerType; //fac class and room only
+        this.currentWeek = new Map();//t2map
+        this.nextWeek = new Map();//t3 map
     }
 
     _getTable(weekType) {
         return weekType === 'next' ? this.nextWeek : this.currentWeek;
     }
 
+    //makes time as key 9:00 as 09:00 etc
     padTime(t) {
         if (!t) return '00:00';
         const [h, m] = t.split(':');
@@ -20,6 +21,7 @@ class ScheduleTracker {
         return `${day.toUpperCase()}_${this.padTime(start)}_${this.padTime(end)}`;
     }
 
+    //only for read
     isAtomicSlotFree(weekType, day, start, end) {
         const key = this.getKey(day, start, end);
         return !this._getTable(weekType).has(key);

@@ -1,6 +1,7 @@
 const TimetableSlot = require('../models/TimetableSlot');
 const registry = require('./Registry');
 
+//only runduring time we reset t1 t2 t2 etc like sunday night
 async function hydrate() {
     console.log('[Hydration] Loading timetable slots into RAM...');
 

@@ -43,12 +43,12 @@ router.post('/cancel', (req, res) => {
 
     enqueueWrite(async () => {
         try {
-            // 1. DATABASE MUTATION
+            //database operation
             if (slot.slotId && !slot.slotId.startsWith('mock_')) {
                 await TimetableSlot.findByIdAndDelete(slot.slotId);
             }
 
-            // 2. RAM CACHE MUTATION (Evicts all multi-hour lab blocks if applicable)
+            // only to be done after database over else error and undefined state in ram maps
             registry.removeSlot('current', {
                 facultyId: slot.facultyId,
                 roomNo: slot.roomNo,
@@ -69,7 +69,7 @@ router.post('/cancel', (req, res) => {
 router.post('/move-or-add', (req, res) => {
     const { actionType, originalSlot, targetSlot } = req.body;
 
-    // Block labs from rescheduling
+    //lab immutable cuz not working
     if (originalSlot && originalSlot.isLab && actionType === 'RESCHEDULE') {
         return res.status(403).json({ error: 'Labs cannot be rescheduled; only cancelled.' });
     }
@@ -104,7 +104,7 @@ router.post('/move-or-add', (req, res) => {
             return res.status(409).json({ success: false, errors: check.errors });
         }
 
-        // Step B: Database Mutation
+        //Database Mutation
         try {
             let savedId = targetSlot.slotId;
 
@@ -129,11 +129,11 @@ router.post('/move-or-add', (req, res) => {
                 savedId = newDoc._id.toString();
             }
 
-            // Step C: Commit to RAM
+            //bring to ram
             registry.addSlot('current', { ...targetSlot, slotId: savedId });
             res.json({ success: true, message: 'Database and RAM updated successfully.' });
         } catch (dbErr) {
-            // DB failed -> Rollback RAM
+            // DB failed -> Rollback ram
             if (actionType === 'RESCHEDULE' && originalSlot) {
                 registry.addSlot('current', originalSlot);
             }
