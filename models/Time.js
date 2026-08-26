@@ -22,4 +22,7 @@ const TimeSchema = new mongoose.Schema({
 
 }, { timestamps: true });
 
+// Unique compound index: one Time document per day+start+end combination
+TimeSchema.index({ day: 1, starting: 1, ending: 1 }, { unique: true });
+
 module.exports = mongoose.model('Time', TimeSchema);

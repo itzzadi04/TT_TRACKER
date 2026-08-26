@@ -1,40 +1,42 @@
-const TimetableSlot = require('../models/TimetableSlot');
 const registry = require('./Registry');
+const { computeEffectiveSchedule } = require('./effectiveSchedule');
+const { getCurrentWeekKey, getNextWeekKey } = require('./weekUtils');
 
-//only runduring time we reset t1 t2 t2 etc like sunday night
+/**
+ * Hydrate Registry from MongoDB.
+ * Computes:
+ * 1. Base / Permanent Timetable Blueprint ('base')
+ * 2. Current Week Effective Schedule ('current')
+ * 3. Next Week Effective Schedule ('next')
+ */
 async function hydrate() {
-    console.log('[Hydration] Loading timetable slots into RAM...');
+    console.log('[Hydration] Clearing in-memory registry...');
+    registry.clear();
 
-    const slots = await TimetableSlot.find()
-        .populate('faculty classSection subject room time')
-        .lean();
+    const currentWeekKey = getCurrentWeekKey();
+    const nextWeekKey = getNextWeekKey();
 
-    for (const s of slots) {
-        if (!s.faculty || !s.classSection || !s.subject || !s.room || !s.time) {
-            continue;
-        }
+    console.log(`[Hydration] Loading Base timetable and effective schedules for Current (${currentWeekKey}) & Next (${nextWeekKey})...`);
 
-        const sectionKey = `Y${s.classSection.year}_S${s.classSection.semester}_${s.classSection.section}`;
-
-        const payload = {
-            slotId: s._id.toString(),
-            facultyId: s.faculty.facultyId,
-            roomNo: s.room.roomNo,
-            sectionId: sectionKey,
-            subjectCode: s.subject.subjectCode,
-            subjectName: s.subject.name,
-            day: s.time.day,
-            starting: s.time.starting,
-            ending: s.time.ending,
-            isFixed: s.isFixed
-        };
-
-        // If starting is '09:00' and ending is '11:00', addSlot will auto-book both 09:00-10:00 & 10:00-11:00
-        registry.addSlot('current', payload);
-        registry.addSlot('next', payload);
+    // 1. Base Blueprint
+    const baseList = await computeEffectiveSchedule('base');
+    for (const slot of baseList) {
+        registry.addSlot('base', slot);
     }
 
-    console.log(`[Hydration] Hydrated ${slots.length} parent records into RAM grids.`);
+    // 2. Current Week Effective
+    const currentList = await computeEffectiveSchedule(currentWeekKey);
+    for (const slot of currentList) {
+        registry.addSlot('current', slot);
+    }
+
+    // 3. Next Week Effective
+    const nextList = await computeEffectiveSchedule(nextWeekKey);
+    for (const slot of nextList) {
+        registry.addSlot('next', slot);
+    }
+
+    console.log(`[Hydration] Hydration complete: Base (${baseList.length}), Current (${currentList.length}), Next (${nextList.length})`);
 }
 
 module.exports = { hydrate };

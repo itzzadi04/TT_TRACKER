@@ -5,16 +5,17 @@ class Registry {
         this.faculties = new Map();
         this.rooms = new Map();
         this.sections = new Map();
+        this.isRollingOver = false;
 
         this.days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
-        // 1-Hour Academic Grid Intervals with 13:00-14:00 reserved for Lunch
+        // 1-Hour Academic Grid Intervals
         this.timeIntervals = [
             { start: '09:00', end: '10:00', isLunch: false },
             { start: '10:00', end: '11:00', isLunch: false },
             { start: '11:00', end: '12:00', isLunch: false },
             { start: '12:00', end: '13:00', isLunch: false },
-            { start: '13:00', end: '14:00', isLunch: true }, // Lunch Break
+            { start: '13:00', end: '14:00', isLunch: true }, // Lunch Hour
             { start: '14:00', end: '15:00', isLunch: false },
             { start: '15:00', end: '16:00', isLunch: false },
             { start: '16:00', end: '17:00', isLunch: false }
@@ -38,7 +39,6 @@ class Registry {
         return targetMap.get(id);
     }
 
-    // Decompose multi-hour spans (e.g. 09:00-11:00 or 14:00-16:00) into atomic 1-hr intervals
     getSpannedIntervals(rawStart, rawEnd) {
         const start = this.padTime(rawStart);
         const end = this.padTime(rawEnd);
@@ -46,18 +46,26 @@ class Registry {
         const exact = this.timeIntervals.find(t => t.start === start && t.end === end);
         if (exact) return [exact];
 
-        const matched = this.timeIntervals.filter(t => t.start >= start && t.end <= end && !t.isLunch);
+        const matched = this.timeIntervals.filter(t => t.start < end && t.end > start);
         return matched.length > 0 ? matched : [{ start, end, isLunch: false }];
     }
 
-    checkConflict(weekType, { facultyId, roomNo, sectionId, day, start, end }) {
+    /**
+     * Check for conflicts across faculty, room, and section.
+     * Group & Session aware:
+     * - Parallel group labs (G1 in Room A, G2 in Room B) are valid.
+     * - Shared lab/session (same sessionId) is valid.
+     * - Normal lecture moved into a lab-only room/slot is rejected with INVALID_LAB_TARGET.
+     */
+    checkConflict(weekType, { facultyId, roomNo, sectionId, day, start, end, group, sessionId, isLab = false, targetRoomType = null }) {
         const errors = [];
+        const conflictTypes = new Set();
         const intervals = this.getSpannedIntervals(start, end);
 
-        // Block scheduling during lunch
-        const spansLunch = this.timeIntervals.some(t => t.isLunch && ((start <= t.start && end >= t.end) || (start >= t.start && start < t.end)));
-        if (spansLunch) {
-            errors.push(`Slot spans Lunch Break (13:00 - 14:00) which is reserved.`);
+        // Check Invalid Lab Target: Non-lab class cannot be placed in a dedicated Lab room
+        if (!isLab && targetRoomType && targetRoomType.toLowerCase() === 'lab') {
+            errors.push('INVALID_LAB_TARGET: This class cannot be scheduled in this lab slot.');
+            conflictTypes.add('INVALID_LAB_TARGET');
         }
 
         const fac = this.faculties.get(facultyId);
@@ -65,21 +73,79 @@ class Registry {
         const sec = this.sections.get(sectionId);
 
         for (const interval of intervals) {
-            if (fac && !fac.isAtomicSlotFree(weekType, day, interval.start, interval.end)) {
-                errors.push(fac.getConflictReason(weekType, day, interval.start, interval.end));
+            // 1. Faculty conflict
+            if (fac && !fac.isAtomicSlotFree(weekType, day, interval.start, interval.end, group, sessionId)) {
+                const reason = fac.getConflictReason(weekType, day, interval.start, interval.end, group);
+                if (reason) {
+                    errors.push(reason);
+                    conflictTypes.add('FACULTY_CONFLICT');
+                }
             }
-            if (room && !room.isAtomicSlotFree(weekType, day, interval.start, interval.end)) {
-                errors.push(room.getConflictReason(weekType, day, interval.start, interval.end));
+            // 2. Room conflict
+            if (room && !room.isAtomicSlotFree(weekType, day, interval.start, interval.end, group, sessionId)) {
+                const reason = room.getConflictReason(weekType, day, interval.start, interval.end, group);
+                if (reason) {
+                    errors.push(reason);
+                    conflictTypes.add('ROOM_CONFLICT');
+                }
             }
-            if (sec && !sec.isAtomicSlotFree(weekType, day, interval.start, interval.end)) {
-                errors.push(sec.getConflictReason(weekType, day, interval.start, interval.end));
+            // 3. Section / Lab conflict
+            if (sec && !sec.isAtomicSlotFree(weekType, day, interval.start, interval.end, group, sessionId)) {
+                const reason = sec.getConflictReason(weekType, day, interval.start, interval.end, group);
+                if (reason) {
+                    errors.push(reason);
+                    if (reason.startsWith('LAB_TIME_CONFLICT')) {
+                        conflictTypes.add('LAB_TIME_CONFLICT');
+                    } else {
+                        conflictTypes.add(group ? 'GROUP_CONFLICT' : 'SECTION_CONFLICT');
+                    }
+                }
             }
         }
 
+        const hasNonRoomConflict = conflictTypes.has('LAB_TIME_CONFLICT') ||
+                                   conflictTypes.has('INVALID_LAB_TARGET') ||
+                                   conflictTypes.has('FACULTY_CONFLICT') ||
+                                   conflictTypes.has('SECTION_CONFLICT') ||
+                                   conflictTypes.has('GROUP_CONFLICT');
+
         return {
             isAvailable: errors.length === 0,
-            errors: [...new Set(errors)]
+            errors: [...new Set(errors)],
+            conflictTypes: Array.from(conflictTypes),
+            isRoomOnlyConflict: conflictTypes.has('ROOM_CONFLICT') && !hasNonRoomConflict
         };
+    }
+
+    /**
+     * Find all available rooms that are completely free at a given week, day, and time span.
+     */
+    getAvailableRooms(weekType, day, start, end, allRooms = []) {
+        const intervals = this.getSpannedIntervals(start, end);
+        const available = [];
+
+        for (const r of allRooms) {
+            const roomTracker = this.rooms.get(r.roomNo);
+            let isFree = true;
+
+            for (const interval of intervals) {
+                if (roomTracker && !roomTracker.isAtomicSlotFree(weekType, day, interval.start, interval.end)) {
+                    isFree = false;
+                    break;
+                }
+            }
+
+            if (isFree) {
+                available.push({
+                    id: r._id ? r._id.toString() : r.id,
+                    roomNo: r.roomNo,
+                    building: r.building,
+                    labOrClass: r.labOrClass
+                });
+            }
+        }
+
+        return available;
     }
 
     addSlot(weekType, rawSlot) {
@@ -91,9 +157,11 @@ class Registry {
                 ...rawSlot,
                 starting: intervals[i].start,
                 ending: intervals[i].end,
-                isLab: isMultiHour,
+                isLab: rawSlot.isLab || isMultiHour,
                 labBlockIndex: isMultiHour ? i + 1 : null,
-                totalLabBlocks: isMultiHour ? intervals.length : 1
+                totalLabBlocks: isMultiHour ? intervals.length : 1,
+                parentStart: rawSlot.starting,
+                parentEnd: rawSlot.ending
             };
 
             this.getOwner('FACULTY', rawSlot.facultyId).setSlot(weekType, subSlot);
@@ -102,15 +170,15 @@ class Registry {
         }
     }
 
-    removeSlot(weekType, { facultyId, roomNo, sectionId, day, start, end, starting, ending }) {
+    removeSlot(weekType, { facultyId, roomNo, sectionId, day, start, end, starting, ending, group }) {
         const s = start || starting;
         const e = end || ending;
         const intervals = this.getSpannedIntervals(s, e);
 
         for (const interval of intervals) {
-            this.faculties.get(facultyId)?.deleteSlot(weekType, day, interval.start, interval.end);
-            this.rooms.get(roomNo)?.deleteSlot(weekType, day, interval.start, interval.end);
-            this.sections.get(sectionId)?.deleteSlot(weekType, day, interval.start, interval.end);
+            this.faculties.get(facultyId)?.deleteSlot(weekType, day, interval.start, interval.end, group);
+            this.rooms.get(roomNo)?.deleteSlot(weekType, day, interval.start, interval.end, group);
+            this.sections.get(sectionId)?.deleteSlot(weekType, day, interval.start, interval.end, group);
         }
     }
 
@@ -119,17 +187,20 @@ class Registry {
         return owner.exportGrid(weekType, this.days, this.timeIntervals);
     }
 
-    rollOverWeeks() {
-        const allTrackers = [
-            ...this.faculties.values(),
-            ...this.rooms.values(),
-            ...this.sections.values()
-        ];
+    clear() {
+        for (const tracker of this.faculties.values()) tracker.clear();
+        for (const tracker of this.rooms.values()) tracker.clear();
+        for (const tracker of this.sections.values()) tracker.clear();
+        this.faculties.clear();
+        this.rooms.clear();
+        this.sections.clear();
+    }
 
-        for (const tracker of allTrackers) {
-            tracker.currentWeek = new Map(tracker.nextWeek);
-            tracker.nextWeek.clear();
-        }
+    getEntityIds(type) {
+        const targetMap =
+            type === 'FACULTY' ? this.faculties :
+                type === 'ROOM' ? this.rooms : this.sections;
+        return Array.from(targetMap.keys()).sort();
     }
 }
 

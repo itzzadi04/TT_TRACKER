@@ -7,12 +7,14 @@
     "subjectCode": "CS-212",
     "roomNo": "G5",
     "day": "Monday",
-    "starting": "9:00",
+    "starting": "09:00",
     "ending": "10:00",
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "RK_Y2_S3_CS_CS-212_Monday_09:00"
   },
   {
     "facultyId": "AMK",
@@ -27,7 +29,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "AMK_Y2_S3_CS_EC-219_Monday_10:00"
   },
   {
     "facultyId": "NG",
@@ -42,7 +46,9 @@
     "group": "G1",
     "isLab": true,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 2,
+    "sessionId": "NG_Y2_S3_CS_CS-218_Monday_11:00_G1"
   },
   {
     "facultyId": "NC",
@@ -57,7 +63,9 @@
     "group": "G2",
     "isLab": true,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 2,
+    "sessionId": "NC_Y2_S3_CS_CS-219_Monday_11:00_G2"
   },
   {
     "facultyId": "PSH",
@@ -72,7 +80,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "PSH_Y2_S3_CS_CS-215_Monday_14:00"
   },
   {
     "facultyId": "MN",
@@ -87,7 +97,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "MN_Y2_S3_CS_CS-213_Monday_15:00"
   },
   {
     "facultyId": "PSH",
@@ -97,12 +109,14 @@
     "subjectCode": "CS-215",
     "roomNo": "G5",
     "day": "Tuesday",
-    "starting": "9:00",
+    "starting": "09:00",
     "ending": "10:00",
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "PSH_Y2_S3_CS_CS-215_Tuesday_09:00"
   },
   {
     "facultyId": "AMK",
@@ -117,7 +131,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "AMK_Y2_S3_CS_EC-219_Tuesday_10:00"
   },
   {
     "facultyId": "NG",
@@ -132,7 +148,9 @@
     "group": "G2",
     "isLab": true,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 2,
+    "sessionId": "NG_Y2_S3_CS_CS-218_Tuesday_11:00_G2"
   },
   {
     "facultyId": "NC",
@@ -147,7 +165,9 @@
     "group": "G1",
     "isLab": true,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 2,
+    "sessionId": "NC_Y2_S3_CS_CS-219_Tuesday_11:00_G1"
   },
   {
     "facultyId": "MN",
@@ -162,7 +182,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "MN_Y2_S3_CS_CS-213_Tuesday_15:00"
   },
   {
     "facultyId": "RK",
@@ -177,7 +199,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "RK_Y2_S3_CS_CS-212_Tuesday_16:00"
   },
   {
     "facultyId": "CF-VI",
@@ -192,7 +216,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "CF-VI_Y2_S3_CS_MA-219_Wednesday_12:00"
   },
   {
     "facultyId": "NG",
@@ -207,7 +233,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "NG_Y2_S3_CS_CS-214_Wednesday_14:00"
   },
   {
     "facultyId": "MN",
@@ -222,7 +250,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "MN_Y2_S3_CS_CS-213_Wednesday_15:00"
   },
   {
     "facultyId": "PSH",
@@ -237,7 +267,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "PSH_Y2_S3_CS_CS-215_Wednesday_16:00"
   },
   {
     "facultyId": "RK",
@@ -247,12 +279,14 @@
     "subjectCode": "CS-217",
     "roomNo": "P4",
     "day": "Thursday",
-    "starting": "9:00",
+    "starting": "09:00",
     "ending": "11:00",
     "group": "G1",
     "isLab": true,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 2,
+    "sessionId": "RK_Y2_S3_CS_CS-217_Thursday_09:00_G1"
   },
   {
     "facultyId": "CF-VI",
@@ -267,7 +301,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "CF-VI_Y2_S3_CS_MA-219_Thursday_12:00"
   },
   {
     "facultyId": "NG",
@@ -282,7 +318,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "NG_Y2_S3_CS_CS-214_Thursday_14:00"
   },
   {
     "facultyId": "RK",
@@ -292,12 +330,14 @@
     "subjectCode": "CS-217",
     "roomNo": "P4",
     "day": "Friday",
-    "starting": "9:00",
+    "starting": "09:00",
     "ending": "11:00",
     "group": "G2",
     "isLab": true,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 2,
+    "sessionId": "RK_Y2_S3_CS_CS-217_Friday_09:00_G2"
   },
   {
     "facultyId": "CF-VI",
@@ -312,7 +352,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "CF-VI_Y2_S3_CS_MA-219_Friday_12:00"
   },
   {
     "facultyId": "RK",
@@ -327,7 +369,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "RK_Y2_S3_CS_CS-212_Friday_14:00"
   },
   {
     "facultyId": "NG",
@@ -342,7 +386,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "NG_Y2_S3_CS_CS-214_Friday_15:00"
   },
   {
     "facultyId": "PK",
@@ -352,12 +398,14 @@
     "subjectCode": "CS-213",
     "roomNo": "B4",
     "day": "Monday",
-    "starting": "9:00",
+    "starting": "09:00",
     "ending": "10:00",
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "PK_Y2_S3_CD_CS-213_Monday_09:00"
   },
   {
     "facultyId": "CF-VI",
@@ -372,7 +420,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "CF-VI_Y2_S3_CD_MA-219_Monday_10:00"
   },
   {
     "facultyId": "RPS",
@@ -387,7 +437,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "RPS_Y2_S3_CD_CS-212_Monday_14:00"
   },
   {
     "facultyId": "PK",
@@ -397,12 +449,14 @@
     "subjectCode": "CS-213",
     "roomNo": "B4",
     "day": "Tuesday",
-    "starting": "9:00",
+    "starting": "09:00",
     "ending": "10:00",
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "PK_Y2_S3_CD_CS-213_Tuesday_09:00"
   },
   {
     "facultyId": "CF-VI",
@@ -417,7 +471,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "CF-VI_Y2_S3_CD_MA-219_Tuesday_10:00"
   },
   {
     "facultyId": "PK",
@@ -432,7 +488,9 @@
     "group": "G1",
     "isLab": true,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 2,
+    "sessionId": "PK_Y2_S3_CD_CS-217_Tuesday_11:00_G1"
   },
   {
     "facultyId": "RPS",
@@ -447,7 +505,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "RPS_Y2_S3_CD_CS-212_Tuesday_15:00"
   },
   {
     "facultyId": "PVE",
@@ -457,12 +517,14 @@
     "subjectCode": "CS-215",
     "roomNo": "B4",
     "day": "Wednesday",
-    "starting": "9:00",
+    "starting": "09:00",
     "ending": "10:00",
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "PVE_Y2_S3_CD_CS-215_Wednesday_09:00"
   },
   {
     "facultyId": "CF-VI",
@@ -477,7 +539,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "CF-VI_Y2_S3_CD_MA-219_Wednesday_10:00"
   },
   {
     "facultyId": "PK",
@@ -492,7 +556,9 @@
     "group": "G2",
     "isLab": true,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 2,
+    "sessionId": "PK_Y2_S3_CD_CS-217_Wednesday_11:00_G2"
   },
   {
     "facultyId": "JS",
@@ -507,7 +573,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "JS_Y2_S3_CD_CS-214_Wednesday_15:00"
   },
   {
     "facultyId": "RPS",
@@ -522,7 +590,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "RPS_Y2_S3_CD_CS-212_Wednesday_16:00"
   },
   {
     "facultyId": "PVE",
@@ -532,12 +602,14 @@
     "subjectCode": "CS-215",
     "roomNo": "B4",
     "day": "Thursday",
-    "starting": "9:00",
+    "starting": "09:00",
     "ending": "10:00",
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "PVE_Y2_S3_CD_CS-215_Thursday_09:00"
   },
   {
     "facultyId": "CF-II",
@@ -552,7 +624,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "CF-II_Y2_S3_CD_EC-219_Thursday_10:00"
   },
   {
     "facultyId": "JS",
@@ -567,7 +641,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "JS_Y2_S3_CD_CS-214_Thursday_11:00"
   },
   {
     "facultyId": "PK",
@@ -582,7 +658,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "PK_Y2_S3_CD_CS-213_Thursday_12:00"
   },
   {
     "facultyId": "JS",
@@ -597,7 +675,9 @@
     "group": "G1",
     "isLab": true,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 2,
+    "sessionId": "JS_Y2_S3_CD_CS-218_Thursday_14:00_G1"
   },
   {
     "facultyId": "PS",
@@ -612,7 +692,9 @@
     "group": "G2",
     "isLab": true,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 2,
+    "sessionId": "PS_Y2_S3_CD_CS-219_Thursday_14:00_G2"
   },
   {
     "facultyId": "PVE",
@@ -622,12 +704,14 @@
     "subjectCode": "CS-215",
     "roomNo": "B4",
     "day": "Friday",
-    "starting": "9:00",
+    "starting": "09:00",
     "ending": "10:00",
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "PVE_Y2_S3_CD_CS-215_Friday_09:00"
   },
   {
     "facultyId": "CF-II",
@@ -642,7 +726,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "CF-II_Y2_S3_CD_EC-219_Friday_10:00"
   },
   {
     "facultyId": "JS",
@@ -657,7 +743,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "JS_Y2_S3_CD_CS-214_Friday_11:00"
   },
   {
     "facultyId": "JS",
@@ -672,7 +760,9 @@
     "group": "G2",
     "isLab": true,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 2,
+    "sessionId": "JS_Y2_S3_CD_CS-218_Friday_14:00_G2"
   },
   {
     "facultyId": "PS",
@@ -687,7 +777,9 @@
     "group": "G1",
     "isLab": true,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 2,
+    "sessionId": "PS_Y2_S3_CD_CS-219_Friday_14:00_G1"
   },
   {
     "facultyId": "AKY",
@@ -702,7 +794,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "AKY_Y3_S5_CS_CS-312_Monday_10:00"
   },
   {
     "facultyId": "AKM",
@@ -717,7 +811,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "AKM_Y3_S5_CS_CS-311_Monday_11:00"
   },
   {
     "facultyId": "KK",
@@ -732,7 +828,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "KK_Y3_S5_CS_CS-301_Monday_13:00"
   },
   {
     "facultyId": "AKY",
@@ -747,7 +845,9 @@
     "group": "G1",
     "isLab": true,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 2,
+    "sessionId": "AKY_Y3_S5_CS_CS-315_Monday_14:00_G1"
   },
   {
     "facultyId": "MM",
@@ -762,7 +862,9 @@
     "group": "G2",
     "isLab": true,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 2,
+    "sessionId": "MM_Y3_S5_CS_CS-316_Monday_14:00_G2"
   },
   {
     "facultyId": "DPM",
@@ -777,7 +879,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "DPM_Y3_S5_CS_CS-351_Monday_16:00"
   },
   {
     "facultyId": "PRA",
@@ -792,7 +896,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "PRA_Y3_S5_CS_CS-352_Monday_16:00"
   },
   {
     "facultyId": "AKM",
@@ -807,7 +913,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "AKM_Y3_S5_CS_CS-311_Tuesday_10:00"
   },
   {
     "facultyId": "AKY",
@@ -822,7 +930,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "AKY_Y3_S5_CS_CS-312_Tuesday_11:00"
   },
   {
     "facultyId": "KK",
@@ -837,7 +947,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "KK_Y3_S5_CS_CS-301_Tuesday_13:00"
   },
   {
     "facultyId": "AKY",
@@ -852,7 +964,9 @@
     "group": "G2",
     "isLab": true,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 2,
+    "sessionId": "AKY_Y3_S5_CS_CS-315_Tuesday_14:00_G2"
   },
   {
     "facultyId": "MM",
@@ -867,7 +981,9 @@
     "group": "G1",
     "isLab": true,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 2,
+    "sessionId": "MM_Y3_S5_CS_CS-316_Tuesday_14:00_G1"
   },
   {
     "facultyId": "MM",
@@ -877,12 +993,14 @@
     "subjectCode": "CS-313",
     "roomNo": "F4",
     "day": "Wednesday",
-    "starting": "9:00",
+    "starting": "09:00",
     "ending": "10:00",
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "MM_Y3_S5_CS_CS-313_Wednesday_09:00"
   },
   {
     "facultyId": "AKY",
@@ -897,7 +1015,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "AKY_Y3_S5_CS_CS-312_Wednesday_10:00"
   },
   {
     "facultyId": "SS",
@@ -912,7 +1032,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "SS_Y3_S5_CS_CS-314_Wednesday_11:00"
   },
   {
     "facultyId": "KK",
@@ -927,7 +1049,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "KK_Y3_S5_CS_CS-301_Wednesday_13:00"
   },
   {
     "facultyId": "MM",
@@ -942,7 +1066,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "MM_Y3_S5_CS_CS-313_Thursday_10:00"
   },
   {
     "facultyId": "SS",
@@ -957,7 +1083,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "SS_Y3_S5_CS_CS-314_Thursday_11:00"
   },
   {
     "facultyId": "DPM",
@@ -972,7 +1100,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "DPM_Y3_S5_CS_CS-351_Thursday_14:00"
   },
   {
     "facultyId": "PRA",
@@ -987,7 +1117,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "PRA_Y3_S5_CS_CS-352_Thursday_14:00"
   },
   {
     "facultyId": "AKM",
@@ -1002,7 +1134,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "AKM_Y3_S5_CS_CS-311_Thursday_15:00"
   },
   {
     "facultyId": "SS",
@@ -1017,7 +1151,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "SS_Y3_S5_CS_CS-314_Friday_10:00"
   },
   {
     "facultyId": "MM",
@@ -1032,7 +1168,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "MM_Y3_S5_CS_CS-313_Friday_11:00"
   },
   {
     "facultyId": "DPM",
@@ -1047,7 +1185,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "DPM_Y3_S5_CS_CS-351_Friday_14:00"
   },
   {
     "facultyId": "PRA",
@@ -1062,7 +1202,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "PRA_Y3_S5_CS_CS-352_Friday_14:00"
   },
   {
     "facultyId": "SS",
@@ -1072,12 +1214,14 @@
     "subjectCode": "CS-315",
     "roomNo": "P4",
     "day": "Monday",
-    "starting": "9:00",
+    "starting": "09:00",
     "ending": "11:00",
     "group": "G1",
     "isLab": true,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 2,
+    "sessionId": "SS_Y3_S5_CD_CS-315_Monday_09:00_G1"
   },
   {
     "facultyId": "KD",
@@ -1087,12 +1231,14 @@
     "subjectCode": "CS-316",
     "roomNo": "B2",
     "day": "Monday",
-    "starting": "9:00",
+    "starting": "09:00",
     "ending": "11:00",
     "group": "G2",
     "isLab": true,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 2,
+    "sessionId": "KD_Y3_S5_CD_CS-316_Monday_09:00_G2"
   },
   {
     "facultyId": "AKY",
@@ -1107,7 +1253,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "AKY_Y3_S5_CD_CS-312_Monday_11:00"
   },
   {
     "facultyId": "KK",
@@ -1122,7 +1270,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "KK_Y3_S5_CD_CS-301_Monday_13:00"
   },
   {
     "facultyId": "AKM",
@@ -1137,7 +1287,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "AKM_Y3_S5_CD_CS-311_Monday_14:00"
   },
   {
     "facultyId": "DPM",
@@ -1152,7 +1304,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "DPM_Y3_S5_CD_CS-351_Monday_16:00"
   },
   {
     "facultyId": "PRA",
@@ -1167,7 +1321,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "PRA_Y3_S5_CD_CS-352_Monday_16:00"
   },
   {
     "facultyId": "SS",
@@ -1177,12 +1333,14 @@
     "subjectCode": "CS-315",
     "roomNo": "P4",
     "day": "Tuesday",
-    "starting": "9:00",
+    "starting": "09:00",
     "ending": "11:00",
     "group": "G2",
     "isLab": true,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 2,
+    "sessionId": "SS_Y3_S5_CD_CS-315_Tuesday_09:00_G2"
   },
   {
     "facultyId": "KD",
@@ -1192,12 +1350,14 @@
     "subjectCode": "CS-316",
     "roomNo": "B2",
     "day": "Tuesday",
-    "starting": "9:00",
+    "starting": "09:00",
     "ending": "11:00",
     "group": "G1",
     "isLab": true,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 2,
+    "sessionId": "KD_Y3_S5_CD_CS-316_Tuesday_09:00_G1"
   },
   {
     "facultyId": "KK",
@@ -1212,7 +1372,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "KK_Y3_S5_CD_CS-301_Tuesday_13:00"
   },
   {
     "facultyId": "VID",
@@ -1227,7 +1389,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "VID_Y3_S5_CD_CS-313_Wednesday_10:00"
   },
   {
     "facultyId": "MM",
@@ -1242,7 +1406,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "MM_Y3_S5_CD_CS-314_Wednesday_11:00"
   },
   {
     "facultyId": "KK",
@@ -1257,7 +1423,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "KK_Y3_S5_CD_CS-301_Wednesday_13:00"
   },
   {
     "facultyId": "AKM",
@@ -1267,12 +1435,14 @@
     "subjectCode": "CS-311",
     "roomNo": "G5",
     "day": "Thursday",
-    "starting": "9:00",
+    "starting": "09:00",
     "ending": "10:00",
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "AKM_Y3_S5_CD_CS-311_Thursday_09:00"
   },
   {
     "facultyId": "AKY",
@@ -1287,7 +1457,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "AKY_Y3_S5_CD_CS-312_Thursday_10:00"
   },
   {
     "facultyId": "DPM",
@@ -1302,7 +1474,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "DPM_Y3_S5_CD_CS-351_Thursday_14:00"
   },
   {
     "facultyId": "PRA",
@@ -1317,7 +1491,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "PRA_Y3_S5_CD_CS-352_Thursday_14:00"
   },
   {
     "facultyId": "VID",
@@ -1332,7 +1508,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "VID_Y3_S5_CD_CS-313_Thursday_15:00"
   },
   {
     "facultyId": "MM",
@@ -1347,7 +1525,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "MM_Y3_S5_CD_CS-314_Thursday_16:00"
   },
   {
     "facultyId": "AKM",
@@ -1362,7 +1542,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "AKM_Y3_S5_CD_CS-311_Friday_10:00"
   },
   {
     "facultyId": "AKY",
@@ -1377,7 +1559,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "AKY_Y3_S5_CD_CS-312_Friday_11:00"
   },
   {
     "facultyId": "MM",
@@ -1392,7 +1576,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "MM_Y3_S5_CD_CS-314_Friday_12:00"
   },
   {
     "facultyId": "DPM",
@@ -1407,7 +1593,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "DPM_Y3_S5_CD_CS-351_Friday_14:00"
   },
   {
     "facultyId": "PRA",
@@ -1422,7 +1610,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "PRA_Y3_S5_CD_CS-352_Friday_14:00"
   },
   {
     "facultyId": "VID",
@@ -1437,7 +1627,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "VID_Y3_S5_CD_CS-313_Friday_15:00"
   },
   {
     "facultyId": "TW",
@@ -1452,7 +1644,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "TW_Y4_S7_CS_CS-411_Monday_10:00"
   },
   {
     "facultyId": "PK",
@@ -1467,7 +1661,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "PK_Y4_S7_CS_CS-412_Monday_11:00"
   },
   {
     "facultyId": "GF13",
@@ -1482,7 +1678,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "GF13_Y4_S7_CS_CS-431_Monday_15:00"
   },
   {
     "facultyId": "APU",
@@ -1497,7 +1695,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "APU_Y4_S7_CS_CS-433_Monday_15:00"
   },
   {
     "facultyId": "PSH",
@@ -1512,7 +1712,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "PSH_Y4_S7_CS_CS-413_Monday_16:00"
   },
   {
     "facultyId": "TW",
@@ -1527,7 +1729,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "TW_Y4_S7_CS_CS-411_Tuesday_11:00"
   },
   {
     "facultyId": "PSH",
@@ -1542,7 +1746,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "PSH_Y4_S7_CS_CS-413_Tuesday_12:00"
   },
   {
     "facultyId": "GF13",
@@ -1557,7 +1763,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "GF13_Y4_S7_CS_CS-431_Tuesday_15:00"
   },
   {
     "facultyId": "APU",
@@ -1572,7 +1780,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "APU_Y4_S7_CS_CS-433_Tuesday_15:00"
   },
   {
     "facultyId": "AKM",
@@ -1582,12 +1792,14 @@
     "subjectCode": "CS-414",
     "roomNo": "P4",
     "day": "Wednesday",
-    "starting": "9:00",
+    "starting": "09:00",
     "ending": "11:00",
     "group": "G2",
     "isLab": true,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 2,
+    "sessionId": "AKM_Y4_S7_CS_CS-414_Wednesday_09:00_G2"
   },
   {
     "facultyId": "PSH",
@@ -1597,12 +1809,14 @@
     "subjectCode": "CS-415",
     "roomNo": "B2",
     "day": "Wednesday",
-    "starting": "9:00",
+    "starting": "09:00",
     "ending": "11:00",
     "group": "G1",
     "isLab": true,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 2,
+    "sessionId": "PSH_Y4_S7_CS_CS-415_Wednesday_09:00_G1"
   },
   {
     "facultyId": "TW",
@@ -1617,7 +1831,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "TW_Y4_S7_CS_CS-471_Wednesday_11:00"
   },
   {
     "facultyId": "SB",
@@ -1632,7 +1848,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "SB_Y4_S7_CS_CS-472_Wednesday_11:00"
   },
   {
     "facultyId": "TW",
@@ -1647,7 +1865,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "TW_Y4_S7_CS_CS-411_Wednesday_14:00"
   },
   {
     "facultyId": "GF12",
@@ -1662,7 +1882,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "GF12_Y4_S7_CS_CS-451_Wednesday_15:00"
   },
   {
     "facultyId": "MKP",
@@ -1677,7 +1899,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "MKP_Y4_S7_CS_CS-452_Wednesday_15:00"
   },
   {
     "facultyId": "PSH",
@@ -1687,12 +1911,14 @@
     "subjectCode": "CS-413",
     "roomNo": "S2",
     "day": "Thursday",
-    "starting": "9:00",
+    "starting": "09:00",
     "ending": "10:00",
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "PSH_Y4_S7_CS_CS-413_Thursday_09:00"
   },
   {
     "facultyId": "PK",
@@ -1707,7 +1933,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "PK_Y4_S7_CS_CS-412_Thursday_10:00"
   },
   {
     "facultyId": "TW",
@@ -1722,7 +1950,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "TW_Y4_S7_CS_CS-471_Thursday_11:00"
   },
   {
     "facultyId": "SB",
@@ -1737,7 +1967,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "SB_Y4_S7_CS_CS-472_Thursday_11:00"
   },
   {
     "facultyId": "GF13",
@@ -1752,7 +1984,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "GF13_Y4_S7_CS_CS-431_Thursday_15:00"
   },
   {
     "facultyId": "APU",
@@ -1767,7 +2001,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "APU_Y4_S7_CS_CS-433_Thursday_15:00"
   },
   {
     "facultyId": "PK",
@@ -1782,7 +2018,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "PK_Y4_S7_CS_CS-412_Friday_10:00"
   },
   {
     "facultyId": "AKM",
@@ -1797,7 +2035,9 @@
     "group": "G1",
     "isLab": true,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 2,
+    "sessionId": "AKM_Y4_S7_CS_CS-414_Friday_11:00_G1"
   },
   {
     "facultyId": "PSH",
@@ -1812,7 +2052,9 @@
     "group": "G2",
     "isLab": true,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 2,
+    "sessionId": "PSH_Y4_S7_CS_CS-415_Friday_11:00_G2"
   },
   {
     "facultyId": "GF12",
@@ -1827,7 +2069,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "GF12_Y4_S7_CS_CS-451_Friday_15:00"
   },
   {
     "facultyId": "MKP",
@@ -1842,7 +2086,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "MKP_Y4_S7_CS_CS-452_Friday_15:00"
   },
   {
     "facultyId": "RSB",
@@ -1852,12 +2098,14 @@
     "subjectCode": "CS-412",
     "roomNo": "CSE-III",
     "day": "Monday",
-    "starting": "9:00",
+    "starting": "09:00",
     "ending": "10:00",
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "RSB_Y4_S7_CD_CS-412_Monday_09:00"
   },
   {
     "facultyId": "GF12",
@@ -1872,7 +2120,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "GF12_Y4_S7_CD_CS-633_Monday_10:00"
   },
   {
     "facultyId": "RK",
@@ -1887,7 +2137,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "RK_Y4_S7_CD_CS-611_Monday_11:00"
   },
   {
     "facultyId": "PS",
@@ -1902,7 +2154,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "PS_Y4_S7_CD_CS-736_Monday_12:00"
   },
   {
     "facultyId": "GF12",
@@ -1912,12 +2166,14 @@
     "subjectCode": "CS-633",
     "roomNo": "CSE-III",
     "day": "Tuesday",
-    "starting": "9:00",
+    "starting": "09:00",
     "ending": "10:00",
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "GF12_Y4_S7_CD_CS-633_Tuesday_09:00"
   },
   {
     "facultyId": "KD",
@@ -1932,7 +2188,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "KD_Y4_S7_CD_CS-747_Tuesday_10:00"
   },
   {
     "facultyId": "KD",
@@ -1947,7 +2205,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "KD_Y4_S7_CD_CS-747_Tuesday_11:00"
   },
   {
     "facultyId": "PS",
@@ -1962,7 +2222,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "PS_Y4_S7_CD_CS-736_Tuesday_12:00"
   },
   {
     "facultyId": "RK",
@@ -1977,7 +2239,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "RK_Y4_S7_CD_CS-611_Tuesday_15:00"
   },
   {
     "facultyId": "RSB",
@@ -1992,7 +2256,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "RSB_Y4_S7_CD_CS-412_Tuesday_16:00"
   },
   {
     "facultyId": "RK",
@@ -2002,12 +2268,14 @@
     "subjectCode": "CS-611",
     "roomNo": "CSE-III",
     "day": "Wednesday",
-    "starting": "9:00",
+    "starting": "09:00",
     "ending": "10:00",
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "RK_Y4_S7_CD_CS-611_Wednesday_09:00"
   },
   {
     "facultyId": "KD",
@@ -2022,7 +2290,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "KD_Y4_S7_CD_CS-747_Wednesday_10:00"
   },
   {
     "facultyId": "KD",
@@ -2037,7 +2307,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "KD_Y4_S7_CD_CS-747_Wednesday_11:00"
   },
   {
     "facultyId": "PR",
@@ -2052,7 +2324,9 @@
     "group": null,
     "isLab": true,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 2,
+    "sessionId": "PR_Y4_S7_CD_CS-415_Wednesday_14:00"
   },
   {
     "facultyId": "PS",
@@ -2067,7 +2341,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "PS_Y4_S7_CD_CS-736_Wednesday_16:00"
   },
   {
     "facultyId": "GF12",
@@ -2077,12 +2353,14 @@
     "subjectCode": "CS-633",
     "roomNo": "CSE-III",
     "day": "Thursday",
-    "starting": "9:00",
+    "starting": "09:00",
     "ending": "10:00",
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "GF12_Y4_S7_CD_CS-633_Thursday_09:00"
   },
   {
     "facultyId": "PR",
@@ -2097,7 +2375,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "PR_Y4_S7_CD_CS-411_Thursday_10:00"
   },
   {
     "facultyId": "PR",
@@ -2112,7 +2392,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "PR_Y4_S7_CD_CS-411_Thursday_11:00"
   },
   {
     "facultyId": "RSB",
@@ -2127,7 +2409,9 @@
     "group": null,
     "isLab": true,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 2,
+    "sessionId": "RSB_Y4_S7_CD_CS-416_Thursday_14:00"
   },
   {
     "facultyId": "PS",
@@ -2142,7 +2426,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "PS_Y4_S7_CD_CS-736_Thursday_16:00"
   },
   {
     "facultyId": "RSB",
@@ -2152,12 +2438,14 @@
     "subjectCode": "CS-412",
     "roomNo": "CSE-III",
     "day": "Friday",
-    "starting": "9:00",
+    "starting": "09:00",
     "ending": "10:00",
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "RSB_Y4_S7_CD_CS-412_Friday_09:00"
   },
   {
     "facultyId": "GF12",
@@ -2172,7 +2460,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "GF12_Y4_S7_CD_CS-633_Friday_10:00"
   },
   {
     "facultyId": "PR",
@@ -2187,7 +2477,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "PR_Y4_S7_CD_CS-411_Friday_11:00"
   },
   {
     "facultyId": "RK",
@@ -2202,7 +2494,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "RK_Y4_S7_CD_CS-611_Friday_15:00"
   },
   {
     "facultyId": "RSB",
@@ -2217,7 +2511,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "RSB_Y4_S7_CD_CS-412_Friday_16:00"
   },
   {
     "facultyId": "NC",
@@ -2232,7 +2528,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "NC_Y5_S9_CD_CS-611_Monday_15:00"
   },
   {
     "facultyId": "NC",
@@ -2247,7 +2545,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "NC_Y5_S9_CD_CS-611_Wednesday_12:00"
   },
   {
     "facultyId": "NC",
@@ -2262,7 +2562,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "NC_Y5_S9_CD_CS-611_Thursday_12:00"
   },
   {
     "facultyId": "NC",
@@ -2277,7 +2579,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "NC_Y5_S9_CD_CS-611_Friday_12:00"
   },
   {
     "facultyId": "RPS",
@@ -2292,7 +2596,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "RPS_Y1_S1_MTECH-CSE_CS-736_Monday_10:00"
   },
   {
     "facultyId": "MK",
@@ -2307,7 +2613,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "MK_Y1_S1_MTECH-CSE_CS-612_Monday_11:00"
   },
   {
     "facultyId": "SS",
@@ -2322,7 +2630,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "SS_Y1_S1_MTECH-CSE_CS-613_Monday_12:00"
   },
   {
     "facultyId": "TPS",
@@ -2337,7 +2647,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "TPS_Y1_S1_MTECH-CSE_CS-740_Monday_14:00"
   },
   {
     "facultyId": "RPS",
@@ -2352,7 +2664,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "RPS_Y1_S1_MTECH-CSE_CS-736_Monday_15:00"
   },
   {
     "facultyId": "SC",
@@ -2367,7 +2681,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "SC_Y1_S1_MTECH-CSE_CS-611_Tuesday_10:00"
   },
   {
     "facultyId": "SC",
@@ -2382,7 +2698,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "SC_Y1_S1_MTECH-CSE_CS-611_Tuesday_11:00"
   },
   {
     "facultyId": "MK",
@@ -2397,7 +2715,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "MK_Y1_S1_MTECH-CSE_CS-612_Tuesday_12:00"
   },
   {
     "facultyId": "TPS",
@@ -2412,7 +2732,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "TPS_Y1_S1_MTECH-CSE_CS-740_Tuesday_15:00"
   },
   {
     "facultyId": "SC",
@@ -2427,7 +2749,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "SC_Y1_S1_MTECH-CSE_CS-611_Wednesday_10:00"
   },
   {
     "facultyId": "SC",
@@ -2442,7 +2766,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "SC_Y1_S1_MTECH-CSE_CS-611_Wednesday_11:00"
   },
   {
     "facultyId": "SS",
@@ -2457,7 +2783,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "SS_Y1_S1_MTECH-CSE_CS-613_Wednesday_12:00"
   },
   {
     "facultyId": "TPS",
@@ -2472,7 +2800,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "TPS_Y1_S1_MTECH-CSE_CS-740_Wednesday_15:00"
   },
   {
     "facultyId": "RPS",
@@ -2487,7 +2817,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "RPS_Y1_S1_MTECH-CSE_CS-736_Thursday_10:00"
   },
   {
     "facultyId": "MK",
@@ -2502,7 +2834,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "MK_Y1_S1_MTECH-CSE_CS-612_Thursday_11:00"
   },
   {
     "facultyId": "SS",
@@ -2517,7 +2851,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "SS_Y1_S1_MTECH-CSE_CS-613_Thursday_12:00"
   },
   {
     "facultyId": "TPS",
@@ -2532,7 +2868,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "TPS_Y1_S1_MTECH-CSE_CS-740_Thursday_14:00"
   },
   {
     "facultyId": "RPS",
@@ -2547,7 +2885,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "RPS_Y1_S1_MTECH-CSE_CS-736_Friday_10:00"
   },
   {
     "facultyId": "MK",
@@ -2562,7 +2902,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "MK_Y1_S1_MTECH-CSE_CS-612_Friday_11:00"
   },
   {
     "facultyId": "SS",
@@ -2577,7 +2919,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "SS_Y1_S1_MTECH-CSE_CS-613_Friday_12:00"
   },
   {
     "facultyId": "TPS",
@@ -2592,7 +2936,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "TPS_Y1_S1_MTECH-CSE_CS-614_Friday_14:00"
   },
   {
     "facultyId": "TPS",
@@ -2605,9 +2951,11 @@
     "starting": "15:00",
     "ending": "17:00",
     "group": null,
-    "isLab": false,
+    "isLab": true,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 2,
+    "sessionId": "TPS_Y1_S1_MTECH-CSE_CS-614_Friday_15:00"
   },
   {
     "facultyId": "RSB",
@@ -2622,7 +2970,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "RSB_Y1_S1_MTECH-AI_CS-633_Monday_10:00"
   },
   {
     "facultyId": "DPM",
@@ -2637,7 +2987,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "DPM_Y1_S1_MTECH-AI_CS-631_Monday_11:00"
   },
   {
     "facultyId": "MK",
@@ -2652,7 +3004,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "MK_Y1_S1_MTECH-AI_CS-632_Monday_15:00"
   },
   {
     "facultyId": "NG",
@@ -2667,7 +3021,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "NG_Y1_S1_MTECH-AI_CS-621_Tuesday_10:00"
   },
   {
     "facultyId": "MK",
@@ -2682,7 +3038,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "MK_Y1_S1_MTECH-AI_CS-632_Tuesday_11:00"
   },
   {
     "facultyId": "DPM",
@@ -2697,7 +3055,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "DPM_Y1_S1_MTECH-AI_CS-634_Tuesday_14:00"
   },
   {
     "facultyId": "DPM",
@@ -2710,9 +3070,11 @@
     "starting": "15:00",
     "ending": "17:00",
     "group": null,
-    "isLab": false,
+    "isLab": true,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 2,
+    "sessionId": "DPM_Y1_S1_MTECH-AI_CS-634_Tuesday_15:00"
   },
   {
     "facultyId": "DPM",
@@ -2727,7 +3089,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "DPM_Y1_S1_MTECH-AI_CS-631_Wednesday_10:00"
   },
   {
     "facultyId": "NG",
@@ -2742,7 +3106,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "NG_Y1_S1_MTECH-AI_CS-621_Wednesday_11:00"
   },
   {
     "facultyId": "MK",
@@ -2757,7 +3123,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "MK_Y1_S1_MTECH-AI_CS-632_Wednesday_12:00"
   },
   {
     "facultyId": "RSB",
@@ -2772,7 +3140,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "RSB_Y1_S1_MTECH-AI_CS-633_Wednesday_14:00"
   },
   {
     "facultyId": "MK",
@@ -2787,7 +3157,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "MK_Y1_S1_MTECH-AI_CS-632_Wednesday_15:00"
   },
   {
     "facultyId": "RSB",
@@ -2802,7 +3174,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "RSB_Y1_S1_MTECH-AI_CS-633_Thursday_10:00"
   },
   {
     "facultyId": "DPM",
@@ -2817,7 +3191,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "DPM_Y1_S1_MTECH-AI_CS-631_Thursday_11:00"
   },
   {
     "facultyId": "NG",
@@ -2832,7 +3208,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "NG_Y1_S1_MTECH-AI_CS-621_Thursday_12:00"
   },
   {
     "facultyId": "PR",
@@ -2847,7 +3225,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "PR_Y1_S1_MTECH-AI_CS-754_Thursday_14:00"
   },
   {
     "facultyId": "PR",
@@ -2862,7 +3242,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "PR_Y1_S1_MTECH-AI_CS-754_Thursday_15:00"
   },
   {
     "facultyId": "RSB",
@@ -2877,7 +3259,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "RSB_Y1_S1_MTECH-AI_CS-633_Friday_10:00"
   },
   {
     "facultyId": "NG",
@@ -2892,7 +3276,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "NG_Y1_S1_MTECH-AI_CS-621_Friday_11:00"
   },
   {
     "facultyId": "DPM",
@@ -2907,7 +3293,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "DPM_Y1_S1_MTECH-AI_CS-631_Friday_12:00"
   },
   {
     "facultyId": "PR",
@@ -2922,7 +3310,9 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "PR_Y1_S1_MTECH-AI_CS-754_Friday_14:00"
   },
   {
     "facultyId": "PR",
@@ -2937,6 +3327,8 @@
     "group": null,
     "isLab": false,
     "isFixed": true,
-    "isOccupied": true
+    "isOccupied": true,
+    "duration": 1,
+    "sessionId": "PR_Y1_S1_MTECH-AI_CS-754_Friday_15:00"
   }
 ]
