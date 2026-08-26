@@ -46,12 +46,12 @@
   },
   {
     "day": "Friday",
-    "starting": "9:00",
+    "starting": "09:00",
     "ending": "10:00"
   },
   {
     "day": "Friday",
-    "starting": "9:00",
+    "starting": "09:00",
     "ending": "11:00"
   },
   {
@@ -101,12 +101,12 @@
   },
   {
     "day": "Monday",
-    "starting": "9:00",
+    "starting": "09:00",
     "ending": "10:00"
   },
   {
     "day": "Monday",
-    "starting": "9:00",
+    "starting": "09:00",
     "ending": "11:00"
   },
   {
@@ -146,12 +146,12 @@
   },
   {
     "day": "Thursday",
-    "starting": "9:00",
+    "starting": "09:00",
     "ending": "10:00"
   },
   {
     "day": "Thursday",
-    "starting": "9:00",
+    "starting": "09:00",
     "ending": "11:00"
   },
   {
@@ -206,12 +206,12 @@
   },
   {
     "day": "Tuesday",
-    "starting": "9:00",
+    "starting": "09:00",
     "ending": "10:00"
   },
   {
     "day": "Tuesday",
-    "starting": "9:00",
+    "starting": "09:00",
     "ending": "11:00"
   },
   {
@@ -261,12 +261,12 @@
   },
   {
     "day": "Wednesday",
-    "starting": "9:00",
+    "starting": "09:00",
     "ending": "10:00"
   },
   {
     "day": "Wednesday",
-    "starting": "9:00",
+    "starting": "09:00",
     "ending": "11:00"
   }
 ]

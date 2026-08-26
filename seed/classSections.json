@@ -2,46 +2,55 @@
   {
     "year": 1,
     "section": "MTECH-AI",
-    "semester": 1
+    "semester": 1,
+    "sectionId": "Y1_S1_MTECH-AI"
   },
   {
     "year": 1,
     "section": "MTECH-CSE",
-    "semester": 1
+    "semester": 1,
+    "sectionId": "Y1_S1_MTECH-CSE"
   },
   {
     "year": 2,
     "section": "CD",
-    "semester": 3
+    "semester": 3,
+    "sectionId": "Y2_S3_CD"
   },
   {
     "year": 2,
     "section": "CS",
-    "semester": 3
+    "semester": 3,
+    "sectionId": "Y2_S3_CS"
   },
   {
     "year": 3,
     "section": "CD",
-    "semester": 5
+    "semester": 5,
+    "sectionId": "Y3_S5_CD"
   },
   {
     "year": 3,
     "section": "CS",
-    "semester": 5
+    "semester": 5,
+    "sectionId": "Y3_S5_CS"
   },
   {
     "year": 4,
     "section": "CD",
-    "semester": 7
+    "semester": 7,
+    "sectionId": "Y4_S7_CD"
   },
   {
     "year": 4,
     "section": "CS",
-    "semester": 7
+    "semester": 7,
+    "sectionId": "Y4_S7_CS"
   },
   {
     "year": 5,
     "section": "CD",
-    "semester": 9
+    "semester": 9,
+    "sectionId": "Y5_S9_CD"
   }
 ]

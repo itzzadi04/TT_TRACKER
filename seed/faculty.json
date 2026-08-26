@@ -16,8 +16,24 @@
     "name": "Ms Akanksha Puri"
   },
   {
+    "facultyId": "CF-II",
+    "name": "CF-II"
+  },
+  {
+    "facultyId": "CF-VI",
+    "name": "CF-VI"
+  },
+  {
     "facultyId": "DPM",
     "name": "Dr Dharmendra P Mahato"
+  },
+  {
+    "facultyId": "GF12",
+    "name": "GF12"
+  },
+  {
+    "facultyId": "GF13",
+    "name": "GF13"
   },
   {
     "facultyId": "JS",

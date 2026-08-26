@@ -88,8 +88,16 @@
     "name": "CS-416"
   },
   {
+    "subjectCode": "CS-431",
+    "name": "CS-431"
+  },
+  {
     "subjectCode": "CS-433",
     "name": "CS-433"
+  },
+  {
+    "subjectCode": "CS-451",
+    "name": "CS-451"
   },
   {
     "subjectCode": "CS-452",
@@ -158,5 +166,9 @@
   {
     "subjectCode": "EC-219",
     "name": "EC-219"
+  },
+  {
+    "subjectCode": "MA-219",
+    "name": "MA-219"
   }
 ]

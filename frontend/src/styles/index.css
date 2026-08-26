@@ -1,0 +1,1276 @@
+/* ============================================================
+   NIT HAMIRPUR — ACADEMIC TIMETABLE STUDIO DESIGN SYSTEM
+   Stitch Institutional Academic Framework (Vanilla CSS)
+   ============================================================ */
+
+:root {
+    /* Institutional Color Palette */
+    --institutional-navy: #002147;
+    --institutional-navy-hover: #00152e;
+    --nit-gold: #D4AF37;
+    --success-emerald: #008543;
+    --success-bg: #e6f4ea;
+    --error-red: #ba1a1a;
+    --error-bg: #ffdad6;
+    --border-subtle: #E0E0E0;
+    --border-strong: #c4c6cf;
+    --text-main: #212529;
+    --text-muted: #6c757d;
+    --bg-surface: #f9f9f9;
+    --bg-card: #ffffff;
+    --bg-header-light: #ffffff;
+    --bg-cell-empty: #ffffff;
+    --bg-cell-highlight: rgba(0, 33, 71, 0.04);
+
+    /* Typography & Layout */
+    --font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --container-max: 1320px;
+    --radius-sm: 4px;
+    --radius-md: 6px;
+    --radius-lg: 8px;
+    --radius-pill: 9999px;
+    --shadow-card: 0 1px 3px rgba(0, 33, 71, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+    --shadow-modal: 0 10px 25px -5px rgba(0, 33, 71, 0.15), 0 8px 10px -6px rgba(0, 33, 71, 0.1);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: var(--font-family);
+}
+
+html,
+body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+body {
+    background-color: var(--bg-surface);
+    color: var(--text-main);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-image: linear-gradient(to right, #f0f0f0 1px, transparent 1px), linear-gradient(to bottom, #f0f0f0 1px, transparent 1px);
+    background-size: 24px 24px;
+    background-attachment: fixed;
+}
+
+#root {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+/* Material Symbols */
+.material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    vertical-align: middle;
+}
+
+/* ============================================================
+   HEADER: TWO-TIER INSTITUTIONAL DESIGN
+   ============================================================ */
+
+header.institutional-header {
+    width: 100%;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.header-top-tier {
+    background: #ffffff;
+    border-bottom: 1px solid var(--border-subtle);
+    padding: 12px 24px;
+}
+
+.header-top-content {
+    max-width: var(--container-max);
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+}
+
+.nith-brand-container {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.nith-logo-wrapper {
+    width: 68px;
+    height: 68px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.nith-logo-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+}
+
+.nith-logo-fallback {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: var(--institutional-navy);
+    color: var(--nit-gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 14px;
+}
+
+.nith-titles-stack {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2px;
+}
+
+.nith-hindi-title {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: #1f2937;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+}
+
+.nith-english-title {
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: #000000;
+    line-height: 1.2;
+    margin: 0;
+    letter-spacing: -0.015em;
+}
+
+.nith-tagline {
+    font-size: 0.82rem;
+    font-weight: 400;
+    color: #475569;
+    line-height: 1.3;
+}
+
+.header-right-meta {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-shrink: 0;
+}
+
+.app-title-badge {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--institutional-navy);
+    border-left: 2px solid var(--border-subtle);
+    padding-left: 16px;
+}
+
+/* Navigation Tier (Dark Navy) */
+.header-nav-tier {
+    background: var(--institutional-navy);
+    width: 100%;
+}
+
+.header-nav-content {
+    max-width: var(--container-max);
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    height: 46px;
+    padding: 0 24px;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    height: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+}
+
+.nav-links::-webkit-scrollbar {
+    display: none;
+}
+
+.nav-item {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 0 6px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    transition: color 0.15s ease;
+    white-space: nowrap;
+}
+
+.nav-item:hover {
+    color: #fff;
+}
+
+.nav-item.active {
+    color: var(--nit-gold);
+    border-bottom: 3px solid var(--nit-gold);
+    font-weight: 700;
+}
+
+.badge-status {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: var(--radius-pill);
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+}
+
+.badge-editable {
+    background: #008543;
+    color: #ffffff;
+}
+
+.badge-readonly {
+    background: #ba1a1a;
+    color: #ffffff;
+}
+
+.badge-base {
+    background: #581c87;
+    color: #ffffff;
+}
+
+/* ============================================================
+   MAIN CONTENT CANVAS & TOOLBAR
+   ============================================================ */
+
+main.studio-canvas {
+    flex-grow: 1;
+    width: 100%;
+    max-width: var(--container-max);
+    margin: 20px auto;
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.toolbar-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    padding: 16px 20px;
+    box-shadow: var(--shadow-card);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.toolbar-row-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    border-bottom: 1px solid #f0f0f0;
+    padding-bottom: 12px;
+}
+
+.page-heading h1 {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--institutional-navy);
+    letter-spacing: -0.01em;
+}
+
+.page-heading p {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.view-mode-tabs {
+    display: flex;
+    background: #f1f3f5;
+    padding: 3px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-subtle);
+}
+
+.tab-btn {
+    border: none;
+    background: transparent;
+    padding: 6px 14px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-muted);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.tab-btn.active {
+    background: #fff;
+    color: var(--institutional-navy);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    font-weight: 700;
+}
+
+.toolbar-row-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.toolbar-controls-left {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.toolbar-controls-right {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    flex-shrink: 0;
+}
+
+.control-field {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    flex-shrink: 0;
+}
+
+.control-label {
+    font-weight: 600;
+    color: var(--institutional-navy);
+    white-space: nowrap;
+    font-size: 13px;
+}
+
+select.form-control {
+    background: #fff;
+    border: 1px solid var(--border-subtle);
+    padding: 7px 12px;
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-main);
+    outline: none;
+    min-width: 140px;
+    max-width: 200px;
+    transition: border-color 0.15s ease;
+    cursor: pointer;
+}
+
+select.form-control:focus {
+    border-color: var(--institutional-navy);
+    box-shadow: 0 0 0 2px rgba(0, 33, 71, 0.1);
+}
+
+.schedule-mode-toggle {
+    display: flex;
+    background: #f1f3f5;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.mode-btn {
+    border: none;
+    background: transparent;
+    padding: 7px 14px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.mode-btn.active {
+    background: var(--institutional-navy);
+    color: #ffffff;
+}
+
+.mode-btn.active-base {
+    background: #701a75 !important;
+    color: #ffffff !important;
+}
+
+.real-date-chip {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--text-muted);
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    padding: 5px 10px;
+    border-radius: var(--radius-sm);
+}
+
+.real-date-chip strong {
+    color: var(--institutional-navy);
+}
+
+/* Drag Banner & Toasts */
+.drag-banner {
+    background: #002147;
+    color: #ffffff;
+    padding: 10px 18px;
+    border-radius: var(--radius-md);
+    font-size: 13px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-left: 4px solid var(--nit-gold);
+}
+
+.toast-box {
+    padding: 12px 18px;
+    border-radius: var(--radius-md);
+    font-size: 13px;
+    line-height: 1.5;
+    box-shadow: var(--shadow-card);
+}
+
+.toast-error {
+    background: #fef2f2;
+    border: 1px solid #f87171;
+    color: #991b1b;
+}
+
+.toast-success {
+    background: #f0fdf4;
+    border: 1px solid #4ade80;
+    color: #166534;
+}
+
+/* ============================================================
+   TIMETABLE GRID & CARDS
+   ============================================================ */
+
+.timetable-container {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    overflow-x: auto;
+    box-shadow: var(--shadow-card);
+}
+
+table.timetable-grid {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+    min-width: 960px;
+}
+
+table.timetable-grid th,
+table.timetable-grid td {
+    border: 1px solid var(--border-subtle);
+    padding: 4px;
+    text-align: center;
+    font-size: 12px;
+    vertical-align: top;
+}
+
+table.timetable-grid th {
+    background: #f8f9fa;
+    color: var(--institutional-navy);
+    font-weight: 700;
+    padding: 10px 6px;
+    font-size: 12px;
+    border-bottom: 2px solid var(--border-subtle);
+}
+
+.day-header-col {
+    width: 90px;
+    background: #edf2f7 !important;
+    font-weight: 700;
+    color: var(--institutional-navy);
+    vertical-align: middle !important;
+}
+
+.cell-slot {
+    height: 94px;
+    min-height: 94px;
+    background: #ffffff;
+    transition: background 0.15s ease, border-color 0.15s ease;
+    padding: 4px;
+    position: relative;
+}
+
+.cell-slot:hover {
+    background: var(--bg-cell-highlight);
+}
+
+.cell-slot.target-active {
+    border: 2px dashed #3b82f6 !important;
+    background: rgba(59, 130, 246, 0.04);
+    cursor: pointer;
+}
+
+.cell-slot.drag-over {
+    background: rgba(59, 130, 246, 0.15) !important;
+    border: 2px dashed #1d4ed8 !important;
+}
+
+.cell-content-stack {
+    display: flex;
+    gap: 4px;
+    width: 100%;
+    height: 100%;
+}
+
+/* Class Card (Lecture) */
+.card-class {
+    flex: 1;
+    background: #ffffff;
+    border: 1px solid var(--border-subtle);
+    border-top: 3px solid var(--institutional-navy);
+    border-radius: var(--radius-sm);
+    padding: 6px 8px;
+    font-size: 11px;
+    text-align: left;
+    user-select: none;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
+    min-width: 0;
+}
+
+.card-class:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 3px 6px rgba(0, 33, 71, 0.12);
+}
+
+/* Lab Card */
+.card-class.is-lab {
+    border-top: 3px solid var(--success-emerald);
+}
+
+/* Scheduled / Rescheduled Overrides */
+.card-class.is-extra {
+    border-left: 3px solid #6366f1;
+}
+
+.card-class.is-override {
+    border-left: 3px solid #f59e0b;
+}
+
+.card-class.unlocked-drag {
+    cursor: grab !important;
+    border: 2px dashed #002147 !important;
+    animation: card-pulse 1.5s infinite;
+}
+
+@keyframes card-pulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(0.97);
+    }
+}
+
+.card-code {
+    font-weight: 700;
+    color: var(--institutional-navy);
+    font-size: 12px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.card-meta {
+    font-size: 10px;
+    color: var(--text-muted);
+    line-height: 1.3;
+    margin-top: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.card-tags {
+    display: flex;
+    gap: 3px;
+    margin-bottom: 2px;
+}
+
+.tag-badge {
+    font-size: 9px;
+    font-weight: 700;
+    padding: 1px 4px;
+    border-radius: 2px;
+}
+
+.tag-lab {
+    background: var(--success-bg);
+    color: var(--success-emerald);
+}
+
+.tag-group {
+    background: #fed7aa;
+    color: #9a3412;
+}
+
+.tag-extra {
+    background: #e0e7ff;
+    color: #4338ca;
+}
+
+.tag-override {
+    background: #fef3c7;
+    color: #b45309;
+}
+
+/* ============================================================
+   MODALS & DIALOGS
+   ============================================================ */
+
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 15, 35, 0.6);
+    backdrop-filter: blur(2px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal-card {
+    background: #ffffff;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    width: 460px;
+    max-width: 92%;
+    box-shadow: var(--shadow-modal);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #f0f0f0;
+    padding-bottom: 10px;
+}
+
+.modal-header h3 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--institutional-navy);
+}
+
+.modal-body {
+    font-size: 13px;
+    color: var(--text-main);
+    line-height: 1.6;
+}
+
+.details-box {
+    background: #f8fafc;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-sm);
+    padding: 12px;
+    margin: 8px 0;
+}
+
+.btn-grid-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.btn-modal {
+    padding: 9px 14px;
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    font-weight: 600;
+    border: 1px solid transparent;
+    cursor: pointer;
+    text-align: left;
+    transition: background 0.15s ease, border-color 0.15s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-primary {
+    background: var(--institutional-navy);
+    color: #ffffff;
+    border-color: var(--institutional-navy);
+}
+
+.btn-primary:hover {
+    background: var(--institutional-navy-hover);
+}
+
+.btn-danger {
+    background: #fff;
+    color: var(--error-red);
+    border-color: var(--error-red);
+}
+
+.btn-danger:hover {
+    background: var(--error-bg);
+}
+
+.btn-danger-solid {
+    background: var(--error-red);
+    color: #ffffff;
+    border-color: var(--error-red);
+}
+
+.btn-danger-solid:hover {
+    background: #991b1b;
+}
+
+.btn-emerald {
+    background: #fff;
+    color: var(--success-emerald);
+    border-color: var(--success-emerald);
+}
+
+.btn-emerald:hover {
+    background: var(--success-bg);
+}
+
+.btn-secondary {
+    background: #f1f3f5;
+    color: var(--text-main);
+    border-color: var(--border-subtle);
+}
+
+.btn-secondary:hover {
+    background: #e9ecef;
+}
+
+/* ============================================================
+   INSTITUTIONAL FOOTER
+   ============================================================ */
+
+footer.institutional-footer {
+    background: #0f172a;
+    color: #e2e8f0;
+    border-top: 3px solid var(--nit-gold);
+    padding: 44px 0 24px 0;
+    margin-top: auto;
+}
+
+.footer-content {
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: 2.2fr 1fr 1fr;
+    gap: 40px;
+    align-items: flex-start;
+}
+
+.footer-col {
+    display: flex;
+    flex-direction: column;
+}
+
+.footer-brand-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 8px;
+}
+
+.footer-subtext {
+    font-size: 0.85rem;
+    color: #94a3b8;
+    line-height: 1.5;
+    margin: 0;
+}
+
+.footer-heading {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin: 0 0 14px 0;
+}
+
+.footer-link-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.footer-link-list a {
+    color: #94a3b8;
+    text-decoration: none;
+    font-size: 0.85rem;
+    transition: color 0.15s ease;
+}
+
+.footer-link-list a:hover {
+    color: var(--nit-gold);
+    text-decoration: underline;
+}
+
+/* Developers Column (Matches Screenshot) */
+.footer-dev-col {
+    align-items: flex-start;
+}
+
+.footer-dev-heading {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin: 0 0 14px 0;
+    letter-spacing: -0.01em;
+}
+
+.developer-names-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 18px;
+}
+
+.developer-name-item {
+    font-size: 0.85rem;
+    font-weight: 400;
+    color: #94a3b8;
+    line-height: 1.5;
+    letter-spacing: 0.01em;
+}
+
+/* Source Code Button (Matches Screenshot) */
+.source-code-wrapper {
+    margin-top: 4px;
+}
+
+.btn-source-code {
+    background: #27272a;
+    border: 1px solid #3f3f46;
+    border-radius: 8px;
+    padding: 8px 16px;
+    color: #f4f4f5;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.88rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.btn-source-code:hover {
+    background: #3f3f46;
+    border-color: #52525b;
+    color: #ffffff;
+    transform: translateY(-1px);
+}
+
+.github-icon {
+    flex-shrink: 0;
+}
+
+.footer-bottom-strip {
+    border-top: 1px solid #1e293b;
+    padding-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    font-size: 0.78rem;
+    color: #64748b;
+}
+
+.footer-bottom-legal {
+    color: #94a3b8;
+}
+
+/* ============================================================
+   RESPONSIVE DESIGN BREAKPOINTS
+   ============================================================ */
+
+/* 1. Large Desktop (>= 1440px) */
+@media (min-width: 1440px) {
+    :root {
+        --container-max: 1400px;
+    }
+}
+
+/* 2. Desktop (1200px - 1439px) */
+@media (max-width: 1439px) and (min-width: 1200px) {
+    :root {
+        --container-max: 1180px;
+    }
+}
+
+/* 3. Laptop (992px - 1199px) */
+@media (max-width: 1199px) {
+    :root {
+        --container-max: 100%;
+    }
+
+    main.studio-canvas {
+        padding: 0 16px;
+    }
+
+    .footer-grid {
+        gap: 28px;
+    }
+}
+
+/* 4. Tablet (768px - 991px) */
+@media (max-width: 991px) {
+    .header-top-tier {
+        padding: 10px 16px;
+    }
+
+    .header-top-content {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .nith-hindi-title {
+        font-size: 1rem;
+    }
+
+    .nith-english-title {
+        font-size: 1.15rem;
+    }
+
+    .nith-tagline {
+        font-size: 0.76rem;
+    }
+
+    .app-title-badge {
+        font-size: 0.92rem;
+        padding-left: 12px;
+    }
+
+    .header-nav-content {
+        padding: 0 16px;
+        height: 42px;
+    }
+
+    .nav-item {
+        font-size: 12px;
+        padding: 0 4px;
+    }
+
+    .toolbar-row-top {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .view-mode-tabs {
+        width: 100%;
+    }
+
+    .tab-btn {
+        flex: 1;
+        text-align: center;
+        padding: 8px 10px;
+    }
+
+    .toolbar-row-bottom {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 14px;
+    }
+
+    .toolbar-controls-left {
+        width: 100%;
+        justify-content: flex-start;
+    }
+
+    .toolbar-controls-right {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .footer-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 32px;
+    }
+
+    .footer-dev-col {
+        grid-column: span 2;
+    }
+}
+
+/* 5. Mobile (480px - 767px) */
+@media (max-width: 767px) {
+    .header-top-tier {
+        padding: 10px 12px;
+    }
+
+    .header-top-content {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .nith-brand-container {
+        gap: 12px;
+    }
+
+    .nith-logo-wrapper {
+        width: 52px;
+        height: 52px;
+    }
+
+    .nith-hindi-title {
+        font-size: 0.9rem;
+    }
+
+    .nith-english-title {
+        font-size: 1.05rem;
+    }
+
+    .nith-tagline {
+        font-size: 0.7rem;
+    }
+
+    .header-right-meta {
+        width: 100%;
+        border-top: 1px solid #f1f5f9;
+        padding-top: 6px;
+    }
+
+    .app-title-badge {
+        border-left: none;
+        padding-left: 0;
+        font-size: 0.88rem;
+    }
+
+    .header-nav-content {
+        padding: 0 12px;
+        height: 40px;
+    }
+
+    .nav-links {
+        gap: 12px;
+    }
+
+    .badge-status {
+        font-size: 10px;
+        padding: 2px 8px;
+    }
+
+    main.studio-canvas {
+        margin: 12px auto;
+        padding: 0 10px;
+        gap: 12px;
+    }
+
+    .toolbar-card {
+        padding: 12px;
+        gap: 12px;
+    }
+
+    .page-heading h1 {
+        font-size: 1.15rem;
+    }
+
+    .page-heading p {
+        font-size: 11px;
+    }
+
+    .toolbar-controls-left {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+    }
+
+    .control-field {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .control-label {
+        font-size: 12px;
+    }
+
+    select.form-control {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        flex: 1;
+        font-size: 13px;
+        padding: 8px 10px;
+    }
+
+    .schedule-mode-toggle {
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+    }
+
+    .schedule-mode-toggle::-webkit-scrollbar {
+        display: none;
+    }
+
+    .mode-btn {
+        flex: 1;
+        white-space: nowrap;
+        text-align: center;
+        padding: 8px 6px;
+        font-size: 11px;
+    }
+
+    .toolbar-controls-right {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+    }
+
+    .real-date-chip {
+        justify-content: center;
+        font-size: 11.5px;
+    }
+
+    .dev-sim-field {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .timetable-container {
+        border-radius: var(--radius-md);
+    }
+
+    .modal-card {
+        padding: 16px;
+        max-width: 95%;
+    }
+
+    .modal-header h3 {
+        font-size: 1.05rem;
+    }
+
+    .btn-modal {
+        padding: 10px 12px;
+        font-size: 12.5px;
+    }
+
+    .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 24px;
+    }
+
+    .footer-dev-col {
+        grid-column: span 1;
+    }
+
+    .footer-content {
+        padding: 0 16px;
+        gap: 20px;
+    }
+
+    .footer-bottom-strip {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+}
+
+/* 6. Small Mobile (< 480px) */
+@media (max-width: 479px) {
+    .nith-brand-container {
+        gap: 10px;
+    }
+
+    .nith-logo-wrapper {
+        width: 44px;
+        height: 44px;
+    }
+
+    .nith-hindi-title {
+        font-size: 0.82rem;
+    }
+
+    .nith-english-title {
+        font-size: 0.95rem;
+    }
+
+    .nith-tagline {
+        font-size: 0.65rem;
+    }
+
+    .tab-btn {
+        font-size: 11px;
+        padding: 6px 4px;
+    }
+
+    .mode-btn {
+        font-size: 10.5px;
+        padding: 7px 4px;
+    }
+
+    .drag-banner {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+        text-align: center;
+    }
+
+    .drag-banner button {
+        width: 100%;
+    }
+
+    .modal-card {
+        padding: 14px;
+        max-width: 96%;
+        gap: 12px;
+    }
+
+    .details-box {
+        padding: 10px;
+        font-size: 12px;
+    }
+}

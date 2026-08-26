@@ -1,16 +1,20 @@
 {
-  "name": "tt_proj",
+  "name": "tt_tracker",
   "version": "1.0.0",
-  "description": "",
+  "description": "Timetable Management & Conflict Tracking System",
   "license": "ISC",
   "author": "",
   "type": "commonjs",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server.js",
+    "seed": "node seed/seed.js",
+    "test": "node tests/workflowTestRunner.js"
   },
   "dependencies": {
     "dotenv": "^17.4.2",
-    "mongoose": "^9.9.3"
+    "express": "^5.2.1",
+    "mongoose": "^9.9.3",
+    "nodemon": "^3.1.14"
   }
 }
