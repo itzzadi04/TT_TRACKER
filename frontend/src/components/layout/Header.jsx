@@ -22,34 +22,38 @@ export default function Header({ workflowContext, currentMode }) {
 
   return (
     <header className="institutional-header">
-      {/* Top Tier: Official Identity (White) */}
+      {/* Top Tier: Official NIT Hamirpur Identity (Clean White) */}
       <div className="header-top-tier">
         <div className="header-top-content">
-          <div className="institutional-identity">
-            <div className="seal-wrapper">
+          <div className="nith-brand-container">
+            <div className="nith-logo-wrapper">
               {!imgError ? (
                 <img
-                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuBkUixFRNe-zKRoVyhpOGLA_d-Xqyt-6rD3Dt2LjtGn1g68IJavZUpwSposJly4Avi6vbsWxZmyGeEcNeTYuzIGKGWRn_9aWiW9FQoo7S9OP3600uhpJhZgQg3gUQGbFjhxkKfzFDYlgU80TrE3Mf4t-HWeWeB-UJrdD0vtl4uGwICxWilLI81vFdUHHGQXN7SELxLd79MVvu5twARZ9daDCqp4HzbIXVRwClEXLdQCg8XYdcJklwAV"
-                  alt="NIT Hamirpur Seal"
-                  className="seal-img"
+                  src="/assets/nith-logo.png"
+                  alt="National Institute of Technology Hamirpur"
+                  className="nith-logo-img"
                   onError={() => setImgError(true)}
                 />
               ) : (
-                <div className="seal-fallback">NITH</div>
+                <div className="nith-logo-fallback">NITH</div>
               )}
             </div>
-            <div className="identity-titles">
-              <span className="title-hindi">राष्ट्रीय प्रौद्योगिकी संस्थान हमीरपुर</span>
-              <span className="title-english">National Institute of Technology Hamirpur</span>
+            <div className="nith-titles-stack">
+              <span className="nith-hindi-title">राष्ट्रीय प्रौद्योगिकी संस्थान हमीरपुर</span>
+              <h1 className="nith-english-title">National Institute of Technology Hamirpur</h1>
+              <span className="nith-tagline">
+                An Institute of National Importance · Ministry of Education, Govt. of India
+              </span>
             </div>
           </div>
+
           <div className="header-right-meta">
             <span className="app-title-badge">Academic Timetable Studio</span>
           </div>
         </div>
       </div>
 
-      {/* Bottom Tier: Dark Navy Navigation */}
+      {/* Bottom Tier: Institutional Navy Navigation Bar */}
       <div className="header-nav-tier">
         <div className="header-nav-content">
           <nav className="nav-links">

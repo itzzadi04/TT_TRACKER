@@ -21,7 +21,7 @@
     --bg-header-light: #ffffff;
     --bg-cell-empty: #ffffff;
     --bg-cell-highlight: rgba(0, 33, 71, 0.04);
-    
+
     /* Typography & Layout */
     --font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     --container-max: 1320px;
@@ -76,9 +76,9 @@ header.institutional-header {
 }
 
 .header-top-tier {
-    background: var(--bg-header-light);
+    background: #ffffff;
     border-bottom: 1px solid var(--border-subtle);
-    padding: 10px 24px;
+    padding: 12px 24px;
 }
 
 .header-top-content {
@@ -87,35 +87,32 @@ header.institutional-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 16px;
 }
 
-.institutional-identity {
+.nith-brand-container {
     display: flex;
     align-items: center;
-    gap: 14px;
+    gap: 18px;
 }
 
-.seal-wrapper {
-    width: 52px;
-    height: 52px;
-    border-radius: 50%;
-    border: 1px solid var(--border-subtle);
-    padding: 2px;
-    background: #fff;
+.nith-logo-wrapper {
+    width: 68px;
+    height: 68px;
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow: hidden;
     flex-shrink: 0;
 }
 
-.seal-img {
+.nith-logo-img {
     width: 100%;
     height: 100%;
     object-fit: contain;
+    display: block;
 }
 
-.seal-fallback {
+.nith-logo-fallback {
     width: 100%;
     height: 100%;
     border-radius: 50%;
@@ -124,36 +121,50 @@ header.institutional-header {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-weight: 700;
-    font-size: 13px;
+    font-weight: 800;
+    font-size: 14px;
 }
 
-.identity-titles {
+.nith-titles-stack {
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    gap: 2px;
 }
 
-.title-hindi {
+.nith-hindi-title {
     font-size: 1.15rem;
-    font-weight: 700;
-    color: var(--institutional-navy);
+    font-weight: 600;
+    color: #1f2937;
     line-height: 1.25;
+    letter-spacing: -0.01em;
 }
 
-.title-english {
-    font-size: 0.85rem;
-    font-weight: 500;
-    color: var(--text-muted);
+.nith-english-title {
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: #000000;
+    line-height: 1.2;
+    margin: 0;
+    letter-spacing: -0.015em;
+}
+
+.nith-tagline {
+    font-size: 0.82rem;
+    font-weight: 400;
+    color: #475569;
+    line-height: 1.3;
 }
 
 .header-right-meta {
     display: flex;
     align-items: center;
     gap: 16px;
+    flex-shrink: 0;
 }
 
 .app-title-badge {
-    font-size: 1.15rem;
+    font-size: 1.05rem;
     font-weight: 700;
     color: var(--institutional-navy);
     border-left: 2px solid var(--border-subtle);
@@ -545,8 +556,15 @@ table.timetable-grid th {
 }
 
 @keyframes card-pulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(0.97); }
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(0.97);
+    }
 }
 
 .card-code {
@@ -732,10 +750,10 @@ table.timetable-grid th {
    ============================================================ */
 
 footer.institutional-footer {
-    background: var(--institutional-navy);
-    color: #ffffff;
-    border-top: 4px solid var(--nit-gold);
-    padding: 24px 0;
+    background: #0f172a;
+    color: #e2e8f0;
+    border-top: 3px solid var(--nit-gold);
+    padding: 44px 0 24px 0;
     margin-top: auto;
 }
 
@@ -745,61 +763,201 @@ footer.institutional-footer {
     padding: 0 24px;
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 28px;
 }
 
-.footer-top {
+.footer-grid {
+    display: grid;
+    grid-template-columns: 2.2fr 1fr 1fr;
+    gap: 40px;
+    align-items: flex-start;
+}
+
+.footer-col {
+    display: flex;
+    flex-direction: column;
+}
+
+.footer-brand-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 8px;
+}
+
+.footer-subtext {
+    font-size: 0.85rem;
+    color: #94a3b8;
+    line-height: 1.5;
+    margin: 0;
+}
+
+.footer-heading {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin: 0 0 14px 0;
+}
+
+.footer-link-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.footer-link-list a {
+    color: #94a3b8;
+    text-decoration: none;
+    font-size: 0.85rem;
+    transition: color 0.15s ease;
+}
+
+.footer-link-list a:hover {
+    color: var(--nit-gold);
+    text-decoration: underline;
+}
+
+/* Developers Column (Matches Screenshot) */
+.footer-dev-col {
+    align-items: flex-start;
+}
+
+.footer-dev-heading {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin: 0 0 14px 0;
+    letter-spacing: -0.01em;
+}
+
+.developer-names-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 18px;
+}
+
+.developer-name-item {
+    font-size: 0.85rem;
+    font-weight: 400;
+    color: #94a3b8;
+    line-height: 1.5;
+    letter-spacing: 0.01em;
+}
+
+/* Source Code Button (Matches Screenshot) */
+.source-code-wrapper {
+    margin-top: 4px;
+}
+
+.btn-source-code {
+    background: #27272a;
+    border: 1px solid #3f3f46;
+    border-radius: 8px;
+    padding: 8px 16px;
+    color: #f4f4f5;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.88rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.btn-source-code:hover {
+    background: #3f3f46;
+    border-color: #52525b;
+    color: #ffffff;
+    transform: translateY(-1px);
+}
+
+.github-icon {
+    flex-shrink: 0;
+}
+
+.footer-bottom-strip {
+    border-top: 1px solid #1e293b;
+    padding-top: 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
     gap: 12px;
+    font-size: 0.78rem;
+    color: #64748b;
 }
 
-.footer-brand {
-    font-size: 1rem;
-    font-weight: 700;
-    color: var(--nit-gold);
-}
-
-.footer-links {
-    display: flex;
-    gap: 18px;
-    flex-wrap: wrap;
-}
-
-.footer-links a {
-    color: rgba(255, 255, 255, 0.7);
-    text-decoration: underline;
-    font-size: 12px;
-    transition: color 0.15s ease;
-}
-
-.footer-links a:hover {
-    color: var(--nit-gold);
-}
-
-.footer-bottom {
-    font-size: 11px;
-    color: rgba(255, 255, 255, 0.6);
+.footer-bottom-legal {
+    color: #94a3b8;
 }
 
 /* ============================================================
    RESPONSIVE DESIGN BREAKPOINTS
    ============================================================ */
 
-@media (max-width: 900px) {
+@media (max-width: 960px) {
     .header-top-content {
         flex-direction: column;
         align-items: flex-start;
-        gap: 10px;
+        gap: 12px;
     }
+
     .app-title-badge {
         border-left: none;
         padding-left: 0;
+        font-size: 0.95rem;
     }
+
+    .footer-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 32px;
+    }
+
+    .footer-dev-col {
+        grid-column: span 2;
+    }
+
     .toolbar-row-top,
     .toolbar-row-bottom {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+@media (max-width: 640px) {
+    .nith-brand-container {
+        gap: 12px;
+    }
+
+    .nith-logo-wrapper {
+        width: 52px;
+        height: 52px;
+    }
+
+    .nith-hindi-title {
+        font-size: 0.95rem;
+    }
+
+    .nith-english-title {
+        font-size: 1.1rem;
+    }
+
+    .nith-tagline {
+        font-size: 0.72rem;
+    }
+
+    .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 28px;
+    }
+
+    .footer-dev-col {
+        grid-column: span 1;
+    }
+
+    .footer-bottom-strip {
         flex-direction: column;
         align-items: flex-start;
     }
