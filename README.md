@@ -1,126 +1,136 @@
-# TT_TRACKER — Academic Timetable Management & Conflict Studio
+# Academic Timetable Studio — NIT Hamirpur (TT_TRACKER)
 
-A robust, full-stack Academic Timetable Management and Conflict Tracking system with MongoDB as the single source of truth, featuring an **Effective Schedule Calculation Engine**, **Base Timetable Blueprint vs. Weekly Override Deltas**, **Date-Based Automatic Sunday Rollover**, **Multi-perspective Timetable Views** (Faculty-wise, Class/Section-wise, Room-wise), **Group-aware Laboratory Scheduling**, and **Interactive Drag-and-Drop with Intelligent Room Suggestions**.
+A full-stack, enterprise Academic Timetable Management & Conflict Resolution Studio engineered for the **National Institute of Technology Hamirpur (NIT Hamirpur)**. Built with an **In-Memory Registry & Conflict Resolution Engine**, MongoDB Atlas single source of truth, **Stitch Institutional Academic Design System**, **Effective Schedule Calculation Engine**, **Real Production Calendar (`Asia/Kolkata`)**, and **Group-Aware Laboratory Logic**.
 
 ---
 
-## 1. Core Architecture & Concept
+## 1. Clean Project Architecture & Structure
 
-TT_TRACKER separates the **Base Timetable (Permanent Blueprint)** from **Week-Specific Overrides (Deltas)**. It calculates the **Effective Schedule** on the fly without duplicating whole datasets:
-
+```text
+TT_TRACKER/
+├── public/                     # Static Client Files (Served by Express)
+│   ├── css/
+│   │   └── style.css           # Stitch Design System & Institutional Tokens
+│   ├── js/
+│   │   ├── api.js              # API Service Client
+│   │   ├── state.js            # Timetable State & Workflow Context Store
+│   │   ├── timetable.js        # Timetable Grid & Multi-Event Cell Renderer
+│   │   ├── modals.js           # Action, Cancel, Conflict & Room Modal Controllers
+│   │   └── app.js              # Main Client Application Orchestrator
+│   └── index.html              # Main HTML with Two-Tier Institutional Header
+│
+├── routes/
+│   └── timetableroutes.js      # Backend API Routes & FIFO Mutation Queue
+├── models/                     # Mongoose Schema Definitions
+│   ├── ClassSection.js
+│   ├── Faculty.js
+│   ├── Room.js
+│   ├── ScheduleOverride.js     # Weekly Deltas (RESCHEDULE, ADD_EXTRA, CANCEL)
+│   ├── Subject.js
+│   ├── Time.js
+│   └── TimetableSlot.js        # Permanent Base Blueprint (196 slots)
+│
+├── tracker/                    # Core Business & Timetable Logic Engine
+│   ├── Registry.js             # Multi-Week In-Memory Representation
+│   ├── ScheduleTracker.js      # Conflict Detection Engine
+│   ├── effectiveSchedule.js    # Base + Override Calculation
+│   ├── hydrate.js              # MongoDB to In-Memory Registry Sync
+│   └── weekUtils.js            # Timezone-Aware Academic Calendar Engine
+│
+├── seed/                       # Database Seed Baseline & Script
+│   ├── classSections.json
+│   ├── faculty.json
+│   ├── rooms.json
+│   ├── seed.js                 # Database Seeder
+│   ├── subjects.json
+│   ├── times.json
+│   └── timetableSlots.json
+│
+├── tests/                      # Automated Verification Matrix
+│   └── workflowTestRunner.js   # 61 Automated Assertions
+│
+├── server.js                   # Application Server Entrypoint (Port 3000)
+├── package.json
+├── .env.example
+├── .gitignore
+└── README.md
 ```
-                       ┌────────────────────────┐
-                       │     BASE TIMETABLE     │
-                       │ (TimetableSlot Model)  │
-                       └───────────┬────────────┘
-                                   │
-                ┌──────────────────┴──────────────────┐
-                ▼                                     ▼
-     ┌──────────────────────┐              ┌──────────────────────┐
-     │  PERMANENT MUTATIONS │              │   WEEKLY OVERRIDES   │
-     │   (Updates Base)     │              │  (ScheduleOverride)  │
-     └──────────────────────┘              └──────────┬───────────┘
-                                                      │
-                                           ┌──────────┴──────────┐
-                                           ▼                     ▼
-                                    CURRENT WEEK (W)     NEXT WEEK (W+1)
-                                           │                     │
-                                           └──────────┬──────────┘
-                                                      ▼
-                                           ┌──────────────────────┐
-                                           │  EFFECTIVE SCHEDULE  │
-                                           │  CALCULATION ENGINE  │
-                                           └──────────┬───────────┘
-                                                      ▼
-                                           ┌──────────────────────┐
-                                           │  IN-MEMORY REGISTRY  │
-                                           │  & CONFLICT ENGINE   │
-                                           └──────────┬───────────┘
-                                                      ▼
-                                           ┌──────────────────────┐
-                                           │  REST API & FRONTEND │
-                                           │ (Class, Faculty, Room│
-                                           │  Permanent/Curr/Next)│
-                                           └──────────────────────┘
-```
-
-$$\text{Effective Schedule} = \text{Base} + \text{Permanent Mutations} - \text{Weekly Cancellations} - \text{Weekly Reschedules (Old)} + \text{Weekly Reschedules (New)} + \text{Weekly Extra Classes}$$
 
 ---
 
-## 2. Key Capabilities & Features
+## 2. Institutional Design System (Stitch Framework)
 
-1. **Base / Permanent Timetable**:
-   - Stores the recurring template of 196 lecture and lab sessions.
-   - Accessible via the **Permanent / Base** view mode for any Section, Faculty, or Room.
-2. **Permanent Changes**:
-   - Choosing **"Make Permanent"** directly updates the Base Timetable in MongoDB.
-   - Immediately reflects across Base, Current Week, Next Week, and all future weeks.
-3. **Week-Specific Overrides**:
-   - Choosing **"Save for this week only"** creates a lightweight `ScheduleOverride` delta in MongoDB.
-   - The Base Timetable remains completely untouched.
-4. **Weekly Rollover (Sunday Midnight)**:
-   - Calendar date-driven ($W \rightarrow \text{Past}$, $W+1 \rightarrow \text{Current}$, $W+2 \rightarrow \text{New Next Week}$).
-   - Future weeks automatically generate clean schedules from the Base Timetable without inheriting temporary overrides.
-5. **Group-Aware Laboratory Logic**:
-   - Understands parallel lab groups ($G_1$ in `P4` and $G_2$ in `B1`) attending different rooms simultaneously without false conflicts.
-   - Recognizes shared laboratory sessions (`sessionId`) taking place in the same room.
-6. **Room Availability & Reassignment**:
-   - On room conflict during drag-and-drop or reschedule, the API returns `availableRooms` that are free at that day and time.
-   - Frontend displays an interactive **Room Reassignment Dialog** allowing one-click room substitution.
-7. **Three Synchronized Perspectives**:
-   - **Class/Section-wise**: View by semester/section (e.g. `Y3_S5_CS`).
-   - **Faculty-wise**: View by professor (e.g. `AKM`).
-   - **Room-wise**: View by classroom or lab (e.g. `F4`, `P4`).
-8. **Interactive Visual Drag-and-Drop**:
-   - Drag lecture cards directly between grid slots with backend-enforced conflict checking.
+- **Two-Tier Institutional Header**:
+  - **Top Tier (White)**: NIT Hamirpur seal, bilingual typography (*"राष्ट्रीय प्रौद्योगिकी संस्थान हमीरपुर / National Institute of Technology Hamirpur"*), and *"Academic Timetable Studio"* subtitle.
+  - **Bottom Tier (Dark Institutional Navy `#002147`)**: Gold accent (`#D4AF37`) for active tab, navigation links (*Home, Timetable, Faculty, Sections, Rooms, Guidelines*), and active week status badge.
+- **Timetable Grid Aesthetics**:
+  - Spreadsheet-like clarity with subtle `#E0E0E0` borders and sticky day headers.
+  - **Lectures**: Crisp white cards with 3px Institutional Navy top border.
+  - **Labs**: Emerald Green top border (`#008543`), emerald `LAB` badges, and distinct group tags (`G1`, `G2`).
+  - **Scheduled / Rescheduled**: Distinguishable visual badges (`SCHEDULED`, `RESCHEDULED`).
+  - **Multi-Group Simultaneous Stacking**: Full parallel side-by-side rendering inside `.cell-content-stack`.
 
 ---
 
-## 3. Database Models
+## 3. Core Business & Scheduling Rules
 
-| Model | Schema File | Purpose |
-|---|---|---|
-| **Faculty** | `models/Faculty.js` | Teacher entity (`facultyId`, `name`) |
-| **ClassSection** | `models/ClassSection.js` | Academic section (`sectionId`, `year`, `semester`, `section`) |
-| **Subject** | `models/Subject.js` | Course entity (`subjectCode`, `name`) |
-| **Room** | `models/Room.js` | Physical room/lab (`roomNo`, `building`, `labOrClass`) |
-| **Time** | `models/Time.js` | Normalized time slot (`day`, `starting`, `ending`) |
-| **TimetableSlot** | `models/TimetableSlot.js` | Permanent Base Timetable slot (196 items) |
-| **ScheduleOverride** | `models/ScheduleOverride.js` | Week-specific delta (`weekKey`, `action`, `originalSlot`, `time`, `room`, etc.) |
+1. **Effective Schedule Formula**:
+   $$\text{Effective Schedule} = \text{Base} + \text{Permanent Mutations} - \text{Weekly Cancellations} - \text{Weekly Reschedules (Old)} + \text{Weekly Reschedules (New)} + \text{Weekly Extra Classes}$$
+2. **Calendar & Permissions (`Asia/Kolkata`)**:
+   - **Mon–Fri (Weekdays)**: Current Week is **EDITABLE**; Next Week is **READ-ONLY**; Current Week can schedule extra classes for Next Week.
+   - **Sat–Sun (Weekends)**: Current Week is **READ-ONLY**; Next Week is **EDITABLE**.
+   - **Monday Rollover**: Advances Next Week ($W+1$) into Current Week ($W$), generating a pristine future week ($W+2$).
+3. **Lab vs. Normal Class Conflict Protection**:
+   - Whole-section lectures can **never** overlap existing lab sessions ($G_1$ or $G_2$), even if the target room is vacant.
+   - False-positive "Available Rooms" prompts are strictly suppressed on lab and section conflicts.
+4. **Active Timetable Scoping**:
+   - The active working timetable determines target week automatically. Cancellation dialog requires confirmation without asking for week context again.
 
 ---
 
 ## 4. REST API Reference
 
-| Method | Endpoint | Query / Body Params | Description |
-|---|---|---|---|
-| `GET` | `/api/timetable/grid` | `type` (FACULTY/SECTION/ROOM), `id`, `week` (base/current/next/`YYYY-Www`) | Returns 6-day matrix for entity and week |
-| `GET` | `/api/timetable/entities` | — | Returns lists of all faculties, sections, rooms |
-| `GET` | `/api/timetable/base` | — | Returns raw Base Timetable slots |
-| `GET` | `/api/rooms/available` | `week`, `day`, `start`, `end` | Returns array of free rooms at given time |
-| `POST` | `/api/timetable/move-or-add` | `{ actionType, originalSlot, targetSlot, week, scope }` | Moves or duplicates slot (`scope: 'WEEK'` or `'PERMANENT'`) |
-| `POST` | `/api/timetable/cancel` | `{ slot, week, scope }` | Cancels slot (`scope: 'WEEK'` or `'PERMANENT'`) |
-| `POST` | `/api/timetable/rollover` | — | Triggers weekly rollover and re-hydrates |
-| `GET` | `/api/timetable/conflicts` | `facultyId`, `roomNo`, `sectionId`, `day`, `start`, `end`, `week`, `sessionId` | Checks slot availability |
+| Method | Endpoint | Description |
+|---|---|---|
+| `GET` | `/api/timetable/workflow-context` | Timezone-aware calendar state, ISO week keys, and edit permissions |
+| `GET` | `/api/timetable/entities` | Lists all faculties, class sections, and rooms |
+| `GET` | `/api/timetable/grid` | Returns 6-day matrix (`type=FACULTY\|SECTION\|ROOM`, `id=...`, `week=current\|next\|base`) |
+| `GET` | `/api/timetable/rooms/available` | Vacant rooms query (`day`, `start`, `end`, `week`) |
+| `POST` | `/api/timetable/validate-drop` | Post-drop pre-write validation guard |
+| `POST` | `/api/timetable/move-or-add` | Commits reschedule or extra class placement |
+| `POST` | `/api/timetable/cancel` | Cancels class from active week or base blueprint |
+| `POST` | `/api/timetable/rollover` | Triggers weekly rollover |
 
 ---
 
-## 5. Running and Testing
+## 5. Installation & Execution
 
-### Start Server
+### 1. Install Dependencies
 ```bash
-npm start
+npm install
 ```
-*Server runs at `http://localhost:3000`.*
 
-### Seed Database
+### 2. Environment Configuration
+Create a `.env` file in project root:
+```env
+PORT=3000
+MONGO_URI=mongodb+srv://<username>:<password>@cluster0.mongodb.net/TT_TRACKER?retryWrites=true&w=majority
+TZ=Asia/Kolkata
+DEV_MODE=false
+```
+
+### 3. Seed Database
 ```bash
 npm run seed
 ```
 
-### Run Comprehensive Automated Tests
+### 4. Run Automated Test Suite (61 Tests)
 ```bash
 npm test
 ```
-*Executes all 44 automated verification checks.*
+
+### 5. Start Application Server
+```bash
+npm start
+```
+Open **`http://localhost:3000`** in your browser.

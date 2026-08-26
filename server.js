@@ -9,13 +9,24 @@ const { hydrate } = require('./tracker/hydrate');
 const app = express();
 app.use(express.json());
 
-// Serve static frontend files (public directory and root fallback)
+// Serve static frontend files (React dist, public directory, root)
+app.use(express.static(path.join(__dirname, 'frontend/dist')));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname)));
 
 // Mount API routes (supports both /api/timetable and /api)
 app.use('/api/timetable', timetableRoutes);
 app.use('/api', timetableRoutes);
+
+// Fallback for SPA routing
+app.use((req, res, next) => {
+    if (req.method === 'GET' && !req.path.startsWith('/api')) {
+        return res.sendFile(path.join(__dirname, 'frontend/dist/index.html'), (err) => {
+            if (err) res.sendFile(path.join(__dirname, 'public/index.html'));
+        });
+    }
+    next();
+});
 
 const PORT = process.env.PORT || 3000;
 const MONGO_URI = process.env.MONGO_URI;

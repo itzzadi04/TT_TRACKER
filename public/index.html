@@ -3,853 +3,259 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Academic Timetable & Conflict Studio</title>
-    <style>
-        :root {
-            --bg-body: #090d16;
-            --bg-card: #111827;
-            --bg-header: #1f2937;
-            --border: #374151;
-            --text-main: #f3f4f6;
-            --text-muted: #9ca3af;
-            --accent: #3b82f6;
-            --accent-hover: #2563eb;
-            --danger: #ef4444;
-            --danger-hover: #dc2626;
-            --success: #10b981;
-            --warning: #f59e0b;
-            --purple: #8b5cf6;
-        }
-
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-        body { background: var(--bg-body); color: var(--text-main); padding: 16px; display: flex; flex-direction: column; gap: 12px; min-height: 100vh; }
-
-        header {
-            display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;
-            background: var(--bg-card); padding: 12px 18px; border-radius: 8px; border: 1px solid var(--border);
-        }
-
-        .header-title { display: flex; align-items: center; gap: 10px; }
-        .header-title h2 { font-size: 1.2rem; font-weight: 700; }
-        .badge { font-size: 11px; padding: 3px 8px; border-radius: 4px; font-weight: 600; }
-        .badge-editable { background: #065f46; color: #6ee7b7; border: 1px solid #059669; }
-        .badge-readonly { background: #450a0a; color: #fca5a5; border: 1px solid #991b1b; }
-        .badge-base { background: #701a75; color: #f5d0fe; }
-
-        .controls { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
-        .control-group { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--text-muted); }
-        select, button {
-            background: var(--bg-header); color: var(--text-main); border: 1px solid var(--border);
-            padding: 7px 12px; border-radius: 6px; font-size: 13px; outline: none; cursor: pointer;
-        }
-        select:focus { border-color: var(--accent); }
-        button.primary { background: var(--accent); border-color: var(--accent); font-weight: 600; color: #fff; }
-        button.primary:hover { background: var(--accent-hover); }
-        button.danger { background: var(--danger); border-color: var(--danger); font-weight: 600; color: #fff; }
-        button.purple { background: var(--purple); border-color: var(--purple); font-weight: 600; color: #fff; }
-        button.emerald { background: #059669; border-color: #059669; font-weight: 600; color: #fff; }
-        
-        .mode-toggle {
-            display: flex; background: #0f172a; border: 1px solid var(--border); border-radius: 6px; overflow: hidden;
-        }
-        .mode-btn {
-            background: transparent; border: none; border-radius: 0; padding: 6px 12px; font-size: 12px; font-weight: 600; color: var(--text-muted);
-        }
-        .mode-btn.active {
-            background: var(--accent); color: #fff;
-        }
-        .mode-btn.active-base {
-            background: #a21caf !important; color: #fff !important;
-        }
-
-        .workflow-banner {
-            display: flex; justify-content: space-between; align-items: center; padding: 8px 14px;
-            border-radius: 6px; font-size: 12px; background: #111827; border: 1px solid var(--border);
-        }
-
-        .banner-bar {
-            display: none; background: #1e3a8a; border: 1px solid var(--accent);
-            color: #dbeafe; padding: 10px 16px; border-radius: 6px; font-size: 13px;
-            justify-content: space-between; align-items: center;
-        }
-
-        .alert-toast {
-            display: none; background: #450a0a; border: 1px solid var(--danger);
-            color: #fca5a5; padding: 12px 18px; border-radius: 6px; font-size: 13px; line-height: 1.5;
-        }
-        .success-toast {
-            display: none; background: #064e3b; border: 1px solid var(--success);
-            color: #6ee7b7; padding: 10px 16px; border-radius: 6px; font-size: 13px;
-        }
-
-        .grid-container {
-            overflow-x: auto; background: var(--bg-card); border-radius: 8px;
-            border: 1px solid var(--border); padding: 12px;
-        }
-
-        table { width: 100%; border-collapse: collapse; table-layout: fixed; min-width: 900px; }
-        th, td { border: 1px solid var(--border); padding: 4px; text-align: center; font-size: 12px; vertical-align: top; }
-        th { background: var(--bg-header); padding: 8px; font-weight: 600; color: #e5e7eb; }
-        .day-col { width: 90px; font-weight: 700; background: #1a2234; vertical-align: middle; }
-
-        .cell-slot { min-height: 84px; height: 84px; background: #0b1120; transition: background 0.15s, border-color 0.15s; position: relative; padding: 3px; }
-        .cell-slot.target-active { border: 1px dashed var(--accent) !important; cursor: pointer; background: rgba(59, 130, 246, 0.05); }
-        .cell-slot.drag-over { background: rgba(59, 130, 246, 0.3) !important; border: 2px dashed #93c5fd !important; }
-
-        .cell-content-stack {
-            display: flex; flex-direction: column; gap: 4px; width: 100%; height: 100%;
-        }
-
-        /* Clean Class Card - NO action labels on normal cards */
-        .card-class {
-            background: #1e3a8a; border: 1px solid var(--accent); border-radius: 5px;
-            padding: 5px 7px; font-size: 11px; text-align: left; user-select: none;
-            cursor: pointer; display: flex; flex-direction: column; gap: 2px; transition: transform 0.1s, box-shadow 0.1s;
-        }
-        .card-class:hover { transform: translateY(-1px); box-shadow: 0 4px 6px -1px rgba(0,0,0,0.3); }
-
-        .card-class.is-lab {
-            background: #064e3b; border-color: var(--success);
-        }
-        .card-class.is-extra {
-            background: #1e1b4b !important; border: 1px solid #818cf8 !important; box-shadow: 0 0 6px rgba(129, 140, 248, 0.4);
-        }
-        .card-class.is-override {
-            border: 1px dashed #f59e0b !important;
-        }
-
-        .card-class.unlocked-drag {
-            cursor: grab !important; border: 2px dashed #93c5fd !important;
-            animation: pulse 1.5s infinite;
-        }
-        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(0.98); } }
-
-        .tag-lab { background: #065f46; color: #6ee7b7; padding: 1px 4px; border-radius: 3px; font-size: 9px; font-weight: 700; }
-        .tag-group { background: #7c2d12; color: #fed7aa; padding: 1px 4px; border-radius: 3px; font-size: 9px; font-weight: 700; }
-        .tag-extra { background: #4338ca; color: #e0e7ff; padding: 1px 4px; border-radius: 3px; font-size: 9px; font-weight: 700; }
-        .tag-override { background: #78350f; color: #fcd34d; padding: 1px 4px; border-radius: 3px; font-size: 9px; font-weight: 700; }
-
-        /* Modal */
-        .modal-overlay {
-            display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.75);
-            align-items: center; justify-content: center; z-index: 1000;
-        }
-        .modal {
-            background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px;
-            padding: 20px; width: 480px; max-width: 94%; display: flex; flex-direction: column; gap: 14px;
-        }
-        .btn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .btn-grid-3 { display: grid; grid-template-columns: 1fr; gap: 8px; }
-        .btn-grid button, .btn-grid-3 button { padding: 10px; text-align: left; }
-    </style>
+    <title>Academic Timetable Studio — NIT Hamirpur</title>
+    
+    <!-- Typography & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    
+    <!-- Institutional Style System -->
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
 
-<header>
-    <div class="header-title">
-        <h2>Academic Timetable Studio</h2>
-        <span class="badge badge-editable" id="activeStatusBadge">CURRENT WEEK • EDITABLE</span>
-    </div>
-    
-    <div class="controls">
-        <!-- Real Production Date Display (Asia/Kolkata) -->
-        <div class="control-group" id="realDateDisplay">
-            <span>Today:</span>
-            <strong id="todayText" style="color: #60a5fa; font-size: 13px;">Loading date...</strong>
-        </div>
-
-        <!-- Development Simulation Dropdown (Rendered ONLY when devMode is active) -->
-        <div class="control-group" id="devSimulatedDayGroup" style="display: none;">
-            <span style="color: #f59e0b; font-weight:600;">[DEV] Simulated Day:</span>
-            <select id="simulatedDaySelect" onchange="updateWorkflowContext()">
-                <option value="">-- Use Real Date --</option>
-                <option value="Wednesday">Wednesday (Mon-Fri: Current Week Editable)</option>
-                <option value="Saturday">Saturday (Sat-Sun: Next Week Editable)</option>
-                <option value="Sunday">Sunday (Sat-Sun: Next Week Editable)</option>
-                <option value="Monday">Monday (Mon-Fri: Current Week Editable)</option>
-                <option value="Friday">Friday (Mon-Fri: Current Week Editable)</option>
-            </select>
-        </div>
-
-        <div class="control-group">
-            <span>Schedule Mode:</span>
-            <div class="mode-toggle">
-                <button type="button" class="mode-btn active" id="btnModeCurrent" onclick="switchScheduleMode('current')">Current Week</button>
-                <button type="button" class="mode-btn" id="btnModeNext" onclick="switchScheduleMode('next')">Next Week</button>
-                <button type="button" class="mode-btn" id="btnModeBase" onclick="switchScheduleMode('base')">Base Timetable</button>
+    <!-- ============================================================
+         TOP APP BAR / TWO-TIER INSTITUTIONAL HEADER
+         ============================================================ -->
+    <header class="institutional-header">
+        <!-- Top Tier: Official Identity (White) -->
+        <div class="header-top-tier">
+            <div class="header-top-content">
+                <div class="institutional-identity">
+                    <div class="seal-wrapper">
+                        <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuBkUixFRNe-zKRoVyhpOGLA_d-Xqyt-6rD3Dt2LjtGn1g68IJavZUpwSposJly4Avi6vbsWxZmyGeEcNeTYuzIGKGWRn_9aWiW9FQoo7S9OP3600uhpJhZgQg3gUQGbFjhxkKfzFDYlgU80TrE3Mf4t-HWeWeB-UJrdD0vtl4uGwICxWilLI81vFdUHHGQXN7SELxLd79MVvu5twARZ9daDCqp4HzbIXVRwClEXLdQCg8XYdcJklwAV"
+                             alt="NIT Hamirpur Seal"
+                             class="seal-img"
+                             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="seal-fallback" style="display:none;">NITH</div>
+                    </div>
+                    <div class="identity-titles">
+                        <span class="title-hindi">राष्ट्रीय प्रौद्योगिकी संस्थान हमीरपुर</span>
+                        <span class="title-english">National Institute of Technology Hamirpur</span>
+                    </div>
+                </div>
+                <div class="header-right-meta">
+                    <span class="app-title-badge">Academic Timetable Studio</span>
+                </div>
             </div>
         </div>
 
-        <div class="control-group">
-            <label for="viewType">View:</label>
-            <select id="viewType">
-                <option value="FACULTY">Faculty-wise</option>
-                <option value="SECTION">Class/Section-wise</option>
-                <option value="ROOM">Room-wise</option>
-            </select>
-        </div>
-
-        <div class="control-group">
-            <label for="entitySelect">Select Entity:</label>
-            <select id="entitySelect" style="min-width: 160px;"></select>
-        </div>
-    </div>
-</header>
-
-<div id="workflowBanner" class="workflow-banner">
-    <span id="workflowDescText">Loading workflow context...</span>
-    <span id="workflowWeekKeyText" style="color:var(--text-muted);"></span>
-</div>
-
-<div id="alertToast" class="alert-toast"></div>
-<div id="successToast" class="success-toast"></div>
-
-<div id="bannerBar" class="banner-bar">
-    <span id="bannerText"></span>
-    <button id="cancelActionBtn" class="danger">Cancel Drag Mode</button>
-</div>
-
-<div class="grid-container">
-    <table>
-        <thead><tr id="tableHeader"></tr></thead>
-        <tbody id="tableBody"></tbody>
-    </table>
-</div>
-
-<!-- Primary Class Action Modal (Direct, Context-Aware Actions) -->
-<div id="modalOverlay" class="modal-overlay">
-    <div class="modal">
-        <h3 id="modalTitle">Manage Class</h3>
-        <div id="modalBody" style="font-size: 13px; color: var(--text-muted); line-height: 1.6;"></div>
-
-        <!-- Context-Aware Actions -->
-        <div id="modalActions" class="btn-grid-3"></div>
-
-        <button id="btnCloseModal">Dismiss</button>
-    </div>
-</div>
-
-<!-- Cancel Confirmation Modal (Explicit User Confirmation Before Cancellation) -->
-<div id="confirmCancelModalOverlay" class="modal-overlay">
-    <div class="modal" style="max-width: 440px;">
-        <h3 style="color: #fca5a5; display: flex; align-items: center; gap: 8px;">
-            <span>🗑️</span> Cancel Class?
-        </h3>
-        <p style="font-size: 14px; margin-top: 8px; color: #e5e7eb;">
-            Are you sure you want to cancel this class?
-        </p>
-
-        <div id="confirmCancelDetails" style="background: #1f2937; border: 1px solid var(--border); border-radius: 6px; padding: 12px; margin: 12px 0; font-size: 13px; line-height: 1.6; color: var(--text-main);">
-            <!-- Details populated dynamically -->
-        </div>
-
-        <p id="confirmCancelScopeNote" style="font-size: 12px; color: #93c5fd; margin-bottom: 16px;">
-            This will cancel the class from the currently active timetable.
-        </p>
-
-        <div class="btn-grid">
-            <button id="btnKeepClass" style="background: #374151; border-color: #4b5563; color: #fff; font-weight: 600;">NO, KEEP CLASS</button>
-            <button id="btnConfirmCancel" class="danger">YES, CANCEL CLASS</button>
-        </div>
-    </div>
-</div>
-
-<!-- Validation Confirmation Modal (Shown ONLY AFTER DROP) -->
-<div id="confirmDropModalOverlay" class="modal-overlay">
-    <div class="modal">
-        <h3 id="confirmDropTitle" style="color: #6ee7b7;">✔ Slot is Available!</h3>
-        <p id="confirmDropDesc" style="font-size: 13px; color: var(--text-muted); line-height: 1.5;"></p>
-        
-        <div class="btn-grid">
-            <button id="btnApplyDrop" class="primary" style="background:#059669; border-color:#059669;">🚀 CONFIRM & APPLY</button>
-            <button id="btnCancelDrop">Cancel</button>
-        </div>
-    </div>
-</div>
-
-<!-- Room Conflict Reassignment Dialog -->
-<div id="roomConflictModalOverlay" class="modal-overlay">
-    <div class="modal">
-        <h3 style="color: #fca5a5;">⚠️ Room Conflict</h3>
-        <p id="roomConflictMsg" style="font-size: 13px; color: #fca5a5; line-height: 1.5;"></p>
-        
-        <div style="display: flex; flex-direction: column; gap: 6px; margin: 10px 0;">
-            <label style="font-size: 13px; font-weight: 600;">Available Vacant Rooms at target time:</label>
-            <select id="availableRoomsSelect" style="padding: 8px; font-size: 13px;"></select>
-        </div>
-
-        <div class="btn-grid">
-            <button id="btnApplyReassignedRoom" class="primary">🔄 REASSIGN ROOM & APPLY</button>
-            <button id="btnDismissRoomConflict">Dismiss</button>
-        </div>
-    </div>
-</div>
-
-<script>
-    let currentScheduleMode = 'current'; // 'current' | 'next' | 'base'
-    let selectedSlot = null;
-    let slotToCancel = null;
-    let isDragMode = false;
-    let draggedSlotData = null;
-    let pendingPlacement = null;
-    let activeActionType = 'RESCHEDULE'; // 'RESCHEDULE' | 'ADD_EXTRA'
-    let activeScope = 'CURRENT_WEEK';
-    let workflowContext = {
-        isWeekend: false,
-        dayName: 'Wednesday',
-        todayFormatted: '',
-        currentWeekEditable: true,
-        nextWeekEditable: false,
-        currentWeekKey: '',
-        nextWeekKey: '',
-        devMode: false
-    };
-
-    const API = {
-        getContext: (simDay) => fetch(`/api/timetable/workflow-context?simulatedDay=${encodeURIComponent(simDay || '')}`).then(r => r.json()),
-        getEntities: () => fetch('/api/timetable/entities').then(r => r.json()),
-        getGrid: (type, id, week) => fetch(`/api/timetable/grid?type=${type}&id=${encodeURIComponent(id)}&week=${week}`).then(r => r.json()),
-        cancelSlot: (slot, week) => fetch('/api/timetable/cancel', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ slot, week })
-        }).then(r => r.json()),
-        validateDrop: (actionType, originalSlot, targetSlot, week, scope) => fetch('/api/timetable/validate-drop', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ actionType, originalSlot, targetSlot, week, scope })
-        }).then(r => r.json()),
-        moveOrAdd: (actionType, originalSlot, targetSlot, week, scope) => fetch('/api/timetable/move-or-add', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ actionType, originalSlot, targetSlot, week, scope })
-        }).then(r => r.json())
-    };
-
-    async function updateWorkflowContext() {
-        const simSelect = document.getElementById('simulatedDaySelect');
-        const simDay = (simSelect && workflowContext.devMode) ? simSelect.value : '';
-        const res = await API.getContext(simDay);
-        if (res.success) {
-            workflowContext = res;
-            updateStatusUI();
-            fetchGrid();
-        }
-    }
-
-    function updateStatusUI() {
-        const badge = document.getElementById('activeStatusBadge');
-        const descText = document.getElementById('workflowDescText');
-        const weekKeyText = document.getElementById('workflowWeekKeyText');
-        const todayText = document.getElementById('todayText');
-        const devGroup = document.getElementById('devSimulatedDayGroup');
-        const btnCurr = document.getElementById('btnModeCurrent');
-        const btnNext = document.getElementById('btnModeNext');
-
-        // Display real calendar date
-        todayText.innerText = workflowContext.todayFormatted || `${workflowContext.dayName}`;
-
-        // Toggle Dev simulation dropdown only in devMode
-        if (workflowContext.devMode) {
-            devGroup.style.display = 'flex';
-        } else {
-            devGroup.style.display = 'none';
-        }
-
-        // Dynamic week button labels
-        const currRangeLabel = workflowContext.currentWeekFormatted ? ` (${workflowContext.currentWeekFormatted})` : '';
-        const nextRangeLabel = workflowContext.nextWeekFormatted ? ` (${workflowContext.nextWeekFormatted})` : '';
-        btnCurr.innerText = `Current Week${currRangeLabel}`;
-        btnNext.innerText = `Next Week${nextRangeLabel}`;
-
-        if (currentScheduleMode === 'base') {
-            badge.className = 'badge badge-base';
-            badge.innerText = 'BASE TIMETABLE • PERMANENT BLUEPRINT';
-            descText.innerHTML = `<strong>Base Timetable Mode:</strong> Changes here permanently alter the core schedule blueprint.`;
-            weekKeyText.innerText = `Blueprint Mode`;
-        } else if (currentScheduleMode === 'current') {
-            if (workflowContext.isWeekend) {
-                badge.className = 'badge badge-readonly';
-                badge.innerText = `CURRENT WEEK (${workflowContext.currentWeekKey}) • READ-ONLY`;
-                descText.innerHTML = `<strong>${workflowContext.dayName} (Weekend):</strong> Current teaching week is completed. Current Week is Read-Only.`;
-            } else {
-                badge.className = 'badge badge-editable';
-                badge.innerText = `CURRENT WEEK (${workflowContext.currentWeekKey}) • EDITABLE`;
-                descText.innerHTML = `<strong>${workflowContext.dayName} (Weekday):</strong> Current Week (${workflowContext.currentWeekFormatted}) is active and editable. You can reschedule/cancel classes or schedule extra classes for Next Week.`;
-            }
-            weekKeyText.innerText = `Active Week: ${workflowContext.currentWeekKey} [${workflowContext.currentWeekFormatted || ''}]`;
-        } else if (currentScheduleMode === 'next') {
-            if (workflowContext.isWeekend) {
-                badge.className = 'badge badge-editable';
-                badge.innerText = `NEXT WEEK (${workflowContext.nextWeekKey}) • EDITABLE`;
-                descText.innerHTML = `<strong>${workflowContext.dayName} (Weekend Preparation):</strong> Next Week (${workflowContext.nextWeekFormatted}) is active and editable. Reschedule, cancel, or add classes for the upcoming week.`;
-            } else {
-                badge.className = 'badge badge-readonly';
-                badge.innerText = `NEXT WEEK (${workflowContext.nextWeekKey}) • COMPLETE SCHEDULE`;
-                descText.innerHTML = `<strong>${workflowContext.dayName}:</strong> Next Week complete timetable view (${workflowContext.nextWeekFormatted}). Direct editing opens on Saturday. (Schedule extra classes from Current Week).`;
-            }
-            weekKeyText.innerText = `Upcoming Week: ${workflowContext.nextWeekKey} [${workflowContext.nextWeekFormatted || ''}]`;
-        }
-    }
-
-    function switchScheduleMode(mode) {
-        currentScheduleMode = mode;
-        const btnCurr = document.getElementById('btnModeCurrent');
-        const btnNext = document.getElementById('btnModeNext');
-        const btnBase = document.getElementById('btnModeBase');
-
-        btnCurr.className = 'mode-btn' + (mode === 'current' ? ' active' : '');
-        btnNext.className = 'mode-btn' + (mode === 'next' ? ' active' : '');
-        btnBase.className = 'mode-btn' + (mode === 'base' ? ' active-base' : '');
-
-        if (isDragMode) cancelDragMode();
-        updateStatusUI();
-        fetchGrid();
-    }
-
-    function showAlert(errors) {
-        const box = document.getElementById('alertToast');
-        const errList = Array.isArray(errors) ? errors : [errors];
-        box.innerHTML = `<strong>⚠️ Action Blocked / Conflict:</strong><br>` + errList.map(e => `• ${e}`).join('<br>');
-        box.style.display = 'block';
-        setTimeout(() => { box.style.display = 'none'; }, 8000);
-    }
-
-    function showSuccess(msg) {
-        const box = document.getElementById('successToast');
-        box.innerText = `✔ ${msg}`;
-        box.style.display = 'block';
-        setTimeout(() => { box.style.display = 'none'; }, 4000);
-    }
-
-    // Step 1: Open modal with Context-Driven Actions
-    function openModal(slot) {
-        if (isDragMode) return;
-        selectedSlot = slot;
-
-        const modalTitle = document.getElementById('modalTitle');
-        const modalBody = document.getElementById('modalBody');
-        const modalActions = document.getElementById('modalActions');
-
-        const groupText = slot.group ? `<br><strong>Group:</strong> ${slot.group}` : '';
-        const labTag = slot.isLab ? ' (Laboratory)' : ' (Lecture)';
-        const overrideText = slot.isOverride ? `<br><span class="tag-override">WEEKLY OVERRIDE (${slot.overrideAction})</span>` : '';
-
-        modalTitle.innerText = `${slot.subjectCode}${labTag}`;
-        modalBody.innerHTML = `
-            <strong>Subject:</strong> ${slot.subjectName || slot.subjectCode}<br>
-            <strong>Class/Section:</strong> ${slot.sectionId}<br>
-            <strong>Faculty:</strong> ${slot.facultyName || slot.facultyId}<br>
-            <strong>Room:</strong> ${slot.roomNo}${groupText}<br>
-            <strong>Day & Time:</strong> ${slot.day} ${slot.starting} - ${slot.ending}<br>
-            <strong>Active Timetable Context:</strong> ${currentScheduleMode.toUpperCase()}${overrideText}
-        `;
-
-        modalActions.innerHTML = '';
-
-        if (currentScheduleMode === 'current') {
-            if (workflowContext.isWeekend) {
-                // Current week is finished and Read-Only on weekends
-                modalActions.innerHTML = `
-                    <div style="color:#fca5a5; font-size:13px; line-height:1.5;">
-                        ⛔ Current Week is now READ-ONLY because the teaching week is finished.<br>
-                        Switch to <strong>Next Week</strong> to prepare and edit upcoming schedules.
-                    </div>
-                    <button class="primary" onclick="switchScheduleMode('next'); closeModal();">⏩ Switch to Next Week (Editable)</button>
-                `;
-            } else {
-                // Mon-Fri: Current Week is Editable
-                modalActions.innerHTML = `
-                    <button class="primary" onclick="startCurrentWeekReschedule()">🔄 1. RESCHEDULE (Move this class in Current Week)</button>
-                    <button class="danger" onclick="promptCancelConfirmation()">🗑️ 2. CANCEL (Cancel this occurrence in Current Week)</button>
-                    <button class="emerald" onclick="startScheduleForNextWeek()">➕ 3. SCHEDULE FOR NEXT WEEK (Add extra occurrence in Next Week)</button>
-                `;
-            }
-        } else if (currentScheduleMode === 'next') {
-            if (workflowContext.isWeekend) {
-                // Sat-Sun: Next Week is Editable
-                modalActions.innerHTML = `
-                    <button class="primary" onclick="startNextWeekReschedule()">🔄 1. RESCHEDULE (Move this class in Next Week)</button>
-                    <button class="danger" onclick="promptCancelConfirmation()">🗑️ 2. CANCEL (Cancel this occurrence in Next Week)</button>
-                    <button class="emerald" onclick="startNextWeekExtraSchedule()">➕ 3. SCHEDULE EXTRA CLASS (Add occurrence in Next Week)</button>
-                `;
-            } else {
-                // Mon-Fri: Next Week direct editing is not active, but faculty can view or schedule
-                modalActions.innerHTML = `
-                    <div style="color:#93c5fd; font-size:12px; line-height:1.4; margin-bottom:4px;">
-                        ℹ️ Direct editing of Next Week begins on Saturday.<br>
-                        You can schedule extra occurrences for Next Week from the Current Week view.
-                    </div>
-                    <button class="emerald" onclick="startNextWeekExtraSchedule()">➕ SCHEDULE EXTRA OCCURRENCE IN NEXT WEEK</button>
-                `;
-            }
-        } else if (currentScheduleMode === 'base') {
-            // Base Blueprint Mode
-            modalActions.innerHTML = `
-                <button class="purple" onclick="startBaseReschedule()">🔒 1. RESCHEDULE PERMANENTLY (Base Blueprint)</button>
-                <button class="danger" onclick="promptCancelConfirmation()">🗑️ 2. CANCEL PERMANENTLY (Base Blueprint)</button>
-            `;
-        }
-
-        document.getElementById('modalOverlay').style.display = 'flex';
-    }
-
-    function closeModal() {
-        document.getElementById('modalOverlay').style.display = 'none';
-        if (!isDragMode && !slotToCancel) selectedSlot = null;
-    }
-
-    // Step 2: Show Cancel Confirmation Modal (NO immediate cancellation)
-    function promptCancelConfirmation() {
-        if (!selectedSlot) return;
-        slotToCancel = selectedSlot;
-        closeModal();
-
-        const groupText = slotToCancel.group ? ` (Group ${slotToCancel.group})` : '';
-        const labText = slotToCancel.isLab ? ' [LAB]' : '';
-        const weekLabel = currentScheduleMode === 'base'
-            ? 'Base Timetable (Permanent Blueprint)'
-            : (currentScheduleMode === 'next' ? `Next Week Timetable (${workflowContext.nextWeekFormatted || workflowContext.nextWeekKey})` : `Current Week Timetable (${workflowContext.currentWeekFormatted || workflowContext.currentWeekKey})`);
-
-        document.getElementById('confirmCancelDetails').innerHTML = `
-            <div style="font-weight: 700; font-size: 15px; color: #fff; margin-bottom: 2px;">
-                ${slotToCancel.subjectCode}${labText}
+        <!-- Bottom Tier: Dark Navy Navigation -->
+        <div class="header-nav-tier">
+            <div class="header-nav-content">
+                <nav class="nav-links">
+                    <a href="#" class="nav-item">Home</a>
+                    <a href="#" class="nav-item active">Timetable</a>
+                    <a href="#" class="nav-item">Faculty</a>
+                    <a href="#" class="nav-item">Sections</a>
+                    <a href="#" class="nav-item">Rooms</a>
+                    <a href="#" class="nav-item">Guidelines</a>
+                </nav>
+                <div class="nav-user-actions">
+                    <span id="weekStatusBadge" class="badge-status badge-editable">CURRENT WEEK: EDITABLE</span>
+                </div>
             </div>
-            <div style="color: #cbd5e1;">${slotToCancel.sectionId}${groupText}</div>
-            <div style="color: #cbd5e1;">${slotToCancel.day} ${slotToCancel.starting}–${slotToCancel.ending}</div>
-            <div style="color: #94a3b8; font-size: 12px;">Room ${slotToCancel.roomNo} • Faculty: ${slotToCancel.facultyId}</div>
-        `;
+        </div>
+    </header>
 
-        document.getElementById('confirmCancelScopeNote').innerHTML = `
-            This will cancel the class from the <strong>${weekLabel}</strong>.
-        `;
+    <!-- ============================================================
+         MAIN CONTENT CANVAS & TOOLBAR
+         ============================================================ -->
+    <main class="studio-canvas">
 
-        document.getElementById('confirmCancelModalOverlay').style.display = 'flex';
-    }
+        <!-- Banner for Drag & Drop Reschedule Mode -->
+        <div id="dragModeBanner" class="drag-banner">
+            <span id="dragModeText">Reschedule Mode Active: Drag the highlighted class card or click any target time slot.</span>
+            <button id="btnCancelDragMode" class="btn-modal btn-danger" style="padding: 4px 10px; font-size: 11px;">✕ Cancel Reschedule</button>
+        </div>
 
-    function closeCancelConfirmationModal() {
-        document.getElementById('confirmCancelModalOverlay').style.display = 'none';
-        slotToCancel = null;
-    }
+        <!-- Toast Notifications -->
+        <div id="toastAlert" class="toast-box"></div>
 
-    // Step 3: User explicitly confirmed cancellation -> Call Backend API
-    async function executeConfirmedCancel() {
-        if (!slotToCancel) return;
-        const targetSlot = slotToCancel;
-        const targetWeek = currentScheduleMode;
-        closeCancelConfirmationModal();
+        <!-- Toolbar Card -->
+        <section class="toolbar-card">
+            <!-- Row 1: Heading & View Mode Selector -->
+            <div class="toolbar-row-top">
+                <div class="page-heading">
+                    <h1>ACADEMIC TIMETABLE</h1>
+                    <p>Official schedule orchestrator for faculty, sections, and lecture halls</p>
+                </div>
 
-        const res = await API.cancelSlot(targetSlot, targetWeek);
-        if (!res.success) {
-            showAlert([res.error || 'Cancellation failed']);
-        } else {
-            showSuccess(res.message || 'Class cancelled successfully.');
-        }
-        fetchGrid();
-    }
+                <div class="view-mode-tabs">
+                    <button class="tab-btn active" data-view="faculty">FACULTY</button>
+                    <button class="tab-btn" data-view="section">SECTION</button>
+                    <button class="tab-btn" data-view="room">ROOM</button>
+                </div>
+            </div>
 
-    // Event Listeners for Cancel Flow
-    document.getElementById('btnKeepClass').addEventListener('click', closeCancelConfirmationModal);
-    document.getElementById('btnConfirmCancel').addEventListener('click', executeConfirmedCancel);
+            <!-- Row 2: Entity Filter, Schedule Mode, Real Date, Dev Simulation -->
+            <div class="toolbar-row-bottom">
+                <!-- Entity Dropdown -->
+                <div class="control-field">
+                    <label id="entitySelectLabel" class="control-label" for="entitySelect">Select Faculty:</label>
+                    <select id="entitySelect" class="form-control"></select>
+                </div>
 
-    // Action Handlers
-    function startCurrentWeekReschedule() {
-        activeActionType = 'RESCHEDULE';
-        activeScope = 'CURRENT_WEEK';
-        startDragMode(`🔄 <strong>Drag & Drop Mode:</strong> Drag <strong>${selectedSlot.subjectCode}</strong> to reschedule in Current Week.`);
-    }
+                <!-- Schedule Mode Toggle -->
+                <div class="schedule-mode-toggle">
+                    <button id="btnModeCurrent" class="mode-btn active" data-mode="current">Current Week</button>
+                    <button id="btnModeNext" class="mode-btn" data-mode="next">Next Week</button>
+                    <button id="btnModeBase" class="mode-btn" data-mode="base">Base Timetable</button>
+                </div>
 
-    function startScheduleForNextWeek() {
-        activeActionType = 'ADD_EXTRA';
-        activeScope = 'NEXT_WEEK';
-        startDragMode(`➕ <strong>Drag & Drop Mode:</strong> Drag <strong>${selectedSlot.subjectCode}</strong> to schedule extra occurrence in Next Week.`);
-    }
+                <!-- Real Date Badge -->
+                <div class="real-date-chip">
+                    <span class="material-symbols-outlined" style="font-size: 16px;">calendar_month</span>
+                    <span>Today: <strong id="realDateDisplay">Loading...</strong></span>
+                </div>
 
-    function startNextWeekReschedule() {
-        activeActionType = 'RESCHEDULE';
-        activeScope = 'NEXT_WEEK';
-        startDragMode(`🔄 <strong>Drag & Drop Mode:</strong> Drag <strong>${selectedSlot.subjectCode}</strong> to reschedule in Next Week.`);
-    }
+                <!-- Dev Mode Simulation Dropdown (Hidden in Production) -->
+                <div id="devSimulatedDayGroup" class="control-field" style="display: none; background: #fffbeb; padding: 4px 8px; border-radius: 4px; border: 1px dashed #f59e0b;">
+                    <label class="control-label" for="simulatedDaySelect" style="color: #b45309; font-size: 11px;">[DEV] Simulate Day:</label>
+                    <select id="simulatedDaySelect" class="form-control" style="font-size: 11px; padding: 3px 6px; min-width: 120px;">
+                        <option value="">Real Date</option>
+                        <option value="Monday">Monday (Weekday)</option>
+                        <option value="Wednesday">Wednesday (Weekday)</option>
+                        <option value="Friday">Friday (Weekday)</option>
+                        <option value="Saturday">Saturday (Weekend)</option>
+                        <option value="Sunday">Sunday (Weekend)</option>
+                    </select>
+                </div>
+            </div>
+        </section>
 
-    function startNextWeekExtraSchedule() {
-        activeActionType = 'ADD_EXTRA';
-        activeScope = 'NEXT_WEEK';
-        startDragMode(`➕ <strong>Drag & Drop Mode:</strong> Drag <strong>${selectedSlot.subjectCode}</strong> to schedule extra occurrence in Next Week.`);
-    }
+        <!-- Timetable Grid Container -->
+        <section id="timetableGridContainer" class="timetable-container">
+            <div style="padding: 32px; text-align: center; color: #64748b;">
+                Loading academic timetable...
+            </div>
+        </section>
+    </main>
 
-    function startBaseReschedule() {
-        activeActionType = 'RESCHEDULE';
-        activeScope = 'PERMANENT';
-        startDragMode(`🔒 <strong>Drag & Drop Mode:</strong> Drag <strong>${selectedSlot.subjectCode}</strong> to reschedule Base Timetable.`);
-    }
+    <!-- ============================================================
+         MODALS & DIALOGS
+         ============================================================ -->
 
-    function startDragMode(bannerHtml) {
-        closeModal();
-        isDragMode = true;
-        document.getElementById('bannerText').innerHTML = bannerHtml;
-        document.getElementById('bannerBar').style.display = 'flex';
-        fetchGrid();
-    }
+    <!-- 1. Class Action Selection Modal -->
+    <div id="actionModalOverlay" class="modal-overlay">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3 id="actionModalTitle">Class Options</h3>
+                <span class="material-symbols-outlined" style="cursor: pointer;" onclick="document.getElementById('actionModalOverlay').style.display='none'">close</span>
+            </div>
+            <div id="actionModalDetails" class="details-box"></div>
+            <div class="btn-grid-actions">
+                <button id="btnActionReschedule" class="btn-modal btn-primary">
+                    <span class="material-symbols-outlined">schedule</span>
+                    1. RESCHEDULE (Move Occurrence)
+                </button>
+                <button id="btnActionCancel" class="btn-modal btn-danger">
+                    <span class="material-symbols-outlined">cancel</span>
+                    2. CANCEL CLASS
+                </button>
+                <button id="btnActionScheduleNext" class="btn-modal btn-emerald">
+                    <span class="material-symbols-outlined">add_circle</span>
+                    3. SCHEDULE FOR NEXT WEEK
+                </button>
+            </div>
+        </div>
+    </div>
 
-    function cancelDragMode() {
-        isDragMode = false;
-        selectedSlot = null;
-        draggedSlotData = null;
-        pendingPlacement = null;
-        document.getElementById('bannerBar').style.display = 'none';
-        fetchGrid();
-    }
+    <!-- 2. Explicit Cancel Confirmation Modal -->
+    <div id="confirmCancelModalOverlay" class="modal-overlay">
+        <div class="modal-card" style="border-top: 4px solid var(--error-red);">
+            <div class="modal-header">
+                <h3 style="color: var(--error-red); display: flex; align-items: center; gap: 6px;">
+                    <span class="material-symbols-outlined">warning</span>
+                    Cancel Class?
+                </h3>
+            </div>
+            <div class="modal-body">
+                <p style="font-weight: 600; margin-bottom: 6px;">Are you sure you want to cancel this class?</p>
+                <div id="cancelModalDetails"></div>
+            </div>
+            <div style="display: flex; gap: 10px; margin-top: 10px;">
+                <button id="btnCancelKeep" class="btn-modal btn-secondary" style="flex: 1; text-align: center; justify-content: center;">
+                    NO, KEEP CLASS
+                </button>
+                <button id="btnCancelConfirm" class="btn-modal btn-danger-solid" style="flex: 1; text-align: center; justify-content: center;">
+                    YES, CANCEL CLASS
+                </button>
+            </div>
+        </div>
+    </div>
 
-    // Step 4: After Drop -> Calculate Conflicts via Backend against COMPLETE Effective Schedule
-    async function handleDroppedSlot(targetDay, targetStart, targetEnd, sourceSlot = null) {
-        const slotToMove = sourceSlot || selectedSlot;
-        if (!slotToMove) return;
+    <!-- 3. Room Conflict Reassignment Modal -->
+    <div id="roomConflictModalOverlay" class="modal-overlay">
+        <div class="modal-card" style="border-top: 4px solid #f59e0b;">
+            <div class="modal-header">
+                <h3 style="color: #b45309; display: flex; align-items: center; gap: 6px;">
+                    <span class="material-symbols-outlined">meeting_room</span>
+                    Room Occupied — Choose Vacant Room
+                </h3>
+            </div>
+            <div class="modal-body">
+                <p id="roomConflictMessage" style="margin-bottom: 10px; color: #b45309; font-weight: 500;"></p>
+                <label class="control-label" for="availableRoomsDropdown" style="display: block; margin-bottom: 6px;">
+                    Select an available vacant room:
+                </label>
+                <select id="availableRoomsDropdown" class="form-control" style="width: 100%;"></select>
+            </div>
+            <div style="display: flex; gap: 10px; margin-top: 12px;">
+                <button id="btnRoomConflictCancel" class="btn-modal btn-secondary" style="flex: 1; text-align: center; justify-content: center;">
+                    CANCEL MOVE
+                </button>
+                <button id="btnReassignRoomConfirm" class="btn-modal btn-primary" style="flex: 1; text-align: center; justify-content: center;">
+                    REASSIGN ROOM & APPLY
+                </button>
+            </div>
+        </div>
+    </div>
 
-        pendingPlacement = {
-            targetDay,
-            targetStart,
-            targetEnd,
-            slotToMove
-        };
+    <!-- 4. Drop Confirmation Modal -->
+    <div id="dropConfirmModalOverlay" class="modal-overlay">
+        <div class="modal-card" style="border-top: 4px solid var(--institutional-navy);">
+            <div class="modal-header">
+                <h3>Confirm Timetable Placement</h3>
+            </div>
+            <div class="modal-body">
+                <div id="dropConfirmDetails"></div>
+                <p id="dropScopePrompt" style="margin-top: 8px; font-size: 12px; color: #475569; font-weight: 500;"></p>
+            </div>
+            <div style="display: flex; gap: 10px; margin-top: 10px;">
+                <button id="btnDropCancel" class="btn-modal btn-secondary" style="flex: 1; text-align: center; justify-content: center;">
+                    CANCEL
+                </button>
+                <button id="btnDropConfirm" class="btn-modal btn-primary" style="flex: 1; text-align: center; justify-content: center;">
+                    CONFIRM & COMMIT
+                </button>
+            </div>
+        </div>
+    </div>
 
-        const targetSlot = {
-            ...slotToMove,
-            day: targetDay,
-            starting: targetStart,
-            ending: targetEnd
-        };
+    <!-- ============================================================
+         INSTITUTIONAL FOOTER
+         ============================================================ -->
+    <footer class="institutional-footer">
+        <div class="footer-content">
+            <div class="footer-top">
+                <div class="footer-brand">Academic Timetable Studio</div>
+                <div class="footer-links">
+                    <a href="#">Quick Links</a>
+                    <a href="#">Contact Us</a>
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                © 2026 National Institute of Technology Hamirpur. All Rights Reserved.
+            </div>
+        </div>
+    </footer>
 
-        // Validate Drop with Backend Authoritative Engine
-        const valRes = await API.validateDrop(activeActionType, slotToMove, targetSlot, currentScheduleMode, activeScope);
-
-        if (!valRes.isAvailable) {
-            if (valRes.isRoomOnlyConflict && valRes.availableRooms && valRes.availableRooms.length > 0) {
-                openRoomConflictDialog(`Room <strong>${slotToMove.roomNo}</strong> is occupied on ${targetDay} ${targetStart}-${targetEnd} in ${currentScheduleMode.toUpperCase()} timetable.`, valRes.availableRooms);
-            } else {
-                showAlert(valRes.errors || ['Move rejected due to conflict in effective timetable.']);
-                cancelDragMode();
-            }
-            return;
-        }
-
-        // Slot is Available! Show confirmation modal
-        const actionText = activeActionType === 'ADD_EXTRA' ? 'Schedule Extra Class' : 'Move Class';
-        const desc = `Proposed <strong>${actionText}</strong> for <strong>${slotToMove.subjectCode}</strong> to <strong>${targetDay} ${targetStart}-${targetEnd}</strong> in Room <strong>${slotToMove.roomNo}</strong>.<br><span style="color:#93c5fd; font-size:12px;">Active Context: <strong>${currentScheduleMode.toUpperCase()}</strong> (Validated against complete effective schedule)</span>`;
-        document.getElementById('confirmDropDesc').innerHTML = desc;
-        document.getElementById('confirmDropModalOverlay').style.display = 'flex';
-    }
-
-    // Step 5: Execute Confirmed Placement
-    async function commitPlacement() {
-        document.getElementById('confirmDropModalOverlay').style.display = 'none';
-        if (!pendingPlacement) return;
-
-        const { targetDay, targetStart, targetEnd, slotToMove } = pendingPlacement;
-        const targetSlot = {
-            ...slotToMove,
-            day: targetDay,
-            starting: targetStart,
-            ending: targetEnd
-        };
-
-        const res = await API.moveOrAdd(activeActionType, slotToMove, targetSlot, currentScheduleMode, activeScope);
-        if (!res.success) {
-            showAlert(res.errors || [res.error || 'Operation failed.']);
-        } else {
-            showSuccess(res.message || 'Timetable updated successfully.');
-        }
-        cancelDragMode();
-    }
-
-    function openRoomConflictDialog(conflictMsg, availableRooms) {
-        document.getElementById('roomConflictMsg').innerHTML = conflictMsg;
-        const select = document.getElementById('availableRoomsSelect');
-        select.innerHTML = availableRooms.map(r => `<option value="${r.roomNo}">${r.roomNo} (${r.building} - ${r.labOrClass})</option>`).join('');
-        document.getElementById('roomConflictModalOverlay').style.display = 'flex';
-    }
-
-    async function commitReassignedPlacement() {
-        document.getElementById('roomConflictModalOverlay').style.display = 'none';
-        if (!pendingPlacement) return;
-
-        const newRoomNo = document.getElementById('availableRoomsSelect').value;
-        const { targetDay, targetStart, targetEnd, slotToMove } = pendingPlacement;
-
-        const targetSlot = {
-            ...slotToMove,
-            roomNo: newRoomNo,
-            day: targetDay,
-            starting: targetStart,
-            ending: targetEnd
-        };
-
-        const res = await API.moveOrAdd(activeActionType, slotToMove, targetSlot, currentScheduleMode, activeScope);
-        if (!res.success) {
-            showAlert(res.errors || [res.error || 'Reassignment failed.']);
-        } else {
-            showSuccess(`Saved successfully to Room ${newRoomNo}!`);
-        }
-        cancelDragMode();
-    }
-
-    async function fetchGrid() {
-        const type = document.getElementById('viewType').value;
-        const id = document.getElementById('entitySelect').value;
-        if (!id) return;
-
-        const res = await API.getGrid(type, id, currentScheduleMode);
-        if (!res.success || !res.grid || res.grid.length === 0) return;
-
-        const firstRow = res.grid[0];
-        const headerRow = document.getElementById('tableHeader');
-        headerRow.innerHTML = `<th class="day-col">Day</th>` +
-            firstRow.slots.map(s => `<th>${s.start} - ${s.end}</th>`).join('');
-
-        const tbody = document.getElementById('tableBody');
-        tbody.innerHTML = '';
-
-        res.grid.forEach(row => {
-            const tr = document.createElement('tr');
-            tr.innerHTML = `<td class="day-col">${row.day}</td>`;
-
-            row.slots.forEach(slot => {
-                const td = document.createElement('td');
-                const isTargetActive = isDragMode;
-
-                td.className = `cell-slot ${isTargetActive ? 'target-active' : ''}`;
-
-                td.addEventListener('dragover', (e) => {
-                    e.preventDefault();
-                    td.classList.add('drag-over');
-                });
-                td.addEventListener('dragleave', () => td.classList.remove('drag-over'));
-                td.addEventListener('drop', (e) => {
-                    e.preventDefault();
-                    td.classList.remove('drag-over');
-                    const raw = e.dataTransfer.getData('application/json');
-                    let slotObj = null;
-                    if (raw) {
-                        try { slotObj = JSON.parse(raw); } catch (err) {}
-                    }
-                    if (!slotObj) slotObj = draggedSlotData || selectedSlot;
-                    if (slotObj) {
-                        handleDroppedSlot(row.day, slot.start, slot.end, slotObj);
-                    }
-                });
-
-                td.addEventListener('click', () => {
-                    if (isDragMode && selectedSlot) {
-                        handleDroppedSlot(row.day, slot.start, slot.end, selectedSlot);
-                    }
-                });
-
-                if (slot.occupied) {
-                    const stack = document.createElement('div');
-                    stack.className = 'cell-content-stack';
-
-                    // Multi-group lab / simultaneous session display
-                    const slotItems = slot.multipleSlots && slot.multipleSlots.length > 0
-                        ? slot.multipleSlots
-                        : (slot.data ? [slot.data] : []);
-
-                    slotItems.forEach(d => {
-                        const isCardActive = isDragMode && selectedSlot && selectedSlot.slotId === d.slotId;
-                        const isExtra = d.isOverride && d.overrideAction === 'ADD_EXTRA';
-                        const isRescheduled = d.isOverride && d.overrideAction === 'RESCHEDULE';
-
-                        const card = document.createElement('div');
-                        card.className = `card-class ${d.isLab ? 'is-lab' : ''} ${isExtra ? 'is-extra' : (isRescheduled ? 'is-override' : '')} ${isCardActive ? 'unlocked-drag' : ''}`;
-                        card.draggable = isDragMode;
-
-                        const title = type === 'FACULTY' ? d.sectionId : (type === 'SECTION' ? d.facultyId : d.sectionId);
-                        const sub = type === 'ROOM' ? `${d.facultyId} • ${d.sectionId}` : `Room: ${d.roomNo}`;
-                        const labBadge = d.isLab ? `<span class="tag-lab">LAB</span>` : '';
-                        const groupBadge = d.group ? `<span class="tag-group">${d.group}</span>` : '';
-                        const extraBadge = isExtra ? `<span class="tag-extra">SCHEDULED</span>` : '';
-                        const overrideBadge = isRescheduled ? `<span class="tag-override">RESCHEDULED</span>` : '';
-
-                        // Normal class card has NO action labels
-                        card.innerHTML = `
-                            <div style="display:flex; justify-content:space-between; align-items:center;">
-                                <strong>${d.subjectCode}</strong>
-                                <div style="display:flex; gap:3px;">${extraBadge}${overrideBadge}${groupBadge}${labBadge}</div>
-                            </div>
-                            <div style="color:var(--text-muted); font-size:10px;">${title} • ${sub}</div>
-                        `;
-
-                        card.addEventListener('dragstart', (e) => {
-                            if (!isDragMode) {
-                                e.preventDefault();
-                                return;
-                            }
-                            draggedSlotData = d;
-                            e.dataTransfer.setData('application/json', JSON.stringify(d));
-                            e.dataTransfer.effectAllowed = 'move';
-                        });
-
-                        card.addEventListener('dragend', () => {
-                            draggedSlotData = null;
-                            document.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over'));
-                        });
-
-                        card.addEventListener('click', (e) => {
-                            e.stopPropagation();
-                            if (!isDragMode) openModal(d);
-                        });
-
-                        stack.appendChild(card);
-                    });
-
-                    td.appendChild(stack);
-                }
-
-                tr.appendChild(td);
-            });
-            tbody.appendChild(tr);
-        });
-    }
-
-    async function initEntities() {
-        const res = await API.getEntities();
-        const type = document.getElementById('viewType').value;
-        const select = document.getElementById('entitySelect');
-        const list = type === 'FACULTY' ? res.faculties : type === 'ROOM' ? res.rooms : res.sections;
-
-        select.innerHTML = list.map(item => `<option value="${item}">${item}</option>`).join('');
-        await updateWorkflowContext();
-    }
-
-    document.getElementById('viewType').addEventListener('change', async () => {
-        const res = await API.getEntities();
-        const type = document.getElementById('viewType').value;
-        const select = document.getElementById('entitySelect');
-        const list = type === 'FACULTY' ? res.faculties : type === 'ROOM' ? res.rooms : res.sections;
-        select.innerHTML = list.map(item => `<option value="${item}">${item}</option>`).join('');
-        fetchGrid();
-    });
-
-    document.getElementById('entitySelect').addEventListener('change', fetchGrid);
-    document.getElementById('btnCloseModal').addEventListener('click', closeModal);
-    document.getElementById('cancelActionBtn').addEventListener('click', cancelDragMode);
-
-    // Confirmation Modal Handlers
-    document.getElementById('btnApplyDrop').addEventListener('click', commitPlacement);
-    document.getElementById('btnCancelDrop').addEventListener('click', () => {
-        document.getElementById('confirmDropModalOverlay').style.display = 'none';
-        cancelDragMode();
-    });
-
-    // Room Reassignment Handlers
-    document.getElementById('btnApplyReassignedRoom').addEventListener('click', commitReassignedPlacement);
-    document.getElementById('btnDismissRoomConflict').addEventListener('click', () => {
-        document.getElementById('roomConflictModalOverlay').style.display = 'none';
-        cancelDragMode();
-    });
-
-    // Auto-refresh every minute to handle midnight rollover without getting stuck
-    setInterval(updateWorkflowContext, 60000);
-
-    initEntities();
-</script>
+    <!-- App Module Bootstrap -->
+    <script type="module" src="/js/app.js"></script>
 </body>
 </html>
