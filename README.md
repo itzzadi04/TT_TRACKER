@@ -1,136 +1,119 @@
-# Academic Timetable Studio — NIT Hamirpur (TT_TRACKER)
+# Academic Timetable Studio (TT_TRACKER)
+### National Institute of Technology Hamirpur (NIT Hamirpur)
 
-A full-stack, enterprise Academic Timetable Management & Conflict Resolution Studio engineered for the **National Institute of Technology Hamirpur (NIT Hamirpur)**. Built with an **In-Memory Registry & Conflict Resolution Engine**, MongoDB Atlas single source of truth, **Stitch Institutional Academic Design System**, **Effective Schedule Calculation Engine**, **Real Production Calendar (`Asia/Kolkata`)**, and **Group-Aware Laboratory Logic**.
+A production-grade, authoritative academic timetable management and conflict-resolution platform built with **Node.js, Express, React (Vite), MongoDB Atlas**, and an in-memory transactional registry.
 
 ---
 
-## 1. Clean Project Architecture & Structure
+## 🏛️ System Architecture
 
 ```text
 TT_TRACKER/
-├── public/                     # Static Client Files (Served by Express)
-│   ├── css/
-│   │   └── style.css           # Stitch Design System & Institutional Tokens
-│   ├── js/
-│   │   ├── api.js              # API Service Client
-│   │   ├── state.js            # Timetable State & Workflow Context Store
-│   │   ├── timetable.js        # Timetable Grid & Multi-Event Cell Renderer
-│   │   ├── modals.js           # Action, Cancel, Conflict & Room Modal Controllers
-│   │   └── app.js              # Main Client Application Orchestrator
-│   └── index.html              # Main HTML with Two-Tier Institutional Header
 │
-├── routes/
-│   └── timetableroutes.js      # Backend API Routes & FIFO Mutation Queue
-├── models/                     # Mongoose Schema Definitions
-│   ├── ClassSection.js
-│   ├── Faculty.js
-│   ├── Room.js
-│   ├── ScheduleOverride.js     # Weekly Deltas (RESCHEDULE, ADD_EXTRA, CANCEL)
-│   ├── Subject.js
-│   ├── Time.js
-│   └── TimetableSlot.js        # Permanent Base Blueprint (196 slots)
+├── frontend/                          # [REACT + VITE FRONTEND]
+│   ├── public/                        # Static assets (Favicon)
+│   ├── src/
+│   │   ├── components/                # Modular React Components (Header, Toolbar, Grid, Modals, Feedback)
+│   │   ├── hooks/useTimetable.js      # Central Timetable State & Mutation Hook
+│   │   ├── services/api.js            # Frontend API Service
+│   │   ├── styles/index.css           # Canonical Stitch Institutional Design System
+│   │   ├── App.jsx                    # Root Studio Component
+│   │   └── main.jsx                   # React Entrypoint
+│   ├── index.html                     # Vite HTML Entrypoint
+│   ├── package.json                   # React Dependencies
+│   └── vite.config.js                 # Vite Config & Proxy to Express
 │
-├── tracker/                    # Core Business & Timetable Logic Engine
-│   ├── Registry.js             # Multi-Week In-Memory Representation
-│   ├── ScheduleTracker.js      # Conflict Detection Engine
-│   ├── effectiveSchedule.js    # Base + Override Calculation
-│   ├── hydrate.js              # MongoDB to In-Memory Registry Sync
-│   └── weekUtils.js            # Timezone-Aware Academic Calendar Engine
+├── models/                            # [MONGOOSE SCHEMAS & DATABASE MODELS]
+│   ├── ClassSection.js                # Academic Sections (CE-II, CSE-IV, etc.)
+│   ├── Faculty.js                     # Faculty Profiles & IDs
+│   ├── Room.js                        # Rooms, Lecture Halls & Labs
+│   ├── ScheduleOverride.js            # Temporary / Permanent Overrides & Cancellations
+│   ├── Subject.js                     # Course Codes & Names
+│   ├── Time.js                        # Academic Period Definitions
+│   └── TimetableSlot.js               # Base Master Timetable Slots
 │
-├── seed/                       # Database Seed Baseline & Script
-│   ├── classSections.json
-│   ├── faculty.json
-│   ├── rooms.json
-│   ├── seed.js                 # Database Seeder
-│   ├── subjects.json
-│   ├── times.json
-│   └── timetableSlots.json
+├── tracker/                           # [TIMETABLE & CONFLICT ENGINE]
+│   ├── Registry.js                    # In-Memory High-Performance Timetable Registry
+│   ├── ScheduleTracker.js             # Hard Conflict Rules & Validation Engine
+│   ├── effectiveSchedule.js           # Multi-Week Overlay Compiler (Base + Overrides)
+│   ├── hydrate.js                     # MongoDB Startup Hydrator & Cache Sync
+│   └── weekUtils.js                   # Timezone Calendar Engine (Asia/Kolkata)
 │
-├── tests/                      # Automated Verification Matrix
-│   └── workflowTestRunner.js   # 61 Automated Assertions
+├── routes/                            # [REST API ROUTES & SERIALIZED MUTATION QUEUE]
+│   └── timetableroutes.js             # Express Routes (/api/timetable/*)
 │
-├── server.js                   # Application Server Entrypoint (Port 3000)
-├── package.json
-├── .env.example
-├── .gitignore
-└── README.md
+├── seed/                              # [DATABASE SEEDING & BASELINE DATASETS]
+│   ├── seed.js                        # Baseline Seeder Script (npm run seed)
+│   └── *.json                         # Pristine Academic Datasets (196 Slots)
+│
+├── tests/                             # [AUTOMATED VERIFICATION SUITE]
+│   ├── workflowTestRunner.js          # Authoritative 61-Assertion Test Suite (npm test)
+│   └── testRunner.js                  # Engine Verification Suite
+│
+├── docs/                              # [DOCUMENTATION & DESIGN ASSETS]
+│   └── design-reference/              # Stitch Framework Design Tokens & References
+│
+├── server.js                          # Express Server & React Static Host (Port 3000)
+├── package.json                       # Backend Dependencies & Run Scripts
+├── .env.example                       # Environment Template
+├── .gitignore                         # Comprehensive Ignore Rules
+└── README.md                          # Master Project Documentation
 ```
 
 ---
 
-## 2. Institutional Design System (Stitch Framework)
+## ⚡ Core Business & Timetable Rules
 
-- **Two-Tier Institutional Header**:
-  - **Top Tier (White)**: NIT Hamirpur seal, bilingual typography (*"राष्ट्रीय प्रौद्योगिकी संस्थान हमीरपुर / National Institute of Technology Hamirpur"*), and *"Academic Timetable Studio"* subtitle.
-  - **Bottom Tier (Dark Institutional Navy `#002147`)**: Gold accent (`#D4AF37`) for active tab, navigation links (*Home, Timetable, Faculty, Sections, Rooms, Guidelines*), and active week status badge.
-- **Timetable Grid Aesthetics**:
-  - Spreadsheet-like clarity with subtle `#E0E0E0` borders and sticky day headers.
-  - **Lectures**: Crisp white cards with 3px Institutional Navy top border.
-  - **Labs**: Emerald Green top border (`#008543`), emerald `LAB` badges, and distinct group tags (`G1`, `G2`).
-  - **Scheduled / Rescheduled**: Distinguishable visual badges (`SCHEDULED`, `RESCHEDULED`).
-  - **Multi-Group Simultaneous Stacking**: Full parallel side-by-side rendering inside `.cell-content-stack`.
-
----
-
-## 3. Core Business & Scheduling Rules
-
-1. **Effective Schedule Formula**:
-   $$\text{Effective Schedule} = \text{Base} + \text{Permanent Mutations} - \text{Weekly Cancellations} - \text{Weekly Reschedules (Old)} + \text{Weekly Reschedules (New)} + \text{Weekly Extra Classes}$$
-2. **Calendar & Permissions (`Asia/Kolkata`)**:
-   - **Mon–Fri (Weekdays)**: Current Week is **EDITABLE**; Next Week is **READ-ONLY**; Current Week can schedule extra classes for Next Week.
-   - **Sat–Sun (Weekends)**: Current Week is **READ-ONLY**; Next Week is **EDITABLE**.
-   - **Monday Rollover**: Advances Next Week ($W+1$) into Current Week ($W$), generating a pristine future week ($W+2$).
-3. **Lab vs. Normal Class Conflict Protection**:
-   - Whole-section lectures can **never** overlap existing lab sessions ($G_1$ or $G_2$), even if the target room is vacant.
-   - False-positive "Available Rooms" prompts are strictly suppressed on lab and section conflicts.
-4. **Active Timetable Scoping**:
-   - The active working timetable determines target week automatically. Cancellation dialog requires confirmation without asking for week context again.
+1. **Active Week Scoping**: All rescheduling and cancellations apply strictly to the currently active timetable context (`Current Week`, `Next Week`, or `Base Blueprint`).
+2. **Lab Protection & Simultaneous Groups**:
+   - Multi-group parallel lab sessions ($G_1$ in `P4` and $G_2$ in `B1`) stack simultaneously without conflict.
+   - Normal lectures attempting to occupy lab slots or lab periods are strictly rejected (`LAB_TIME_CONFLICT`), and room reassignments are suppressed.
+3. **Room Conflict Resolver**: Moving a class into an occupied room triggers `ROOM_CONFLICT` with a dynamic selection of vacant rooms for instantaneous reassignment.
+4. **Academic Calendar (Asia/Kolkata)**:
+   - **Weekdays (Mon–Fri)**: Current Week is **EDITABLE**; Next Week is view-only with ability to schedule additional classes.
+   - **Weekends (Sat–Sun)**: Current Week becomes **READ-ONLY**; Next Week opens for **EDITING**.
+   - **Monday Rollover**: Automatic promotion of Next Week to Current Week, generating a clean future schedule without override leakage.
 
 ---
 
-## 4. REST API Reference
+## 🛠️ Quick Start & Running Locally
 
-| Method | Endpoint | Description |
-|---|---|---|
-| `GET` | `/api/timetable/workflow-context` | Timezone-aware calendar state, ISO week keys, and edit permissions |
-| `GET` | `/api/timetable/entities` | Lists all faculties, class sections, and rooms |
-| `GET` | `/api/timetable/grid` | Returns 6-day matrix (`type=FACULTY\|SECTION\|ROOM`, `id=...`, `week=current\|next\|base`) |
-| `GET` | `/api/timetable/rooms/available` | Vacant rooms query (`day`, `start`, `end`, `week`) |
-| `POST` | `/api/timetable/validate-drop` | Post-drop pre-write validation guard |
-| `POST` | `/api/timetable/move-or-add` | Commits reschedule or extra class placement |
-| `POST` | `/api/timetable/cancel` | Cancels class from active week or base blueprint |
-| `POST` | `/api/timetable/rollover` | Triggers weekly rollover |
+### Prerequisites
+- **Node.js**: v18+ (tested on v24)
+- **MongoDB**: MongoDB Atlas or local MongoDB instance
 
----
-
-## 5. Installation & Execution
-
-### 1. Install Dependencies
+### 1. Backend Setup
 ```bash
+# Install backend dependencies
 npm install
-```
 
-### 2. Environment Configuration
-Create a `.env` file in project root:
-```env
-PORT=3000
-MONGO_URI=mongodb+srv://<username>:<password>@cluster0.mongodb.net/TT_TRACKER?retryWrites=true&w=majority
-TZ=Asia/Kolkata
-DEV_MODE=false
-```
+# Configure environment variables
+cp .env.example .env
+# Edit .env and supply your MONGO_URI
 
-### 3. Seed Database
-```bash
+# Seed pristine baseline timetable data into MongoDB
 npm run seed
-```
 
-### 4. Run Automated Test Suite (61 Tests)
-```bash
+# Run automated 61-assertion verification test suite
 npm test
-```
 
-### 5. Start Application Server
-```bash
+# Start the Express server
 npm start
 ```
-Open **`http://localhost:3000`** in your browser.
+
+### 2. Frontend Development (React + Vite)
+```bash
+cd frontend
+
+# Install frontend dependencies
+npm install
+
+# Start Vite dev server with proxy to http://localhost:3000
+npm run dev
+
+# Build production bundle into frontend/dist/
+npm run build
+```
+
+### 3. Production Deployment
+When running `npm start` from the root directory, Express serves the optimized React bundle from `frontend/dist/` with full client-side SPA routing fallback.

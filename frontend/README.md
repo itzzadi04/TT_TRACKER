@@ -1,16 +1,46 @@
-# React + Vite
+# Academic Timetable Studio — React Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+This directory contains the single-page application (SPA) for the **Academic Timetable Studio (NIT Hamirpur)**, built using **React 19** and **Vite**, styled with the **Stitch Institutional Academic Framework Design System**.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## 🏛️ Structure
 
-## React Compiler
+```text
+frontend/
+├── public/
+│   └── favicon.svg                    # Institutional Favicon
+├── src/
+│   ├── components/
+│   │   ├── controls/                  # TimetableToolbar (View & Mode Switchers)
+│   │   ├── feedback/                  # DragBanner, Toast
+│   │   ├── layout/                    # Header (Two-Tier Institutional), Footer
+│   │   ├── modals/                    # Action, CancelConfirm, RoomConflict, DropConfirm
+│   │   └── timetable/                 # TimetableGrid, ClassCard
+│   ├── hooks/
+│   │   └── useTimetable.js            # Central State & Mutation Hook
+│   ├── services/
+│   │   └── api.js                     # REST API Client
+│   ├── styles/
+│   │   └── index.css                  # Stitch Design System Stylesheet
+│   ├── App.jsx                        # Root React Studio Component
+│   └── main.jsx                       # Application Entrypoint
+├── index.html                         # Vite HTML Shell
+├── package.json                       # Dependencies & Scripts
+└── vite.config.js                     # Vite Config & Proxy to Port 3000
+```
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the Oxlint configuration
+## 🚀 Running & Building
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+```bash
+# 1. Install dependencies
+npm install
+
+# 2. Start Vite development server (with API proxy to http://localhost:3000)
+npm run dev
+
+# 3. Build production bundle into frontend/dist/
+npm run build
+```

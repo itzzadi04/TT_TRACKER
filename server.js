@@ -9,21 +9,18 @@ const { hydrate } = require('./tracker/hydrate');
 const app = express();
 app.use(express.json());
 
-// Serve static frontend files (React dist, public directory, root)
-app.use(express.static(path.join(__dirname, 'frontend/dist')));
-app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.static(path.join(__dirname)));
+// Serve static React production build
+const distPath = path.join(__dirname, 'frontend/dist');
+app.use(express.static(distPath));
 
 // Mount API routes (supports both /api/timetable and /api)
 app.use('/api/timetable', timetableRoutes);
 app.use('/api', timetableRoutes);
 
-// Fallback for SPA routing
+// SPA fallback: Route all non-API GET requests to React index.html
 app.use((req, res, next) => {
     if (req.method === 'GET' && !req.path.startsWith('/api')) {
-        return res.sendFile(path.join(__dirname, 'frontend/dist/index.html'), (err) => {
-            if (err) res.sendFile(path.join(__dirname, 'public/index.html'));
-        });
+        return res.sendFile(path.join(distPath, 'index.html'));
     }
     next();
 });
