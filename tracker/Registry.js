@@ -183,7 +183,15 @@ class Registry {
     }
 
     getRepresentation(type, id, weekType = 'current') {
-        const owner = this.getOwner(type, id);
+        const targetMap =
+            type === 'FACULTY' ? this.faculties :
+                type === 'ROOM' ? this.rooms : this.sections;
+
+        const owner = targetMap.get(id);
+        if (!owner) {
+            const dummy = new ScheduleTracker(id, type);
+            return dummy.exportGrid(weekType, this.days, this.timeIntervals);
+        }
         return owner.exportGrid(weekType, this.days, this.timeIntervals);
     }
 

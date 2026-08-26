@@ -44,14 +44,25 @@ router.get('/grid', (req, res) => {
     });
 });
 
-// ──────────────────────────────────────────
-// 2. Fetch Entity Lists
-// ──────────────────────────────────────────
 router.get('/entities', async (req, res) => {
     try {
-        const faculties = registry.getEntityIds('FACULTY');
-        const rooms = registry.getEntityIds('ROOM');
-        const sections = registry.getEntityIds('SECTION');
+        const [facultyDocs, roomDocs, sectionDocs] = await Promise.all([
+            Faculty.find().sort({ facultyId: 1 }).lean(),
+            Room.find().sort({ roomNo: 1 }).lean(),
+            ClassSection.find().sort({ sectionId: 1 }).lean()
+        ]);
+
+        const faculties = facultyDocs.length > 0
+            ? facultyDocs.map(f => f.facultyId)
+            : registry.getEntityIds('FACULTY');
+
+        const rooms = roomDocs.length > 0
+            ? roomDocs.map(r => r.roomNo)
+            : registry.getEntityIds('ROOM');
+
+        const sections = sectionDocs.length > 0
+            ? sectionDocs.map(s => s.sectionId)
+            : registry.getEntityIds('SECTION');
 
         res.json({ faculties, rooms, sections });
     } catch (err) {

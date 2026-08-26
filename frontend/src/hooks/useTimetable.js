@@ -93,6 +93,17 @@ export function useTimetable() {
   // 4. Fetch Grid
   const loadGrid = useCallback(async () => {
     if (!selectedEntityId) return;
+
+    // Guard: ensure selectedEntityId belongs to currentView
+    let validList = [];
+    if (currentView === 'faculty') validList = entities.faculties;
+    else if (currentView === 'section') validList = entities.sections;
+    else if (currentView === 'room') validList = entities.rooms;
+
+    if (validList && validList.length > 0 && !validList.includes(selectedEntityId)) {
+      return; // Skip grid load while view and entityId are transitioning
+    }
+
     setLoading(true);
     try {
       const res = await ApiService.getGrid({
@@ -112,7 +123,7 @@ export function useTimetable() {
     } finally {
       setLoading(false);
     }
-  }, [currentView, selectedEntityId, currentMode, showToast]);
+  }, [currentView, selectedEntityId, currentMode, entities, showToast]);
 
   useEffect(() => {
     loadGrid();

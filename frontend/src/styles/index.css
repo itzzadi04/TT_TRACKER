@@ -325,17 +325,36 @@ main.studio-canvas {
     gap: 16px;
 }
 
+.toolbar-controls-left {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.toolbar-controls-right {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    flex-shrink: 0;
+}
+
 .control-field {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
     font-size: 13px;
+    flex-shrink: 0;
 }
 
 .control-label {
     font-weight: 600;
     color: var(--institutional-navy);
     white-space: nowrap;
+    font-size: 13px;
 }
 
 select.form-control {
@@ -347,8 +366,10 @@ select.form-control {
     font-weight: 500;
     color: var(--text-main);
     outline: none;
-    min-width: 180px;
+    min-width: 140px;
+    max-width: 200px;
     transition: border-color 0.15s ease;
+    cursor: pointer;
 }
 
 select.form-control:focus {
@@ -362,6 +383,7 @@ select.form-control:focus {
     border: 1px solid var(--border-subtle);
     border-radius: var(--radius-md);
     overflow: hidden;
+    flex-shrink: 0;
 }
 
 .mode-btn {
