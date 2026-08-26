@@ -40,6 +40,12 @@
     font-family: var(--font-family);
 }
 
+html,
+body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
 body {
     background-color: var(--bg-surface);
     color: var(--text-main);
@@ -55,6 +61,8 @@ body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    max-width: 100%;
+    overflow-x: hidden;
 }
 
 /* Material Symbols */
@@ -919,17 +927,105 @@ footer.institutional-footer {
    RESPONSIVE DESIGN BREAKPOINTS
    ============================================================ */
 
-@media (max-width: 960px) {
+/* 1. Large Desktop (>= 1440px) */
+@media (min-width: 1440px) {
+    :root {
+        --container-max: 1400px;
+    }
+}
+
+/* 2. Desktop (1200px - 1439px) */
+@media (max-width: 1439px) and (min-width: 1200px) {
+    :root {
+        --container-max: 1180px;
+    }
+}
+
+/* 3. Laptop (992px - 1199px) */
+@media (max-width: 1199px) {
+    :root {
+        --container-max: 100%;
+    }
+
+    main.studio-canvas {
+        padding: 0 16px;
+    }
+
+    .footer-grid {
+        gap: 28px;
+    }
+}
+
+/* 4. Tablet (768px - 991px) */
+@media (max-width: 991px) {
+    .header-top-tier {
+        padding: 10px 16px;
+    }
+
     .header-top-content {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .nith-hindi-title {
+        font-size: 1rem;
+    }
+
+    .nith-english-title {
+        font-size: 1.15rem;
+    }
+
+    .nith-tagline {
+        font-size: 0.76rem;
+    }
+
+    .app-title-badge {
+        font-size: 0.92rem;
+        padding-left: 12px;
+    }
+
+    .header-nav-content {
+        padding: 0 16px;
+        height: 42px;
+    }
+
+    .nav-item {
+        font-size: 12px;
+        padding: 0 4px;
+    }
+
+    .toolbar-row-top {
         flex-direction: column;
         align-items: flex-start;
         gap: 12px;
     }
 
-    .app-title-badge {
-        border-left: none;
-        padding-left: 0;
-        font-size: 0.95rem;
+    .view-mode-tabs {
+        width: 100%;
+    }
+
+    .tab-btn {
+        flex: 1;
+        text-align: center;
+        padding: 8px 10px;
+    }
+
+    .toolbar-row-bottom {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 14px;
+    }
+
+    .toolbar-controls-left {
+        width: 100%;
+        justify-content: flex-start;
+    }
+
+    .toolbar-controls-right {
+        width: 100%;
+        justify-content: space-between;
     }
 
     .footer-grid {
@@ -940,15 +1036,20 @@ footer.institutional-footer {
     .footer-dev-col {
         grid-column: span 2;
     }
-
-    .toolbar-row-top,
-    .toolbar-row-bottom {
-        flex-direction: column;
-        align-items: flex-start;
-    }
 }
 
-@media (max-width: 640px) {
+/* 5. Mobile (480px - 767px) */
+@media (max-width: 767px) {
+    .header-top-tier {
+        padding: 10px 12px;
+    }
+
+    .header-top-content {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
     .nith-brand-container {
         gap: 12px;
     }
@@ -959,28 +1060,212 @@ footer.institutional-footer {
     }
 
     .nith-hindi-title {
-        font-size: 0.95rem;
+        font-size: 0.9rem;
     }
 
     .nith-english-title {
-        font-size: 1.1rem;
+        font-size: 1.05rem;
     }
 
     .nith-tagline {
-        font-size: 0.72rem;
+        font-size: 0.7rem;
+    }
+
+    .header-right-meta {
+        width: 100%;
+        border-top: 1px solid #f1f5f9;
+        padding-top: 6px;
+    }
+
+    .app-title-badge {
+        border-left: none;
+        padding-left: 0;
+        font-size: 0.88rem;
+    }
+
+    .header-nav-content {
+        padding: 0 12px;
+        height: 40px;
+    }
+
+    .nav-links {
+        gap: 12px;
+    }
+
+    .badge-status {
+        font-size: 10px;
+        padding: 2px 8px;
+    }
+
+    main.studio-canvas {
+        margin: 12px auto;
+        padding: 0 10px;
+        gap: 12px;
+    }
+
+    .toolbar-card {
+        padding: 12px;
+        gap: 12px;
+    }
+
+    .page-heading h1 {
+        font-size: 1.15rem;
+    }
+
+    .page-heading p {
+        font-size: 11px;
+    }
+
+    .toolbar-controls-left {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+    }
+
+    .control-field {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .control-label {
+        font-size: 12px;
+    }
+
+    select.form-control {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        flex: 1;
+        font-size: 13px;
+        padding: 8px 10px;
+    }
+
+    .schedule-mode-toggle {
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+    }
+
+    .schedule-mode-toggle::-webkit-scrollbar {
+        display: none;
+    }
+
+    .mode-btn {
+        flex: 1;
+        white-space: nowrap;
+        text-align: center;
+        padding: 8px 6px;
+        font-size: 11px;
+    }
+
+    .toolbar-controls-right {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+    }
+
+    .real-date-chip {
+        justify-content: center;
+        font-size: 11.5px;
+    }
+
+    .dev-sim-field {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .timetable-container {
+        border-radius: var(--radius-md);
+    }
+
+    .modal-card {
+        padding: 16px;
+        max-width: 95%;
+    }
+
+    .modal-header h3 {
+        font-size: 1.05rem;
+    }
+
+    .btn-modal {
+        padding: 10px 12px;
+        font-size: 12.5px;
     }
 
     .footer-grid {
         grid-template-columns: 1fr;
-        gap: 28px;
+        gap: 24px;
     }
 
     .footer-dev-col {
         grid-column: span 1;
     }
 
+    .footer-content {
+        padding: 0 16px;
+        gap: 20px;
+    }
+
     .footer-bottom-strip {
         flex-direction: column;
         align-items: flex-start;
+        gap: 8px;
+    }
+}
+
+/* 6. Small Mobile (< 480px) */
+@media (max-width: 479px) {
+    .nith-brand-container {
+        gap: 10px;
+    }
+
+    .nith-logo-wrapper {
+        width: 44px;
+        height: 44px;
+    }
+
+    .nith-hindi-title {
+        font-size: 0.82rem;
+    }
+
+    .nith-english-title {
+        font-size: 0.95rem;
+    }
+
+    .nith-tagline {
+        font-size: 0.65rem;
+    }
+
+    .tab-btn {
+        font-size: 11px;
+        padding: 6px 4px;
+    }
+
+    .mode-btn {
+        font-size: 10.5px;
+        padding: 7px 4px;
+    }
+
+    .drag-banner {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+        text-align: center;
+    }
+
+    .drag-banner button {
+        width: 100%;
+    }
+
+    .modal-card {
+        padding: 14px;
+        max-width: 96%;
+        gap: 12px;
+    }
+
+    .details-box {
+        padding: 10px;
+        font-size: 12px;
     }
 }

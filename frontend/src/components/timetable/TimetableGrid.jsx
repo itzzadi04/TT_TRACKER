@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import ClassCard from './ClassCard';
 
+// Authoritative Academic Working Days Display (Monday - Friday)
+const DISPLAY_DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+
 export default function TimetableGrid({
   gridData,
   currentView,
@@ -21,9 +24,10 @@ export default function TimetableGrid({
     );
   }
 
-  const gridDays = gridData.grid;
-  const firstDay = gridDays[0];
-  const timeHeaders = firstDay.slots ? firstDay.slots.map((s) => `${s.start} - ${s.end}`) : [];
+  // Display only official academic days (Monday - Friday)
+  const gridDays = (gridData.grid || []).filter((dayRow) => DISPLAY_DAYS.includes(dayRow.day));
+  const firstDay = gridDays[0] || gridData.grid[0];
+  const timeHeaders = firstDay?.slots ? firstDay.slots.map((s) => `${s.start} - ${s.end}`) : [];
 
   return (
     <section className="timetable-container">
