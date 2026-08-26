@@ -189,7 +189,6 @@ header.institutional-header {
     max-width: var(--container-max);
     margin: 0 auto;
     display: flex;
-    justify-content: space-between;
     align-items: center;
     height: 46px;
     padding: 0 24px;
@@ -201,6 +200,12 @@ header.institutional-header {
     gap: 20px;
     height: 100%;
     overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+}
+
+.nav-links::-webkit-scrollbar {
+    display: none;
 }
 
 .nav-item {

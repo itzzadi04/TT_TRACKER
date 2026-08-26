@@ -50,7 +50,7 @@ export default function App() {
   return (
     <div className="app-root">
       {/* 1. Two-Tier Institutional Header */}
-      <Header workflowContext={workflowContext} currentMode={currentMode} />
+      <Header />
 
       {/* 2. Main Content Canvas */}
       <main className="studio-canvas">

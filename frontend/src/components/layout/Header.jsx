@@ -1,24 +1,7 @@
 import React, { useState } from 'react';
 
-export default function Header({ workflowContext, currentMode }) {
+export default function Header() {
   const [imgError, setImgError] = useState(false);
-
-  // Status Badge Rendering
-  let badgeClass = 'badge-status badge-editable';
-  let badgeText = 'CURRENT WEEK: EDITABLE';
-
-  if (currentMode === 'base') {
-    badgeClass = 'badge-status badge-base';
-    badgeText = 'BASE BLUEPRINT';
-  } else if (currentMode === 'current') {
-    const isEditable = workflowContext?.currentWeekEditable;
-    badgeClass = `badge-status ${isEditable ? 'badge-editable' : 'badge-readonly'}`;
-    badgeText = isEditable ? 'CURRENT WEEK: EDITABLE' : 'CURRENT WEEK: READ-ONLY';
-  } else if (currentMode === 'next') {
-    const isEditable = workflowContext?.nextWeekEditable;
-    badgeClass = `badge-status ${isEditable ? 'badge-editable' : 'badge-readonly'}`;
-    badgeText = isEditable ? 'NEXT WEEK: EDITABLE' : 'NEXT WEEK: LOCKED';
-  }
 
   return (
     <header className="institutional-header">
@@ -64,9 +47,6 @@ export default function Header({ workflowContext, currentMode }) {
             <a href="#" className="nav-item">Rooms</a>
             <a href="#" className="nav-item">Guidelines</a>
           </nav>
-          <div className="nav-user-actions">
-            <span className={badgeClass}>{badgeText}</span>
-          </div>
         </div>
       </div>
     </header>
