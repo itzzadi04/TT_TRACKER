@@ -62,7 +62,7 @@ TT_TRACKER/
 
 ---
 
-## ⚡ Core Business & Timetable Rules
+## Core Business & Timetable Rules
 
 1. **Active Week Scoping**: All rescheduling and cancellations apply strictly to the currently active timetable context (`Current Week`, `Next Week`, or `Base Blueprint`).
 2. **Lab Protection & Simultaneous Groups**:
@@ -76,7 +76,7 @@ TT_TRACKER/
 
 ---
 
-## 🛠️ Quick Start & Running Locally
+## Quick Start & Running Locally
 
 ### Prerequisites
 - **Node.js**: v18+ (tested on v24)
