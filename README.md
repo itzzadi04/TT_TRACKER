@@ -1,7 +1,7 @@
 # Academic Timetable (TT_TRACKER)
 ### National Institute of Technology Hamirpur (NIT Hamirpur)
 
-A production-grade, authoritative academic timetable management and conflict-resolution platform built with **Node.js, Express, React (Vite), MongoDB Atlas**, and an in-memory transactional registry.
+A production-grade, authoritative academic timetable management and conflict-resolution platform built with **Node.js, Express, React (Vite)(vibe-coded), MongoDB Atlas**, and an in-memory transactional registry.
 
 ---
 
