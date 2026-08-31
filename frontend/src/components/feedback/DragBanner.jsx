@@ -9,10 +9,19 @@ export default function DragBanner({
   if (!rescheduleMode) return null;
 
   const code = unlockedSlot?.subjectCode || 'Class';
-  const text =
-    rescheduleActionType === 'ADD_EXTRA'
-      ? `Schedule for Next Week: Drag ${code} or click any target time slot.`
-      : `Rescheduling ${code}: Drag or click target time slot.`;
+  const isScheduleNext = rescheduleActionType === 'SCHEDULE_NEXT';
+  const isExtraClass = rescheduleActionType === 'ADD_EXTRA';
+
+  let text = `Rescheduling ${code}: Drag or click target time slot.`;
+  let cancelText = '✕ Cancel Reschedule';
+
+  if (isScheduleNext) {
+    text = `Schedule for Next Week: Drag ${code} or click any target time slot.`;
+    cancelText = '✕ Cancel Reschedule';
+  } else if (isExtraClass) {
+    text = `Extra Class (${code}): Drag copy or click any target time slot.`;
+    cancelText = '✕ Cancel Extra Class';
+  }
 
   return (
     <div className="drag-banner">
@@ -22,7 +31,7 @@ export default function DragBanner({
         style={{ padding: '4px 10px', fontSize: '11px' }}
         onClick={onCancel}
       >
-        ✕ Cancel Reschedule
+        {cancelText}
       </button>
     </div>
   );

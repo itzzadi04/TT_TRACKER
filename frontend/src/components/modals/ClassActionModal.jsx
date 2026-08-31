@@ -74,10 +74,20 @@ export default function ClassActionModal({
           {showScheduleNext && (
             <button
               className="btn-modal btn-emerald"
-              onClick={() => onActionSelect('ADD_EXTRA', slot)}
+              onClick={() => onActionSelect('SCHEDULE_NEXT', slot)}
             >
               <span className="material-symbols-outlined">add_circle</span>
               3. SCHEDULE FOR NEXT WEEK
+            </button>
+          )}
+
+          {isEditable && (
+            <button
+              className="btn-modal btn-emerald"
+              onClick={() => onActionSelect('EXTRA_CLASS', slot)}
+            >
+              <span className="material-symbols-outlined">add_circle</span>
+              4. EXTRA CLASS (Add Additional Occurrence)
             </button>
           )}
         </div>
