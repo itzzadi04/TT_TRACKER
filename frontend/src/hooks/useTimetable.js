@@ -138,10 +138,26 @@ export function useTimetable() {
     setSelectedActionSlot(null);
     if (actionType === 'CANCEL') {
       setCancelSlotTarget(slot);
-    } else if (actionType === 'RESCHEDULE' || actionType === 'ADD_EXTRA') {
+    } else if (actionType === 'RESCHEDULE') {
       setRescheduleMode(true);
-      setRescheduleActionType(actionType);
+      setRescheduleActionType('RESCHEDULE');
       setUnlockedSlot(slot);
+    } else if (actionType === 'SCHEDULE_NEXT') {
+      // PREVIOUS IMPLEMENTATION: Schedule for Next Week
+      setRescheduleMode(true);
+      setRescheduleActionType('SCHEDULE_NEXT');
+      setUnlockedSlot(slot);
+    } else if (actionType === 'EXTRA_CLASS' || actionType === 'ADD_EXTRA') {
+      // EXTRA CLASS: Create a cloned/copied slot object for dragging without modifying the original
+      const clonedSlot = {
+        ...slot,
+        isExtraCopy: true,
+        originalSlotId: slot.originalSlotId || slot.slotId,
+        slotId: `${slot.slotId || 'slot'}_copy_${Date.now()}`,
+      };
+      setRescheduleMode(true);
+      setRescheduleActionType('ADD_EXTRA');
+      setUnlockedSlot(clonedSlot);
     }
   };
 
@@ -162,16 +178,23 @@ export function useTimetable() {
       roomNo: dropInfo.roomNo || slot.roomNo,
     };
 
-    const targetWeek = rescheduleActionType === 'ADD_EXTRA' ? 'next' : currentMode;
+    const isScheduleNext = rescheduleActionType === 'SCHEDULE_NEXT';
+    const isExtraClass = rescheduleActionType === 'ADD_EXTRA';
+
+    const targetWeek = isScheduleNext ? 'next' : currentMode;
     const targetScope =
       currentMode === 'base'
         ? 'PERMANENT'
-        : rescheduleActionType === 'ADD_EXTRA'
+        : (isScheduleNext || currentMode === 'next')
         ? 'NEXT_WEEK'
         : 'CURRENT_WEEK';
 
+    // Backend expects 'ADD_EXTRA' for extra class or schedule next week occurrence
+    const backendActionType = (isScheduleNext || isExtraClass) ? 'ADD_EXTRA' : 'RESCHEDULE';
+
     const placement = {
-      actionType: rescheduleActionType,
+      actionType: backendActionType,
+      workflowAction: isScheduleNext ? 'SCHEDULE_NEXT' : isExtraClass ? 'EXTRA_CLASS' : 'RESCHEDULE',
       originalSlot: slot,
       targetSlot,
       week: targetWeek,

@@ -590,6 +590,11 @@ table.timetable-grid th {
     animation: card-pulse 1.5s infinite;
 }
 
+.card-class.copy-source {
+    cursor: grab !important;
+    box-shadow: 0 0 0 2px #059669;
+}
+
 @keyframes card-pulse {
 
     0%,
