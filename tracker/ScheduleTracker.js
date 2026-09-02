@@ -1,3 +1,8 @@
+/*
+* each entity faculty room track there 3 maps
+* curr, next and base
+* will map unique_key with slot obj used for metadata
+*/
 class ScheduleTracker {
     constructor(ownerId, ownerType) {
         this.ownerId = ownerId;     // faculty id, section id, or room no
@@ -7,24 +12,30 @@ class ScheduleTracker {
         this.nextWeek = new Map();
     }
 
+    //gets the correct table
     _getTable(weekType) {
         if (weekType === 'base' || weekType === 'permanent') return this.baseSchedule;
         if (weekType === 'next') return this.nextWeek;
         return this.currentWeek;
     }
 
+    //makes sure time is always 2 digit:2 digit
+    //eg 09:00 otherwise 9:00 and 09:00 will behave differently
+    //even tho they are same representation
     padTime(t) {
         if (!t) return '00:00';
         const [h, m] = t.split(':');
         return `${h.padStart(2, '0')}:${m}`;
     }
 
+    //the general key looks like DAY_START_END eg MON_09:00_10:00
     getKey(day, start, end) {
         return `${day.toUpperCase()}_${this.padTime(start)}_${this.padTime(end)}`;
     }
 
-    /**
-     * Check if an atomic 1-hour slot is free for an incoming request.
+    /*
+     * checks if 1 hr slots are empty labs are divided into 2 atomic slots
+     * of one hour/
      * Group & Session aware:
      * - If existing slot belongs to the same sessionId as the incoming slot -> NOT a conflict (same logical session / shared lab).
      * - If section already has a group lab (e.g. G1), a whole-section normal class (incomingGroup = null) CANNOT be scheduled -> CONFLICT.
@@ -34,26 +45,28 @@ class ScheduleTracker {
         const key = this.getKey(day, start, end);
         const table = this._getTable(weekType);
         
-        // Check direct key (whole-section / whole-room / whole-faculty entry)
+        //direct check for lazy copying as majority of time classes
+        //of groups are same
         const existing = table.get(key);
         if (existing) {
-            // Same logical session -> permitted
+            //self session check
             if (incomingSessionId && existing.sessionId && existing.sessionId === incomingSessionId) {
                 return true;
             }
             // If existing is whole-section and incoming is anything -> CONFLICT
             return false;
         }
-
-        // Check group-specific entries (e.g. ${key}_G:G1, ${key}_G:G2)
+        //group specific check
+        //group keys are key_G:n eg key_G:2 represnts group 2 to same class
         for (const [k, slot] of table) {
             if (k.startsWith(key + '_G:')) {
-                // Same session -> permitted
+                //self session check for group keys
                 if (incomingSessionId && slot.sessionId && slot.sessionId === incomingSessionId) {
                     continue;
                 }
-                // If section owner:
+                // If section owner we will need to check raw+group
                 if (this.ownerType === 'SECTION') {
+
                     // If incoming is a whole-section class (no group specified), it conflicts with ANY active group session!
                     if (!incomingGroup) {
                         return false;
@@ -65,11 +78,11 @@ class ScheduleTracker {
                     // If different groups (e.g. existing G1, incoming G2) -> permitted!
                     continue;
                 }
-                // If room occupied by any group -> room is not free for other sections/sessions
+                //room occupied by any one makes directly unavailable
                 if (this.ownerType === 'ROOM') {
                     return false;
                 }
-                // If faculty teaching any group -> faculty is busy
+                //fac teaches any group direct unavailable
                 if (this.ownerType === 'FACULTY') {
                     return false;
                 }
@@ -79,11 +92,15 @@ class ScheduleTracker {
         return true;
     }
 
+    //assumes caller checks if conflict from isAtomicSlotFree
     getConflictReason(weekType, day, start, end, incomingGroup) {
+        //get the key+ curr table for whole class
         const key = this.getKey(day, start, end);
         const table = this._getTable(weekType);
         let slot = table.get(key);
 
+
+        //as for whole class not found check possible groups
         if (!slot) {
             for (const [k, s] of table) {
                 if (k.startsWith(key + '_G:')) {
@@ -112,10 +129,13 @@ class ScheduleTracker {
         return `ROOM conflict: Room ${this.ownerId} is occupied by ${slot.sectionId} for ${slot.subjectCode}${labTag}${groupTag} (Faculty: ${slot.facultyId}) at ${day} ${start}-${end}`;
     }
 
+    //assumes caller checked isAtomicSlotFree
     setSlot(weekType, slot) {
+        //get whole key
         const key = this.getKey(slot.day, slot.starting, slot.ending);
         const table = this._getTable(weekType);
 
+        //group attri change to group key
         if (slot.group) {
             const groupKey = `${key}_G:${slot.group}`;
             table.set(groupKey, slot);
@@ -124,6 +144,7 @@ class ScheduleTracker {
         }
     }
 
+    //assumes caller checked isAtomicSlotFree
     deleteSlot(weekType, day, start, end, group) {
         const key = this.getKey(day, start, end);
         const table = this._getTable(weekType);
@@ -141,6 +162,7 @@ class ScheduleTracker {
         }
     }
 
+    //returns the 2d representation of week
     exportGrid(weekType, days, timeIntervals) {
         const table = this._getTable(weekType);
         return days.map(day => ({

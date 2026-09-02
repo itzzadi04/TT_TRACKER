@@ -1,5 +1,11 @@
 const ScheduleTracker = require('./ScheduleTracker');
-
+/*tracks the Schedules for every entity
+* every entity must use the same instance of registry for orcastrating there work
+* as registry is the view of central truth as to update database
+* maps are checked first
+*
+* conclusion:use only 1 server machine
+*/
 class Registry {
     constructor() {
         this.faculties = new Map();
@@ -9,25 +15,28 @@ class Registry {
 
         this.days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
-        // 1-Hour Academic Grid Intervals
+        //1 hr intervals
         this.timeIntervals = [
             { start: '09:00', end: '10:00', isLunch: false },
             { start: '10:00', end: '11:00', isLunch: false },
             { start: '11:00', end: '12:00', isLunch: false },
             { start: '12:00', end: '13:00', isLunch: false },
-            { start: '13:00', end: '14:00', isLunch: true }, // Lunch Hour
+            { start: '13:00', end: '14:00', isLunch: true  },
             { start: '14:00', end: '15:00', isLunch: false },
             { start: '15:00', end: '16:00', isLunch: false },
             { start: '16:00', end: '17:00', isLunch: false }
         ];
     }
 
+    //same as schdule tracker 2 dig:2dig
     padTime(t) {
         if (!t) return '00:00';
         const [h, m] = t.split(':');
         return `${h.padStart(2, '0')}:${m}`;
     }
 
+    //returns the approprite map and if doesnt exist creates it
+    //as side effect must not be used to check states use direct .get()
     getOwner(type, id) {
         const targetMap =
             type === 'FACULTY' ? this.faculties :
@@ -39,6 +48,9 @@ class Registry {
         return targetMap.get(id);
     }
 
+    //returns arrays of atomic time intervals
+    //09:00 -10:00 becomes and interval bigger intervals will be split into
+    //1 hr slots
     getSpannedIntervals(rawStart, rawEnd) {
         const start = this.padTime(rawStart);
         const end = this.padTime(rawEnd);
@@ -50,7 +62,7 @@ class Registry {
         return matched.length > 0 ? matched : [{ start, end, isLunch: false }];
     }
 
-    /**
+    /*
      * Check for conflicts across faculty, room, and section.
      * Group & Session aware:
      * - Parallel group labs (G1 in Room A, G2 in Room B) are valid.

@@ -2,7 +2,7 @@ const registry = require('./Registry');
 const { computeEffectiveSchedule } = require('./effectiveSchedule');
 const { getCurrentWeekKey, getNextWeekKey } = require('./weekUtils');
 
-/**
+/*
  * Hydrate Registry from MongoDB.
  * Computes:
  * 1. Base / Permanent Timetable Blueprint ('base')
