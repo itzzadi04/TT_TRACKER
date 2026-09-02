@@ -15,6 +15,7 @@ export function useTimetable() {
   const [entities, setEntities] = useState({ faculties: [], sections: [], rooms: [] });
   const [gridData, setGridData] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [mutating, setMutating] = useState(false); // true while a reschedule/cancel/add-extra is committing
 
   // Reschedule & Drag State
   const [rescheduleMode, setRescheduleMode] = useState(false);
@@ -206,18 +207,21 @@ export function useTimetable() {
   };
 
   const commitMoveOrAdd = async (placement) => {
+    setMutating(true);
     try {
       const res = await ApiService.moveOrAddSlot(placement);
       if (res.success) {
         showToast(res.message || 'Timetable updated successfully.');
         exitRescheduleMode();
-        loadGrid();
+        await loadGrid();
       } else {
         showToast(res.error || 'Unable to update timetable.', true);
       }
     } catch (err) {
       console.error('[useTimetable] Move failed', err);
       showToast('Error committing timetable update.', true);
+    } finally {
+      setMutating(false);
     }
   };
 
@@ -247,18 +251,21 @@ export function useTimetable() {
       scope: currentMode === 'base' ? 'PERMANENT' : currentMode === 'next' ? 'NEXT_WEEK' : 'CURRENT_WEEK',
     };
 
+    setMutating(true);
     try {
       const res = await ApiService.cancelSlot(payload);
       if (res.success) {
         showToast(res.message || 'Class cancelled successfully.');
         setCancelSlotTarget(null);
-        loadGrid();
+        await loadGrid();
       } else {
         showToast(res.error || 'Unable to cancel class.', true);
       }
     } catch (err) {
       console.error('[useTimetable] Cancel failed', err);
       showToast('Error cancelling class.', true);
+    } finally {
+      setMutating(false);
     }
   };
 
@@ -275,6 +282,7 @@ export function useTimetable() {
     setSelectedEntityId,
     gridData,
     loading,
+    mutating,
     rescheduleMode,
     rescheduleActionType,
     unlockedSlot,

@@ -470,6 +470,49 @@ select.form-control:focus {
 }
 
 /* ============================================================
+   LOADING OVERLAY (shown while a mutation is committing)
+   ============================================================ */
+
+.loading-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 15, 35, 0.45);
+    backdrop-filter: blur(1.5px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+}
+
+.loading-overlay-card {
+    background: #ffffff;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+    padding: 20px 28px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--institutional-navy);
+}
+
+.loading-spinner {
+    width: 20px;
+    height: 20px;
+    border: 3px solid #dbe4ee;
+    border-top-color: var(--institutional-navy);
+    border-radius: 50%;
+    animation: loading-spin 0.7s linear infinite;
+}
+
+@keyframes loading-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ============================================================
    TIMETABLE GRID & CARDS
    ============================================================ */
 
