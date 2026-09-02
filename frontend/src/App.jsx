@@ -9,6 +9,7 @@ import RoomConflictModal from './components/modals/RoomConflictModal';
 import DropConfirmModal from './components/modals/DropConfirmModal';
 import DragBanner from './components/feedback/DragBanner';
 import Toast from './components/feedback/Toast';
+import LoadingOverlay from './components/feedback/LoadingOverlay';
 import { useTimetable } from './hooks/useTimetable';
 
 export default function App() {
@@ -25,6 +26,7 @@ export default function App() {
     setSelectedEntityId,
     gridData,
     loading,
+    mutating,
     rescheduleMode,
     rescheduleActionType,
     unlockedSlot,
@@ -131,6 +133,9 @@ export default function App() {
 
       {/* 4. Institutional Footer */}
       <Footer />
+
+      {/* Loading Overlay — shown while a reschedule/cancel/add-extra is committing */}
+      <LoadingOverlay show={mutating} />
     </div>
   );
 }

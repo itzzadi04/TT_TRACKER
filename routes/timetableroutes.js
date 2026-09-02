@@ -4,6 +4,7 @@ const registry = require('../tracker/Registry');
 const { hydrate } = require('../tracker/hydrate');
 const { computeEffectiveSchedule } = require('../tracker/effectiveSchedule');
 const { resolveWeekKey, getCurrentWeekKey, getNextWeekKey, getAcademicWeekState } = require('../tracker/weekUtils');
+const pendingChanges = require('../tracker/pendingChanges');
 
 const TimetableSlot = require('../models/TimetableSlot');
 const ScheduleOverride = require('../models/ScheduleOverride');
@@ -24,6 +25,120 @@ function enqueueWrite(task) {
     });
     return writeQueue;
 }
+
+// ──────────────────────────────────────────
+// Weekly Rollover: Mongo is only touched here.
+// All CURRENT_WEEK / NEXT_WEEK edits made during the week live purely in
+// RAM (registry + pendingChanges ledger) until this runs.
+// ──────────────────────────────────────────
+async function resolveRefs(slot) {
+    const [faculty, classSection, subject, room] = await Promise.all([
+        Faculty.findOne({ facultyId: slot.facultyId }),
+        ClassSection.findOne({ sectionId: slot.sectionId }),
+        Subject.findOne({ subjectCode: slot.subjectCode }),
+        Room.findOne({ roomNo: slot.roomNo }),
+    ]);
+    let time = await Time.findOne({ day: slot.day, starting: slot.starting, ending: slot.ending });
+    if (!time) time = await Time.create({ day: slot.day, starting: slot.starting, ending: slot.ending });
+    return { faculty, classSection, subject, room, time };
+}
+
+async function flushPendingChanges() {
+    const changes = pendingChanges.getAll();
+    if (changes.length === 0) return 0;
+
+    let written = 0;
+    for (const change of changes) {
+        const slot = change.action === 'CANCEL' ? change.originalSlot : change.targetSlot;
+        if (!slot) continue;
+
+        const { faculty, classSection, subject, room, time } = await resolveRefs(slot);
+        if (!faculty || !classSection || !subject || !room) continue;
+
+        const origId = change.originalSlot
+            ? (change.originalSlot.originalSlotId || change.originalSlot.slotId)
+            : null;
+
+        await ScheduleOverride.create({
+            weekKey: change.weekKey,
+            originalSlot: (change.action !== 'ADD_EXTRA' && origId && origId.length === 24) ? origId : null,
+            action: change.action,
+            scope: change.scope,
+            faculty: faculty._id,
+            classSection: classSection._id,
+            subject: subject._id,
+            room: room._id,
+            time: time._id,
+            sessionId: slot.sessionId,
+            isLab: slot.isLab || false,
+            duration: slot.duration || 1,
+            group: slot.group || null,
+            status: 'ACTIVE'
+        });
+        written++;
+    }
+
+    pendingChanges.clear();
+    return written;
+}
+
+// After any hydrate() that did NOT flush first (i.e. a permanent/base edit
+// mid-week), the registry is rebuilt purely from Mongo and loses whatever
+// current/next-week changes are still sitting unflushed in pendingChanges.
+// Re-apply them on top so the grid doesn't appear to "revert" until rollover.
+function reapplyPendingChanges() {
+    const liveCurrentKey = getCurrentWeekKey();
+    const liveNextKey = getNextWeekKey();
+
+    for (const change of pendingChanges.getAll()) {
+        let weekType = null;
+        if (change.weekKey === liveCurrentKey) weekType = 'current';
+        else if (change.weekKey === liveNextKey) weekType = 'next';
+        if (!weekType) continue; // stale entry from a week that's already rolled past
+
+        if (change.action === 'CANCEL' && change.originalSlot) {
+            const s = change.originalSlot;
+            registry.removeSlot(weekType, {
+                facultyId: s.facultyId, roomNo: s.roomNo, sectionId: s.sectionId, day: s.day,
+                starting: s.parentStart || s.starting, ending: s.parentEnd || s.ending, group: s.group || null
+            });
+        } else if (change.action === 'RESCHEDULE' && change.targetSlot) {
+            if (change.originalSlot) {
+                const s = change.originalSlot;
+                registry.removeSlot(weekType, {
+                    facultyId: s.facultyId, roomNo: s.roomNo, sectionId: s.sectionId, day: s.day,
+                    starting: s.parentStart || s.starting, ending: s.parentEnd || s.ending, group: s.group || null
+                });
+            }
+            registry.addSlot(weekType, change.targetSlot);
+        } else if (change.action === 'ADD_EXTRA' && change.targetSlot) {
+            registry.addSlot(weekType, change.targetSlot);
+        }
+    }
+}
+
+// Detects a week boundary crossing (e.g. server left running over Monday
+// 00:00) and auto-flushes + re-hydrates before serving the request.
+let lastKnownCurrentWeekKey = null;
+
+async function ensureWeekIsCurrent() {
+    const liveKey = getCurrentWeekKey();
+    if (lastKnownCurrentWeekKey && liveKey !== lastKnownCurrentWeekKey) {
+        console.log('[Rollover] Week boundary crossed — flushing pending changes & re-hydrating...');
+        await flushPendingChanges();
+        await hydrate();
+    }
+    lastKnownCurrentWeekKey = liveKey;
+}
+
+router.use(async (req, res, next) => {
+    try {
+        await ensureWeekIsCurrent();
+        next();
+    } catch (err) {
+        next(err);
+    }
+});
 
 // ──────────────────────────────────────────
 // 1. Read Grid (from RAM registry)
@@ -136,7 +251,7 @@ router.post('/cancel', (req, res) => {
             const weekLabel = isPermanent ? 'Base Timetable' : (isNext ? 'Next Week' : 'Current Week');
 
             if (isPermanent) {
-                // ── PERMANENT CANCELLATION ──
+                // ── PERMANENT CANCELLATION (writes straight to Mongo — base data is important) ──
                 if (slot.originalSlotId || slot.slotId) {
                     const targetId = slot.originalSlotId || slot.slotId;
                     await TimetableSlot.findByIdAndUpdate(targetId, { isCancelled: true });
@@ -149,38 +264,31 @@ router.post('/cancel', (req, res) => {
                         { isCancelled: true }
                     );
                 }
+
+                // Re-hydrate registry from database (base data changed)
+                await hydrate();
+                reapplyPendingChanges();
             } else {
-                // ── ACTIVE WEEK-SPECIFIC CANCELLATION ──
-                const faculty = await Faculty.findOne({ facultyId: slot.facultyId });
-                const classSection = await ClassSection.findOne({ sectionId: slot.sectionId });
-                const subject = await Subject.findOne({ subjectCode: slot.subjectCode });
-                const room = await Room.findOne({ roomNo: slot.roomNo });
-                const time = await Time.findOne({ day: slot.day, starting: slot.starting, ending: slot.ending });
+                // ── ACTIVE WEEK-SPECIFIC CANCELLATION (RAM only — Mongo touched at rollover) ──
+                const weekType = isNext ? 'next' : 'current';
 
-                if (faculty && classSection && subject && room && time) {
-                    const origId = (slot.originalSlotId && slot.originalSlotId.length === 24) ? slot.originalSlotId : (slot.slotId && slot.slotId.length === 24 ? slot.slotId : null);
+                registry.removeSlot(weekType, {
+                    facultyId: slot.facultyId,
+                    roomNo: slot.roomNo,
+                    sectionId: slot.sectionId,
+                    day: slot.day,
+                    starting: slot.parentStart || slot.starting,
+                    ending: slot.parentEnd || slot.ending,
+                    group: slot.group || null
+                });
 
-                    await ScheduleOverride.create({
-                        weekKey: targetWeekKey,
-                        originalSlot: origId,
-                        action: 'CANCEL',
-                        scope: isNext ? 'NEXT_WEEK' : 'CURRENT_WEEK',
-                        faculty: faculty._id,
-                        classSection: classSection._id,
-                        subject: subject._id,
-                        room: room._id,
-                        time: time._id,
-                        sessionId: slot.sessionId || `${slot.facultyId}_${slot.sectionId}_${slot.subjectCode}`,
-                        isLab: slot.isLab || false,
-                        duration: slot.duration || 1,
-                        group: slot.group || null,
-                        status: 'ACTIVE'
-                    });
-                }
+                pendingChanges.record({
+                    weekKey: targetWeekKey,
+                    action: 'CANCEL',
+                    scope: isNext ? 'NEXT_WEEK' : 'CURRENT_WEEK',
+                    originalSlot: slot
+                });
             }
-
-            // Re-hydrate registry from database
-            await hydrate();
 
             let message = isPermanent
                 ? 'Class cancelled permanently from Base Timetable.'
@@ -379,34 +487,32 @@ router.post('/move-or-add', (req, res) => {
             });
         }
 
-        // Step C: Persist mutation to MongoDB
+        // Step C: Persist mutation
         try {
-            // Resolve target Time document
-            let targetTime = await Time.findOne({
-                day: targetSlot.day,
-                starting: targetSlot.starting,
-                ending: targetSlot.ending
-            });
-            if (!targetTime) {
-                targetTime = await Time.create({
-                    day: targetSlot.day,
-                    starting: targetSlot.starting,
-                    ending: targetSlot.ending
-                });
-            }
-
-            // Resolve Faculty, ClassSection, Subject
-            const faculty = await Faculty.findOne({ facultyId: targetSlot.facultyId });
-            const classSection = await ClassSection.findOne({ sectionId: targetSlot.sectionId });
-            const subject = await Subject.findOne({ subjectCode: targetSlot.subjectCode });
-
-            if (!faculty || !classSection || !subject) {
-                if (!isScheduleExtra && actionType === 'RESCHEDULE' && originalSlot) registry.addSlot(activeWeekType, originalSlot);
-                return res.status(400).json({ success: false, error: 'Could not resolve entity references.' });
-            }
+            const sessionId = isScheduleExtra
+                ? `EXTRA_${targetSlot.facultyId}_${targetSlot.sectionId}_${targetSlot.subjectCode}_${targetWeekKey}_${Date.now()}`
+                : (targetSlot.sessionId || `${targetSlot.facultyId}_${targetSlot.sectionId}_${targetSlot.subjectCode}_${targetSlot.day}_${targetSlot.starting}_OVER_${Date.now()}`);
 
             if (isPermanent) {
-                // ── PERMANENT MUTATION (Updates Base Timetable) ──
+                // ── PERMANENT MUTATION (writes straight to Mongo — base data is important) ──
+                let targetTime = await Time.findOne({
+                    day: targetSlot.day, starting: targetSlot.starting, ending: targetSlot.ending
+                });
+                if (!targetTime) {
+                    targetTime = await Time.create({
+                        day: targetSlot.day, starting: targetSlot.starting, ending: targetSlot.ending
+                    });
+                }
+
+                const faculty = await Faculty.findOne({ facultyId: targetSlot.facultyId });
+                const classSection = await ClassSection.findOne({ sectionId: targetSlot.sectionId });
+                const subject = await Subject.findOne({ subjectCode: targetSlot.subjectCode });
+
+                if (!faculty || !classSection || !subject) {
+                    if (!isScheduleExtra && actionType === 'RESCHEDULE' && originalSlot) registry.addSlot(activeWeekType, originalSlot);
+                    return res.status(400).json({ success: false, error: 'Could not resolve entity references.' });
+                }
+
                 if (!isScheduleExtra && actionType === 'RESCHEDULE' && originalSlot && (originalSlot.originalSlotId || originalSlot.slotId)) {
                     const slotDbId = originalSlot.originalSlotId || originalSlot.slotId;
                     await TimetableSlot.findByIdAndUpdate(slotDbId, {
@@ -414,14 +520,13 @@ router.post('/move-or-add', (req, res) => {
                         room: targetRoom._id
                     });
                 } else {
-                    const sessionId = `${targetSlot.facultyId}_${targetSlot.sectionId}_${targetSlot.subjectCode}_${targetSlot.day}_${targetSlot.starting}_PERM_${Date.now()}`;
                     await TimetableSlot.create({
                         faculty: faculty._id,
                         classSection: classSection._id,
                         subject: subject._id,
                         room: targetRoom._id,
                         time: targetTime._id,
-                        sessionId,
+                        sessionId: `${sessionId}_PERM`,
                         isLab: targetSlot.isLab || false,
                         duration: targetSlot.duration || 1,
                         group: targetSlot.group || null,
@@ -430,33 +535,30 @@ router.post('/move-or-add', (req, res) => {
                         isCancelled: false
                     });
                 }
-            } else {
-                // ── WEEK-SPECIFIC OVERRIDE (Creates ScheduleOverride Delta for THIS week or NEXT week only) ──
-                const origId = originalSlot ? (originalSlot.originalSlotId || originalSlot.slotId) : null;
-                const sessionId = isScheduleExtra
-                    ? `EXTRA_${targetSlot.facultyId}_${targetSlot.sectionId}_${targetSlot.subjectCode}_${targetWeekKey}_${Date.now()}`
-                    : (targetSlot.sessionId || `${targetSlot.facultyId}_${targetSlot.sectionId}_${targetSlot.subjectCode}_${targetSlot.day}_${targetSlot.starting}_OVER_${Date.now()}`);
 
-                await ScheduleOverride.create({
+                // Re-hydrate in-memory state (base data changed)
+                await hydrate();
+                reapplyPendingChanges();
+            } else {
+                // ── WEEK-SPECIFIC OVERRIDE (RAM only — Mongo touched at rollover) ──
+                const placedSlot = {
+                    ...targetSlot,
+                    sessionId,
+                    isFixed: false,
+                    isOverride: true,
+                    overrideAction: isScheduleExtra ? 'ADD_EXTRA' : 'RESCHEDULE',
                     weekKey: targetWeekKey,
-                    originalSlot: (!isScheduleExtra && origId && origId.length === 24) ? origId : null,
+                };
+                registry.addSlot(activeWeekType, placedSlot);
+
+                pendingChanges.record({
+                    weekKey: targetWeekKey,
                     action: isScheduleExtra ? 'ADD_EXTRA' : 'RESCHEDULE',
                     scope: isNext ? 'NEXT_WEEK' : 'CURRENT_WEEK',
-                    faculty: faculty._id,
-                    classSection: classSection._id,
-                    subject: subject._id,
-                    room: targetRoom._id,
-                    time: targetTime._id,
-                    sessionId,
-                    isLab: targetSlot.isLab || false,
-                    duration: targetSlot.duration || 1,
-                    group: targetSlot.group || null,
-                    status: 'ACTIVE'
+                    originalSlot: !isScheduleExtra ? originalSlot : null,
+                    targetSlot: placedSlot,
                 });
             }
-
-            // Step D: Re-hydrate in-memory state
-            await hydrate();
 
             let msg = isPermanent
                 ? 'Permanent change applied to Base Timetable.'
@@ -469,10 +571,10 @@ router.post('/move-or-add', (req, res) => {
                 conflict: false,
                 message: msg
             });
-        } catch (dbErr) {
-            console.error('[Move/Add Error]', dbErr);
+        } catch (err) {
+            console.error('[Move/Add Error]', err);
             if (!isScheduleExtra && actionType === 'RESCHEDULE' && originalSlot) registry.addSlot(activeWeekType, originalSlot);
-            res.status(500).json({ success: false, error: 'Persistence failed: ' + dbErr.message });
+            res.status(500).json({ success: false, error: 'Persistence failed: ' + err.message });
         }
     });
 });
@@ -482,12 +584,15 @@ router.post('/move-or-add', (req, res) => {
 // ──────────────────────────────────────────
 router.post('/rollover', async (req, res) => {
     try {
-        console.log('[Rollover] Performing weekly rollover and re-hydrating...');
+        console.log('[Rollover] Flushing pending changes to MongoDB and re-hydrating...');
+        const flushedCount = await flushPendingChanges();
         await hydrate();
+        lastKnownCurrentWeekKey = getCurrentWeekKey();
         res.json({
             success: true,
             currentWeekKey: getCurrentWeekKey(),
             nextWeekKey: getNextWeekKey(),
+            flushedChanges: flushedCount,
             message: 'Weekly schedule rolled over successfully.'
         });
     } catch (err) {
