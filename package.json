@@ -9,7 +9,8 @@
   "scripts": {
     "start": "node server.js",
     "seed": "node seed/seed.js",
-    "test": "node tests/workflowTestRunner.js"
+    "test": "node tests/workflowTestRunner.js",
+    "test:import": "node tests/test_import_endpoint.js"
   },
   "dependencies": {
     "dotenv": "^17.4.2",

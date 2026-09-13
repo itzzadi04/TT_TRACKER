@@ -7,7 +7,7 @@ const timetableRoutes = require('./routes/timetableroutes');
 const { hydrate } = require('./tracker/hydrate');
 
 const app = express();
-app.use(express.json());
+app.use(express.json({ limit: '10mb' }));
 
 // Serve static React production build
 const distPath = path.join(__dirname, 'frontend/dist');

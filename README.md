@@ -117,3 +117,96 @@ npm run build
 
 ### 3. Production Deployment
 When running `npm start` from the root directory, Express serves the optimized React bundle from `frontend/dist/` with full client-side SPA routing fallback.
+
+---
+
+## 🔄 FATGS Timetable Import Integration (Server-to-Server)
+
+TT_TRACKER provides a secure, authenticated server-to-server endpoint allowing FATGS (Faculty Allocation & Timetable Generation System) to hand off a complete generated semester timetable.
+
+> [!IMPORTANT]
+> **System Roles & Database Ownership**:
+> - **FATGS** generates, validates, and exports the timetable package.
+> - **TT_TRACKER** receives, validates, and owns its MongoDB database. FATGS never connects directly to TT_TRACKER's database.
+> - After import, the timetable immediately becomes the **BASE** and **CURRENT** timetable.
+
+### 1. Endpoint & Authentication
+- **Method & Route**: `POST /api/timetable/import` (or `POST /api/import`)
+- **Headers**:
+  - `Content-Type: application/json`
+  - `x-import-secret: <TT_TRACKER_IMPORT_SECRET>` or `Authorization: Bearer <TT_TRACKER_IMPORT_SECRET>`
+- **Environment Variable**: `TT_TRACKER_IMPORT_SECRET` in `.env` (configured locally or via deployment secrets; never committed to git).
+
+### 2. Integration Contract (Payload Format)
+The endpoint accepts either a wrapped package object or a direct array of flat slots:
+
+```json
+{
+  "academicYear": "2026-2027",
+  "semesterType": "Odd",
+  "packageId": "FATGS_ODD_SEM_2026_BATCH_1",
+  "slots": [
+    {
+      "section": "CS2",
+      "year": "2nd Year",
+      "semester": "3rd Semester",
+      "day": "Monday",
+      "start": "09:00",
+      "end": "10:00",
+      "subjectCode": "CS-212",
+      "faculty": "RK",
+      "room": "G5",
+      "isLab": false,
+      "duration": 1,
+      "group": null,
+      "sessionId": "RK_Y2_S3_CS_CS-212_Monday_09:00"
+    },
+    {
+      "section": "CS2",
+      "year": "2nd Year",
+      "semester": "3rd Semester",
+      "day": "Monday",
+      "start": "11:00",
+      "end": "13:00",
+      "subjectCode": "CS-218",
+      "faculty": "NG",
+      "room": "P4",
+      "isLab": true,
+      "duration": 2,
+      "group": "G1",
+      "sessionId": "NG_Y2_S3_CS_CS-218_Monday_11:00_G1"
+    }
+  ]
+}
+```
+
+### 3. Validation & Safety Guarantees
+1. **Pre-flight Reference Resolution**: Every slot is checked against authoritative collections:
+   - **Faculty**: Looked up by `facultyId` or exact full `name`. Unknown faculty rejects the package.
+   - **Room**: Looked up by `roomNo`. Unknown room rejects the package.
+   - **Subject**: Looked up by `subjectCode`. Unknown subject rejects the package.
+   - **Section**: Resolved from `sectionId` (e.g. `Y2_S3_CS`) or tuple `(year, semester, section)` with normalization (e.g. `"2nd Year"` / `2`, `"3rd Semester"` / `3`, `"CS2"` / `"CS"`).
+   - **Time**: Validated day (`Monday`–`Saturday`) and time range (`start < end`).
+2. **Pre-flight Conflict Validation**:
+   - Detects exact duplicate records.
+   - Verifies faculty concurrency (same faculty cannot teach two different sessions at the same time).
+   - Verifies room concurrency (same room cannot host two different sessions at the same time).
+   - Verifies section concurrency (permits simultaneous parallel group labs such as $G_1$ in `P4` and $G_2$ in `B1`, but rejects overlapping regular lectures).
+3. **Atomicity Guarantee**:
+   - If ANY validation fails, the request is rejected with `422 Unprocessable Entity` or `400 Bad Request`.
+   - The existing timetable in MongoDB and runtime `Registry` remains 100% untouched.
+4. **Replacement & Override Cleanup**:
+   - On complete validation, base timetable slots in `TimetableSlot` are replaced inside a MongoDB transaction (or sequential fallback).
+   - Stale timetable-specific `ScheduleOverride` records tied to the old base timetable are automatically purged.
+   - `await hydrate()` is called immediately to update the in-memory `Registry`.
+   - The new timetable is immediately active for current week views without requiring a server restart or Monday rollover.
+5. **Idempotency**: Repeatedly importing the same package is safe and produces identical database state.
+
+### 4. Running Verification Tests
+```bash
+# Run the 43-assertion import endpoint test suite
+npm run test:import
+
+# Run the 61-assertion active-week workflow test suite
+npm test
+```

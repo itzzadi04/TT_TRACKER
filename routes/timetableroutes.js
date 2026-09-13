@@ -13,6 +13,7 @@ const ClassSection = require('../models/ClassSection');
 const Subject = require('../models/Subject');
 const Room = require('../models/Room');
 const Time = require('../models/Time');
+const { handleTimetableImport } = require('./importController');
 
 // FIFO Queue for serializing write mutations
 let writeQueue = Promise.resolve();
@@ -631,5 +632,10 @@ router.get('/conflicts', async (req, res) => {
         conflicts: result.errors
     });
 });
+
+// ──────────────────────────────────────────
+// 10. Authenticated Server-to-Server Import Endpoint
+// ──────────────────────────────────────────
+router.post('/import', handleTimetableImport);
 
 module.exports = router;
