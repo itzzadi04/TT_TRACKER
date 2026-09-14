@@ -169,16 +169,16 @@ router.get('/entities', async (req, res) => {
         ]);
 
         const faculties = facultyDocs.length > 0
-            ? facultyDocs.map(f => f.facultyId)
-            : registry.getEntityIds('FACULTY');
+            ? facultyDocs.map(f => ({ facultyId: f.facultyId, name: f.name || f.facultyId }))
+            : registry.getEntityIds('FACULTY').map(id => ({ facultyId: id, name: id }));
 
         const rooms = roomDocs.length > 0
-            ? roomDocs.map(r => r.roomNo)
-            : registry.getEntityIds('ROOM');
+            ? roomDocs.map(r => ({ roomNo: r.roomNo, labOrClass: r.labOrClass, building: r.building }))
+            : registry.getEntityIds('ROOM').map(id => ({ roomNo: id, labOrClass: 'Class', building: 'DoCSE' }));
 
         const sections = sectionDocs.length > 0
-            ? sectionDocs.map(s => s.sectionId)
-            : registry.getEntityIds('SECTION');
+            ? sectionDocs.map(s => ({ sectionId: s.sectionId, year: s.year, semester: s.semester, section: s.section }))
+            : registry.getEntityIds('SECTION').map(id => ({ sectionId: id }));
 
         res.json({ faculties, rooms, sections });
     } catch (err) {

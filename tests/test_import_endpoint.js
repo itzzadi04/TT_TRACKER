@@ -770,6 +770,13 @@ async function runImportTestSuite() {
     } finally {
         server.close();
         console.log('\n[Cleanup] Test Express server closed.');
+        try {
+            await Faculty.deleteMany({ facultyId: { $in: ['NEW_FAC_1', 'NEW_FAC_2'] } });
+            await Subject.deleteMany({ subjectCode: { $in: ['CS-901', 'CS-902'] } });
+            console.log('[Cleanup] Test faculty and subject fixtures cleaned up from MongoDB.');
+        } catch (cleanupErr) {
+            console.warn('[Cleanup Warning] Could not clean up test fixtures:', cleanupErr.message);
+        }
     }
 
     console.log('\n============================================================');

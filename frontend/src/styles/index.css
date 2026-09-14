@@ -213,12 +213,16 @@ header.institutional-header {
     text-decoration: none;
     font-size: 13px;
     font-weight: 500;
-    padding: 0 6px;
+    padding: 0 10px;
     height: 100%;
     display: flex;
     align-items: center;
-    transition: color 0.15s ease;
+    transition: color 0.15s ease, border-bottom 0.15s ease;
     white-space: nowrap;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
 }
 
 .nav-item:hover {
@@ -888,14 +892,22 @@ footer.institutional-footer {
     gap: 10px;
 }
 
-.footer-link-list a {
+.footer-link-list a,
+.footer-link-btn {
     color: #94a3b8;
     text-decoration: none;
     font-size: 0.85rem;
     transition: color 0.15s ease;
+    background: none;
+    border: none;
+    padding: 0;
+    text-align: left;
+    cursor: pointer;
+    font-family: inherit;
 }
 
-.footer-link-list a:hover {
+.footer-link-list a:hover,
+.footer-link-btn:hover {
     color: var(--nit-gold);
     text-decoration: underline;
 }
@@ -1321,4 +1333,146 @@ footer.institutional-footer {
         padding: 10px;
         font-size: 12px;
     }
+}
+
+/* ──────────────────────────────────────────
+   Guidelines View Styles
+   ────────────────────────────────────────── */
+.guidelines-container {
+    max-width: var(--container-max);
+    margin: 24px auto 48px;
+    padding: 0 24px;
+}
+
+.guidelines-header-card {
+    background: #ffffff;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    padding: 24px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+    margin-bottom: 24px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.guidelines-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    background: rgba(0, 33, 71, 0.08);
+    color: var(--institutional-navy);
+    font-size: 11px;
+    font-weight: 700;
+    border-radius: var(--radius-pill);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    letter-spacing: 0.04em;
+}
+
+.guidelines-header-content h1 {
+    font-size: 1.6rem;
+    color: var(--institutional-navy);
+    margin: 0 0 8px 0;
+    font-weight: 800;
+    letter-spacing: -0.015em;
+}
+
+.guidelines-header-content p {
+    font-size: 14px;
+    color: #475569;
+    max-width: 720px;
+    line-height: 1.5;
+    margin: 0;
+}
+
+.btn-back-timetable {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: var(--institutional-navy);
+    color: #ffffff;
+    border: none;
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    transition: background 0.15s ease;
+    white-space: nowrap;
+}
+
+.btn-back-timetable:hover {
+    background: #001733;
+}
+
+.guidelines-sections-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.guideline-card {
+    background: #ffffff;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    padding: 24px 28px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.guideline-card-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 14px;
+    border-bottom: 1px solid #f1f5f9;
+    padding-bottom: 12px;
+}
+
+.guideline-num {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--institutional-navy);
+    color: var(--nit-gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 14px;
+    flex-shrink: 0;
+}
+
+.guideline-card-header h2 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--institutional-navy);
+    margin: 0;
+}
+
+.guideline-card-body p {
+    font-size: 13.5px;
+    color: #334155;
+    line-height: 1.6;
+    margin-bottom: 12px;
+}
+
+.guideline-card-body ul,
+.guideline-card-body ol {
+    padding-left: 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 0;
+}
+
+.guideline-card-body li {
+    font-size: 13.5px;
+    color: #334155;
+    line-height: 1.6;
+}
+
+.guideline-card-body strong {
+    color: var(--institutional-navy);
+    font-weight: 600;
 }

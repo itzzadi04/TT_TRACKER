@@ -1,8 +1,8 @@
 import React from 'react';
+import { formatFacultyDisplay, formatSectionDisplay, formatRoomDisplay } from '../../utils/formatters';
 
 export default function TimetableToolbar({
   currentView,
-  onViewChange,
   currentMode,
   onModeChange,
   entities,
@@ -12,25 +12,33 @@ export default function TimetableToolbar({
   simulatedDay,
   onSimulatedDayChange,
 }) {
-  // Determine Entity Options
+  // Determine Entity Options & Labels
   let entityLabel = 'Select Faculty:';
   let entityOptions = [];
 
   if (currentView === 'faculty') {
     entityLabel = 'Select Faculty:';
-    entityOptions = (entities.faculties || []).map((f) =>
-      typeof f === 'string' ? { id: f, label: f } : { id: f.facultyId || f.name, label: f.name || f.facultyId }
-    );
+    entityOptions = (entities.faculties || [])
+      .map((f) => {
+        const id = typeof f === 'string' ? f : f.facultyId;
+        const label = formatFacultyDisplay(f);
+        return { id, label };
+      })
+      .sort((a, b) => a.label.localeCompare(b.label));
   } else if (currentView === 'section') {
     entityLabel = 'Select Section:';
-    entityOptions = (entities.sections || []).map((s) =>
-      typeof s === 'string' ? { id: s, label: s } : { id: s.sectionId || s.name, label: s.name || s.sectionId }
-    );
+    entityOptions = (entities.sections || []).map((s) => {
+      const id = typeof s === 'string' ? s : s.sectionId;
+      const label = formatSectionDisplay(s);
+      return { id, label };
+    });
   } else if (currentView === 'room') {
     entityLabel = 'Select Room:';
-    entityOptions = (entities.rooms || []).map((r) =>
-      typeof r === 'string' ? { id: r, label: r } : { id: r.roomNo || r.name, label: `${r.roomNo || r.name} (${r.type || 'Lecture'})` }
-    );
+    entityOptions = (entities.rooms || []).map((r) => {
+      const id = typeof r === 'string' ? r : r.roomNo;
+      const label = formatRoomDisplay(r, { withType: true });
+      return { id, label };
+    });
   }
 
   const currentWeekFormatted = workflowContext?.currentWeekFormatted || '';
@@ -38,34 +46,31 @@ export default function TimetableToolbar({
   const todayFormatted = workflowContext?.todayFormatted || workflowContext?.today || 'Loading...';
   const isDevMode = !!workflowContext?.devMode;
 
+  const viewMeta = {
+    faculty: {
+      title: 'FACULTY TIMETABLE',
+      desc: 'Official teaching schedules, faculty workload, and individual lecture allocations',
+    },
+    section: {
+      title: 'SECTION TIMETABLE',
+      desc: 'Class curriculum matrix, theory lectures, and laboratory sessions',
+    },
+    room: {
+      title: 'ROOM OCCUPANCY MATRIX',
+      desc: 'Lecture hall and computer laboratory utilization schedule',
+    },
+  }[currentView] || {
+    title: 'ACADEMIC TIMETABLE',
+    desc: 'Official schedule orchestrator for faculty, sections, and lecture halls',
+  };
+
   return (
     <section className="toolbar-card">
-      {/* Row 1: Heading & View Mode Selector */}
+      {/* Row 1: Academic Page Heading */}
       <div className="toolbar-row-top">
         <div className="page-heading">
-          <h1>ACADEMIC TIMETABLE</h1>
-          <p>Official schedule orchestrator for faculty, sections, and lecture halls</p>
-        </div>
-
-        <div className="view-mode-tabs">
-          <button
-            className={`tab-btn ${currentView === 'faculty' ? 'active' : ''}`}
-            onClick={() => onViewChange('faculty')}
-          >
-            FACULTY
-          </button>
-          <button
-            className={`tab-btn ${currentView === 'section' ? 'active' : ''}`}
-            onClick={() => onViewChange('section')}
-          >
-            SECTION
-          </button>
-          <button
-            className={`tab-btn ${currentView === 'room' ? 'active' : ''}`}
-            onClick={() => onViewChange('room')}
-          >
-            ROOM
-          </button>
+          <h1>{viewMeta.title}</h1>
+          <p>{viewMeta.desc}</p>
         </div>
       </div>
 
@@ -94,18 +99,21 @@ export default function TimetableToolbar({
           {/* Schedule Mode Toggle */}
           <div className="schedule-mode-toggle">
             <button
+              type="button"
               className={`mode-btn ${currentMode === 'current' ? 'active' : ''}`}
               onClick={() => onModeChange('current')}
             >
               Current Week {currentWeekFormatted ? `(${currentWeekFormatted})` : ''}
             </button>
             <button
+              type="button"
               className={`mode-btn ${currentMode === 'next' ? 'active' : ''}`}
               onClick={() => onModeChange('next')}
             >
               Next Week {nextWeekFormatted ? `(${nextWeekFormatted})` : ''}
             </button>
             <button
+              type="button"
               className={`mode-btn ${currentMode === 'base' ? 'active-base' : ''}`}
               onClick={() => onModeChange('base')}
             >

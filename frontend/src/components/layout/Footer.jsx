@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function Footer() {
+export default function Footer({ onNavSelect }) {
   return (
     <footer className="institutional-footer">
       <div className="footer-content">
@@ -20,10 +20,34 @@ export default function Footer() {
           <div className="footer-col">
             <h4 className="footer-heading">Quick Links</h4>
             <div className="footer-link-list">
-              <a href="#">Faculty Schedules</a>
-              <a href="#">Section Matrices</a>
-              <a href="#">Room Occupancy</a>
-              <a href="#">Academic Guidelines</a>
+              <button
+                type="button"
+                className="footer-link-btn"
+                onClick={() => onNavSelect && onNavSelect('faculty')}
+              >
+                Faculty Schedules
+              </button>
+              <button
+                type="button"
+                className="footer-link-btn"
+                onClick={() => onNavSelect && onNavSelect('sections')}
+              >
+                Section Matrices
+              </button>
+              <button
+                type="button"
+                className="footer-link-btn"
+                onClick={() => onNavSelect && onNavSelect('rooms')}
+              >
+                Room Occupancy
+              </button>
+              <button
+                type="button"
+                className="footer-link-btn"
+                onClick={() => onNavSelect && onNavSelect('guidelines')}
+              >
+                Academic Guidelines
+              </button>
             </div>
           </div>
 
