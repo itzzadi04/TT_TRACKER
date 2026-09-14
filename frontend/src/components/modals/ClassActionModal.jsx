@@ -1,4 +1,5 @@
 import React from 'react';
+import { formatFacultyDisplay, formatSectionDisplay, formatRoomDisplay } from '../../utils/formatters';
 
 export default function ClassActionModal({
   slot,
@@ -40,12 +41,12 @@ export default function ClassActionModal({
           <br />
           <strong>Day & Time:</strong> {slot.day} {slot.starting} - {slot.ending}
           <br />
-          <strong>Room:</strong> {slot.roomNo || 'TBD'}
+          <strong>Room:</strong> {formatRoomDisplay(slot.roomNo)}
           <br />
-          <strong>Section:</strong> {slot.sectionId || 'N/A'}{' '}
+          <strong>Section:</strong> {formatSectionDisplay(slot.sectionId)}{' '}
           {slot.group ? `(Group ${slot.group})` : ''}
           <br />
-          <strong>Faculty:</strong> {slot.facultyName || slot.facultyId || 'Unassigned'}
+          <strong>Faculty:</strong> {formatFacultyDisplay(slot.facultyName || slot.facultyId)}
           <br />
           <strong>Active Timetable:</strong> {currentMode.toUpperCase()} TIMETABLE
         </div>

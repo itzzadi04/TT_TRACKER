@@ -7,7 +7,7 @@ export function useTimetable() {
   const [simulatedDay, setSimulatedDay] = useState(null);
 
   // Studio View Controls
-  const [currentView, setCurrentView] = useState('faculty');
+  const [currentView, setCurrentView] = useState('section');
   const [currentMode, setCurrentMode] = useState('current');
   const [selectedEntityId, setSelectedEntityId] = useState(null);
 
@@ -101,7 +101,11 @@ export function useTimetable() {
     else if (currentView === 'section') validList = entities.sections;
     else if (currentView === 'room') validList = entities.rooms;
 
-    if (validList && validList.length > 0 && !validList.includes(selectedEntityId)) {
+    const entityExists = validList.some(item =>
+      (typeof item === 'string' ? item : (item.facultyId || item.sectionId || item.roomNo || item.id)) === selectedEntityId
+    );
+
+    if (validList && validList.length > 0 && !entityExists) {
       return; // Skip grid load while view and entityId are transitioning
     }
 

@@ -1,7 +1,13 @@
 import React, { useState } from 'react';
 
-export default function Header() {
+export default function Header({ activeNav = 'sections', onNavSelect }) {
   const [imgError, setImgError] = useState(false);
+
+  const handleNav = (navKey) => {
+    if (onNavSelect) {
+      onNavSelect(navKey);
+    }
+  };
 
   return (
     <header className="institutional-header">
@@ -39,13 +45,49 @@ export default function Header() {
       {/* Bottom Tier: Institutional Navy Navigation Bar */}
       <div className="header-nav-tier">
         <div className="header-nav-content">
-          <nav className="nav-links">
-            <a href="#" className="nav-item">Home</a>
-            <a href="#" className="nav-item active">Timetable</a>
-            <a href="#" className="nav-item">Faculty</a>
-            <a href="#" className="nav-item">Sections</a>
-            <a href="#" className="nav-item">Rooms</a>
-            <a href="#" className="nav-item">Guidelines</a>
+          <nav className="nav-links" aria-label="Primary Navigation">
+            <button
+              type="button"
+              className={`nav-item ${activeNav === 'home' ? 'active' : ''}`}
+              onClick={() => handleNav('home')}
+            >
+              Home
+            </button>
+            <button
+              type="button"
+              className={`nav-item ${activeNav === 'timetable' ? 'active' : ''}`}
+              onClick={() => handleNav('timetable')}
+            >
+              Timetable
+            </button>
+            <button
+              type="button"
+              className={`nav-item ${activeNav === 'faculty' ? 'active' : ''}`}
+              onClick={() => handleNav('faculty')}
+            >
+              Faculty
+            </button>
+            <button
+              type="button"
+              className={`nav-item ${activeNav === 'sections' ? 'active' : ''}`}
+              onClick={() => handleNav('sections')}
+            >
+              Sections
+            </button>
+            <button
+              type="button"
+              className={`nav-item ${activeNav === 'rooms' ? 'active' : ''}`}
+              onClick={() => handleNav('rooms')}
+            >
+              Rooms
+            </button>
+            <button
+              type="button"
+              className={`nav-item ${activeNav === 'guidelines' ? 'active' : ''}`}
+              onClick={() => handleNav('guidelines')}
+            >
+              Guidelines
+            </button>
           </nav>
         </div>
       </div>

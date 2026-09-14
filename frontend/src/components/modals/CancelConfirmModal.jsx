@@ -1,4 +1,5 @@
 import React from 'react';
+import { formatSectionDisplay, formatRoomDisplay } from '../../utils/formatters';
 
 export default function CancelConfirmModal({ slot, currentMode, onKeep, onConfirm }) {
   if (!slot) return null;
@@ -21,7 +22,8 @@ export default function CancelConfirmModal({ slot, currentMode, onKeep, onConfir
             <strong>{slot.subjectCode}</strong> — {slot.subjectName || ''}
             <br />
             <span>
-              {slot.sectionId || ''} {slot.group ? `(Group ${slot.group})` : ''}
+              <strong>Section:</strong> {formatSectionDisplay(slot.sectionId)}{' '}
+              {slot.group ? `(Group ${slot.group})` : ''}
             </span>
             <br />
             <span>
@@ -29,7 +31,7 @@ export default function CancelConfirmModal({ slot, currentMode, onKeep, onConfir
             </span>
             <br />
             <span>
-              <strong>Room:</strong> {slot.roomNo || 'TBD'}
+              <strong>Room:</strong> {formatRoomDisplay(slot.roomNo)}
             </span>
           </div>
           <p style={{ marginTop: '6px', fontSize: '12px', color: '#64748b' }}>

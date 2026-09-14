@@ -1,4 +1,5 @@
 import React from 'react';
+import { formatFacultyDisplay, formatSectionDisplay, formatRoomDisplay } from '../../utils/formatters';
 
 export default function ClassCard({
   classData,
@@ -57,13 +58,13 @@ export default function ClassCard({
 
       <div className="card-meta">
         {currentView !== 'faculty' && (classData.facultyName || classData.facultyId) && (
-          <div>👤 {classData.facultyName || classData.facultyId}</div>
+          <div>👤 {formatFacultyDisplay(classData.facultyName || classData.facultyId)}</div>
         )}
         {currentView !== 'section' && classData.sectionId && (
-          <div>👥 {classData.sectionId}</div>
+          <div>👥 {formatSectionDisplay(classData.sectionId, { compact: true })}</div>
         )}
         {currentView !== 'room' && classData.roomNo && (
-          <div>📍 {classData.roomNo}</div>
+          <div>📍 {formatRoomDisplay(classData.roomNo)}</div>
         )}
       </div>
     </div>
