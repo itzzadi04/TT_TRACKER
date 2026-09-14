@@ -357,14 +357,14 @@ async function runImportTestSuite() {
         const resCross2 = await postImport(evenPkgWithOddSlot);
         assert(resCross2.status === 422, '6.2: Odd semester slot in Even package rejected with 422');
 
-        // 6.3: Package is Even, and Even semester section does not exist in TT_TRACKER -> REJECT cleanly
+        // 6.3: Package is Even, and unresolvable Even semester section does not exist in TT_TRACKER -> REJECT cleanly
         const evenPkg = {
             packageId: "EVEN_SEM_TEST_3",
             academicYear: "2026-2027",
             semesterType: "Even",
             slots: [
                 {
-                    section: "CS2", // in Even sem, CS2 would be semester 4
+                    section: "UNKNOWN_EVEN_SEC", // section that does not exist in TT_TRACKER
                     year: 2,
                     semester: 4,
                     day: "Monday",
@@ -377,7 +377,7 @@ async function runImportTestSuite() {
             ]
         };
         const resEvenMissing = await postImport(evenPkg);
-        assert(resEvenMissing.status === 422, '6.3: Even import rejected because Even sections do not exist in TT_TRACKER');
+        assert(resEvenMissing.status === 422, '6.3: Even import rejected because unresolvable Even section does not exist in TT_TRACKER');
         assert(resEvenMissing.data?.error?.includes('Even semester'), '6.3b: Error message specifies Even semester registry limitation');
 
         // ════════════════════════════════════════════════════════════
