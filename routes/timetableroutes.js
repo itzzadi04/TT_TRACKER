@@ -634,8 +634,11 @@ router.get('/conflicts', async (req, res) => {
 });
 
 // ──────────────────────────────────────────
-// 10. Authenticated Server-to-Server Import Endpoint
+// 10. Authenticated Server-to-Server Import Endpoints
+// Canonical: /import
+// Compatibility Alias: /import-base
 // ──────────────────────────────────────────
 router.post('/import', handleTimetableImport);
+router.post('/import-base', handleTimetableImport);
 
 module.exports = router;
