@@ -1,0 +1,29 @@
+# Render Blueprint for TT_TRACKER. One web service serves both the API and the React
+# frontend (built into frontend/dist during the build step).
+# Create it from the Render dashboard: New > Blueprint > pick this repository.
+# Values marked "sync: false" are asked for in the dashboard and are never stored in git.
+services:
+  - type: web
+    name: tt-tracker
+    runtime: node
+    region: singapore
+    plan: free            # free services sleep when idle; use "starter" for an always-on demo
+    # "npm run build" installs the frontend's dev dependencies (Vite) and builds frontend/dist
+    buildCommand: npm ci && npm run build
+    startCommand: node server.js
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NODE_VERSION
+        value: "22"
+      - key: DEV_MODE
+        value: "false"
+      - key: TZ
+        value: Asia/Kolkata
+      # MongoDB Atlas connection string for a dedicated database, e.g. tt_tracker_demo
+      - key: MONGO_URI
+        sync: false
+      # Must equal TT_TRACKER_IMPORT_SECRET on the FATGS service. Use a long random value.
+      - key: TT_TRACKER_IMPORT_SECRET
+        sync: false

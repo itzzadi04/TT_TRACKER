@@ -1,3 +1,4 @@
+const { secretsMatch } = require('../config/runtime');
 const mongoose = require('mongoose');
 const Faculty = require('../models/Faculty');
 const ClassSection = require('../models/ClassSection');
@@ -477,7 +478,7 @@ async function handleTimetableImport(req, res) {
         }
     }
 
-    if (!providedSecret || providedSecret !== expectedSecret) {
+    if (!secretsMatch(providedSecret, expectedSecret)) {
         return errorResponse(401, 'Unauthorized: Invalid or missing import secret.');
     }
 
