@@ -641,4 +641,7 @@ router.get('/conflicts', async (req, res) => {
 router.post('/import', handleTimetableImport);
 router.post('/import-base', handleTimetableImport);
 
+// Exposed so the server can save in-memory week changes before it shuts down
+router.flushPendingChanges = flushPendingChanges;
+
 module.exports = router;

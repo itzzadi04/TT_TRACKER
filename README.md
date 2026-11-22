@@ -79,7 +79,7 @@ TT_TRACKER/
 ## Quick Start & Running Locally
 
 ### Prerequisites
-- **Node.js**: v18+ (tested on v24)
+- **Node.js**: v20.19+ (required by the MongoDB driver; tested on v22 and v24)
 - **MongoDB**: MongoDB Atlas or local MongoDB instance
 
 ### 1. Backend Setup
@@ -116,7 +116,40 @@ npm run build
 ```
 
 ### 3. Production Deployment
-When running `npm start` from the root directory, Express serves the optimized React bundle from `frontend/dist/` with full client-side SPA routing fallback.
+When running `npm start` from the root directory, Express serves the optimized React bundle from `frontend/dist/` with full client-side SPA routing fallback. One service therefore hosts both the API and the frontend; there is nothing separate to deploy for the frontend. Build it first with `npm run build` (this installs the frontend's dev dependencies, including Vite, and writes `frontend/dist/`). If `frontend/dist/` is missing, the server answers non-API pages with a `503` that says so.
+
+#### Settings
+
+Set these in the host's environment settings, never in git. Examples are in `.env.example`.
+
+| Variable | Purpose |
+|---|---|
+| `MONGO_URI` | MongoDB Atlas connection string. Use a dedicated database (for example `tt_tracker_demo`), never the one your tests write to. The server exits with a clear message if it is missing |
+| `TT_TRACKER_IMPORT_SECRET` | Shared secret for FATGS imports; must equal the value on FATGS. Use a long random value |
+| `NODE_ENV=production` | Prints startup warnings for a weak or missing import secret and for `DEV_MODE=true` |
+| `DEV_MODE=false` | Must be `false` in production (`true` lets anyone simulate another day of the week) |
+| `TZ=Asia/Kolkata`, `PORT` | Timezone; port (hosts set `PORT`) |
+
+#### Deploying on Render
+
+1. Create a MongoDB Atlas database for the deployment. Allow the host's addresses in Atlas network access (Render free services have no fixed address, so a demo usually needs "allow from anywhere" together with a strong database password).
+2. Seed it once from your machine, with `MONGO_URI` pointing at that database: `npm run seed` (33 faculty, 9 sections, 43 subjects, 15 rooms, 54 time periods and 196 timetable slots). Running it again resets the demo: it deletes all schedule overrides and timetable slots (including anything imported from FATGS) and re-inserts the baseline. Restart the service afterwards so it reloads the data.
+3. In Render choose **New > Blueprint** and pick this repository (`render.yaml`). When asked, enter `MONGO_URI` and `TT_TRACKER_IMPORT_SECRET`.
+4. Check `https://<service>/api/health`: `200` with `"database":"connected"` means the app is up and the database is reachable (`503` means the database is not). Then open the service address.
+5. Give the same service address and secret to FATGS as `TT_TRACKER_URL` and `TT_TRACKER_IMPORT_SECRET`.
+
+#### Health check
+
+`GET /api/health` returns `{"status":"ok","service":"TT_TRACKER","database":"connected",...}` with status `200`, or `503` with `"status":"degraded"` when MongoDB is not connected. It never touches your data, so it is safe for the host's health check and for a pinger that keeps a free service awake.
+
+#### What happens to unsaved changes when the service stops
+
+Week changes (cancel, reschedule, extra class) are kept in memory and written to MongoDB at the weekly rollover. When the host stops the service (a deploy, or a free instance going to sleep), TT_TRACKER writes those changes to MongoDB first and loads them again on the next start. A hard crash or a forced kill can still lose changes made since the last save. On Render's free plan, services sleep after about 15 minutes without a visit, so keep the service awake during a demo.
+
+#### Things to know
+
+- **No login**: anyone who can reach the address can view timetables and change them (cancel, move, add classes). Treat a public deployment as a demo, or put access control in front of it.
+- **Free plan**: the first visit after sleep takes about a minute to load.
 
 ---
 
